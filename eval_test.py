@@ -1480,6 +1480,10 @@ def t_koreksi_video22_29():
     assert segs[1]["text"] == "Nabi Shallallahu 'alaihi wa sallam bersabda; shallallahu 'alaihi wa sallam, sebagaimana shalawat dan hadith masya Allah.", segs[1]["text"]
     assert segs[2]["text"] == "Hadirin yang Allah muliakan, Syaraf bin Murri bin Hasan bin Husain; Abdullah bin Abbas bin Abdul Muthalib.", segs[2]["text"]
     assert "revisi" not in segs[3] and segs[3]["text"].endswith("Utsman."), "teks yang sudah benar tidak berubah"
+    gab = [{"text": "oleh karena itu saudara ku ya Allah muliakan, Saudara-ku ya Allah muliakan, saudaraku ya Allah muliakan"}]
+    koreksi.terapkan(gab, a)
+    assert gab[0]["text"] == "oleh karena itu saudaraku yang Allah muliakan, Saudaraku yang Allah muliakan, saudaraku yang Allah muliakan", gab[0]["text"]
+    assert koreksi.terapkan(gab, a) == 0, "dua salah dengar berturut-turut tetap selesai dalam satu kali jalan (tanpa rantai)"
     assert koreksi.terapkan(segs, a) == 0, "idempoten"
     return f"{len(a)} aturan; aturan video 22-29 bekerja ({n} penggantian), kapital awal terjaga, teks benar tidak disentuh"
 

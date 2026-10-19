@@ -77,8 +77,10 @@ simstalabim => sim salabim  # Ejaan baku
 masa lemak => massa lemak  # Ejaan baku
 takarub => taqarrub  # Ejaan baku
 Ketauhilah => Ketahuilah  # Ejaan baku
-Saudaraku ya Allah muliakan => Saudaraku yang Allah muliakan  # Salah dengar 'yang'
-Hadirin ya Allah muliakan => Hadirin yang Allah muliakan  # Salah dengar 'yang'
+saudaraku ya Allah muliakan => saudaraku yang Allah muliakan  # Salah dengar 'yang' (kapital awal kalimat dipertahankan)
+saudara ku ya Allah muliakan => saudaraku yang Allah muliakan  # Gabungan dua salah dengar
+saudara-ku ya Allah muliakan => saudaraku yang Allah muliakan  # Gabungan dua salah dengar
+hadirin ya Allah muliakan => hadirin yang Allah muliakan  # Salah dengar 'yang' (kapital awal kalimat dipertahankan)
 jaman sekalian => jamaah sekalian  # Salah dengar 'jamaah'
 
 # ── Tambahan dari QC video 22-29 bab Niat (keluaran Groq, revisi 2026-10-19) ──
@@ -117,7 +119,7 @@ salawat => shalawat  # Ejaan seragam
 hadit => hadith  # Ejaan seragam
 murakabatullah => muraqabatullah  # Ejaan muraqabatullah
 saudara-ku => saudaraku  # Ejaan baku
-Hadirin, ya Allah muliakan => Hadirin yang Allah muliakan  # Salah dengar 'yang'
+hadirin, ya Allah muliakan => hadirin yang Allah muliakan  # Salah dengar 'yang'
 masha'Allah => masya Allah  # Ejaan seragam
 mashaAllah => masya Allah  # Ejaan seragam
 
