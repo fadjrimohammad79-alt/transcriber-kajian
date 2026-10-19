@@ -1,7 +1,7 @@
 # 🎙️ Transcriber Kajian YouTube
 
-Transkripsi video kajian YouTube ke teks secara lokal di PC (Windows + NVIDIA RTX 4060),
-memakai model Whisper open source dari Hugging Face lewat **faster-whisper**.
+Transkripsi video kajian YouTube ke teks memakai model Whisper `large-v3`: secara lokal di PC dengan
+GPU NVIDIA (lewat **faster-whisper**), atau lewat **Groq API** bila tidak ada GPU NVIDIA.
 Hasilnya siap diproses ke tahap berikutnya (Claude: rapikan, potong per topik, klasifikasi bab).
 
 ## Alur
@@ -9,11 +9,61 @@ Hasilnya siap diproses ke tahap berikutnya (Claude: rapikan, potong per topik, k
 ```
 URL / playlist / file antrian per bab
    → yt-dlp ambil audio saja (disimpan di audio\ sebagai cache)
-   → faster-whisper di GPU (large-v3, bahasa dikunci "id", VAD, glosarium istilah)
+   → transkripsi Whisper large-v3 (bahasa dikunci "id", contoh gaya + glosarium istilah)
+        backend auto: GPU NVIDIA lokal → Groq API (bila GROQ_API_KEY ada) → CPU lokal
+   → koreksi otomatis dari koreksi.txt (salah eja yang sudah diketahui, tercatat di field "revisi")
    → cek kualitas otomatis (RAGU / NOISE / BERULANG / HALUSINASI / TERLEWAT / MIRIP_PROMPT / NAMA_BOCOR)
    → hasil\<Bab>\  : .json (untuk pipeline) + .srt (cek di pemutar) + .txt (baca cepat)
    → riwayat.json  : video yang sudah selesai otomatis dilewati
 ```
+
+## Cara pakai (langkah demi langkah)
+
+Semua perintah dijalankan di terminal (PowerShell atau CMD) dari folder `transcriber\`.
+
+**1. Setup sekali** — lihat [Setup sekali](#setup-sekali-windows): jalankan `.\setup_windows.bat`.
+   Lalu cek mesin: `.\run.bat check`.
+   - Muncul **🎉 GPU siap!** → transkripsi jalan lokal di GPU, gratis. Lanjut ke langkah 3.
+   - GPU NVIDIA tidak ada (laptop AMD/Intel, VPS) → lanjut ke langkah 2.
+
+**2. (Hanya tanpa GPU NVIDIA) Isi API key Groq** — buat key di https://console.groq.com/keys, lalu buka
+   `.env` dan isi `GROQ_API_KEY=gsk_...`. Biaya ±$0.07 per episode 40 menit. Tanpa key, program tetap
+   jalan di CPU tetapi jauh lebih lambat. Detail: [Tanpa GPU NVIDIA: Groq API](#tanpa-gpu-nvidia-groq-api).
+
+**3. Buat file antrian per bab** di folder `antrian\`, mis. `antrian\bab_niat.txt`:
+   ```
+   # bab: Niat
+   # kitab: Riyadhush Shalihin
+   https://youtu.be/hHn8Od5_oqs
+   https://youtube.com/playlist?list=XXXX
+   ```
+
+**4. Jalankan transkripsi**
+   ```
+   .\run.bat --file antrian\bab_niat.txt
+   ```
+   Baris `⚙️ Backend:` di awal menunjukkan mesin yang dipakai (lokal / groq / cpu). Tiap video menampilkan
+   jumlah segmen, koreksi kamus (`🩹`), dan status kualitas. Boleh dihentikan dengan Ctrl+C; jalankan
+   ulang perintah yang sama untuk melanjutkan (video yang sudah selesai dilewati).
+
+**5. Cek hasil di `hasil\<Bab>\`** — buka file `.txt`, mulai dari video berstatus **PERLU_CEK / BURUK**.
+   Baris bertanda `⚠` perlu didengarkan (lompat ke detiknya lewat `link` di `.json` atau `.srt`).
+   Arti setiap tanda: [Membaca hasil](#membaca-hasil). Yang paling penting:
+   - `NAMA_BOCOR` → ganti nama penceramah dengan ulama yang benar-benar dikutip.
+   - `TERLEWAT` → ada bacaan yang tidak tertulis; tulis manual bila perlu.
+   - `FRASA_CURIGA` / `HALUSINASI` → biasanya karangan model saat hening; hapus.
+
+**6. Perbaiki sumber kesalahan supaya video berikutnya lebih baik**
+   - Salah eja yang **selalu** salah (nama ulama, kitab, istilah) → tambahkan ke `koreksi.txt`
+     (`salah => benar  # alasan`). Berlaku otomatis untuk video berikutnya.
+   - Terapkan kamus terbaru ke hasil yang sudah ada tanpa transkripsi ulang:
+     `.venv\Scripts\python.exe koreksi.py hasil\Niat` → hasil di `hasil\Niat_koreksi\`.
+   - Istilah yang sering salah dengar bisa juga ditambahkan ke `glosarium.txt` (mencegah sejak awal;
+     jaga tetap pendek, lihat [Contoh gaya & glosarium](#contoh-gaya--glosarium)).
+   - **Jangan** masukkan nama penceramah ke glosarium atau `koreksi.txt` (lihat `NAMA_BOCOR`).
+
+**7. Tambah video baru** → tambahkan URL di file antrian yang sama lalu jalankan langkah 4 lagi.
+   Untuk mengulang video yang sudah selesai (mis. setelah ganti model atau prompt) tambahkan `--force`.
 
 ## Setup sekali (Windows)
 
@@ -154,6 +204,10 @@ dan jumlahnya di `transkripsi.koreksi_otomatis`.
 | "run.py lain sedang berjalan" | Hanya satu proses boleh jalan per folder. Tutup jendela terminal lain |
 | File hasil terhapus tapi video dilewati | Video tercatat selesai di `riwayat.json`; pakai `--force` |
 | Ganti model lalu ingin ulang | `--force` memakai audio di cache (tanpa unduh ulang) dan mengganti file hasil lama |
+| `No Python at '...\python.exe'` saat `.\run.bat` | `.venv` dibuat di PC/user lain. Hapus folder `.venv` lalu jalankan `.\setup_windows.bat` lagi |
+| `⚙️ Backend: cpu` padahal ingin Groq | `GROQ_API_KEY` di `.env` masih kosong |
+| `Groq HTTP 401` | API key salah/kedaluwarsa → buat ulang di console.groq.com |
+| `Groq HTTP 429` | Batas pemakaian Groq tercapai; program menunggu & mencoba ulang otomatis, bila tetap gagal jalankan ulang nanti |
 
 ## Catatan perilaku
 
@@ -167,6 +221,6 @@ dan jumlahnya di `transkripsi.koreksi_otomatis`.
 ## Uji
 
 ```
-python eval_test.py
+.venv\Scripts\python.exe eval_test.py
 ```
-61 test logika & edge case (tanpa GPU/internet) + 1 test model sungguhan bila model bisa diunduh.
+73 test logika & edge case (tanpa GPU/internet; Groq API di-mock) + 1 test model sungguhan bila model bisa diunduh.

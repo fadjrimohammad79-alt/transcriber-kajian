@@ -4,6 +4,8 @@ Transkripsi lokal video kajian YouTube (Windows + GPU NVIDIA) memakai faster-whi
 dengan cek kualitas otomatis dan output `.json` / `.srt` / `.txt` per bab. Lihat
 [`transcriber/README.md`](transcriber/README.md).
 
+Mulai dari [Cara pakai (langkah demi langkah)](transcriber/README.md#cara-pakai-langkah-demi-langkah). Tanpa GPU NVIDIA, transkripsi bisa lewat Groq API (`--backend auto` memilih otomatis).
+
 Notebook RAG (Second Brain Ustadz) dipindah ke repo/folder terpisah (`RAG-secondbrain`).
 
 ## Hasil
