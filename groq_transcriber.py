@@ -138,6 +138,8 @@ class GroqTranscriber:
                     return json.loads(resp.read().decode("utf-8"))
             except urllib.error.HTTPError as e:
                 msg = _error_message(e)
+                if len(self.api_key) >= 8:
+                    msg = msg.replace(self.api_key, "***")   # jaga-jaga bila API mengutip key
                 if (e.code == 429 or e.code >= 500) and attempt < MAX_RETRY:
                     try:
                         wait = float(e.headers.get("retry-after") or 0)

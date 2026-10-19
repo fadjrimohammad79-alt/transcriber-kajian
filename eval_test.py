@@ -6,6 +6,8 @@ Grup 9 (opsional) menjalankan model Whisper sungguhan jika model bisa diunduh.
 """
 
 import ast
+import atexit
+import io
 import json
 import os
 import shutil
@@ -19,6 +21,16 @@ from unittest import mock
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 os.chdir(Path(__file__).resolve().parent)
+# Hermetik: isi .env / shell di PC ini (mis. WHISPER_VAD=0 untuk uji bacaan Arab, GROQ_API_KEY, QC_*) tidak
+# boleh mengubah hasil test. load_dotenv() tidak menimpa variabel yang sudah ada, jadi cukup diatur sebelum
+# 'import config': nilai kosong = pakai bawaan config; variabel teks diberi nilai bawaannya.
+os.environ.update({
+    "WHISPER_MODEL": "large-v3", "WHISPER_DEVICE": "cuda", "WHISPER_COMPUTE": "float16", "WHISPER_LANG": "id",
+    "WHISPER_BACKEND": "auto", "WHISPER_BATCH": "", "WHISPER_BEAM": "", "WHISPER_VAD": "", "GROQ_API_KEY": "",
+    "QC_NAMA_PEMBICARA": "", "YTDLP_COOKIES_BROWSER": "",
+    **dict.fromkeys(("QC_LOW_LOGPROB", "QC_HIGH_NO_SPEECH", "QC_HIGH_COMPRESSION", "QC_REPEAT_MIN",
+                     "QC_MIN_DUR_TERLEWAT", "QC_MIN_CHARS_PER_SEC"), ""),
+})
 import config as _config
 
 _config.force_utf8_output()   # simbol ═ ✅ tidak crash di konsol cp1252 tanpa PYTHONIOENCODING
@@ -26,6 +38,7 @@ _config.force_utf8_output()   # simbol ═ ✅ tidak crash di konsol cp1252 tanp
 PASS, FAIL, WARN = "✅ PASS", "❌ FAIL", "⚠️  WARN"
 results = []
 TMP = Path(tempfile.mkdtemp(prefix="eval_transcriber_"))
+atexit.register(shutil.rmtree, TMP, ignore_errors=True)   # juga bila test terhenti (Ctrl+C / error)
 
 
 def test(name, fn):
@@ -80,6 +93,77 @@ def t_requirements():
 
 test("Syntax semua file Python", t_syntax)
 test("setup_windows.bat pakai CRLF (Windows)", t_bat_crlf)
+
+def t_setup_venv_rusak():
+    """Jalankan potongan guard .venv dari setup_windows.bat di folder sementara (tidak menyentuh .venv asli)."""
+    if sys.platform != "win32":
+        return "SKIP: hanya untuk Windows"
+    import subprocess
+    teks = Path("setup_windows.bat").read_text(encoding="ascii")
+    a = teks.index("REM -- cek venv rusak (mulai)")
+    b = teks.index("REM -- cek venv rusak (selesai)")
+    guard = teks[a:b].replace("\r\n", "\n")
+    assert "rmdir /s /q .venv" in guard and guard.count("rmdir") == 1
+
+    def jalankan(nama, siapkan):
+        d = TMP / f"guard_{nama}"; d.mkdir()
+        siapkan(d)
+        (d / "uji.bat").write_text("@echo off\r\ncd /d \"%~dp0\"\r\n" + guard.replace("\n", "\r\n"), encoding="ascii")
+        r = subprocess.run(["cmd", "/c", str(d / "uji.bat")], capture_output=True, text=True, cwd=d, timeout=60)
+        return d, r
+
+    def rusak(d):   # python.exe ada tetapi tidak bisa dijalankan (venv dari PC lain)
+        (d / ".venv" / "Scripts").mkdir(parents=True)
+        (d / ".venv" / "Scripts" / "python.exe").write_text("bukan program", encoding="ascii")
+        (d / ".venv" / "pyvenv.cfg").write_text("home = Z:\\tidak_ada", encoding="ascii")
+
+    d, r = jalankan("rusak", rusak)
+    assert r.returncode == 0 and not (d / ".venv").exists(), (r.returncode, r.stdout, r.stderr)
+    assert "Dibuat ulang" in r.stdout, r.stdout
+    d, r = jalankan("tanpa", lambda d: None)
+    assert r.returncode == 0 and r.stdout.strip() == "", (r.stdout, r.stderr)
+    cfg = Path(sys.executable).parent.parent / "pyvenv.cfg"
+    if cfg.exists():   # venv sehat tiruan: salinan launcher venv + pyvenv.cfg yang valid
+        def sehat(d):
+            (d / ".venv" / "Scripts").mkdir(parents=True)
+            shutil.copy2(sys.executable, d / ".venv" / "Scripts" / "python.exe")
+            shutil.copy2(cfg, d / ".venv" / "pyvenv.cfg")
+        d, r = jalankan("sehat", sehat)
+        assert (d / ".venv" / "Scripts" / "python.exe").exists() and "Dibuat ulang" not in r.stdout, (r.stdout, r.stderr)
+    return "venv rusak dibuat ulang, tanpa venv tidak error, venv sehat tidak disentuh"
+
+test("setup_windows.bat: deteksi .venv rusak", t_setup_venv_rusak)
+
+def t_docs_tautan():
+    """Semua tautan relatif di README + docs/ harus menunjuk file yang ada (kode/contoh tidak dihitung)."""
+    import re
+    berkas = [Path("README.md"), *sorted(Path("docs").rglob("*.md"))]
+    assert len(berkas) >= 12, f"dokumentasi hilang? hanya {len(berkas)} file"
+    rusak = []
+    for f in berkas:
+        teks = re.sub(r"`[^`\n]*`", "", re.sub(r"```.*?```", "", f.read_text(encoding="utf-8"), flags=re.S))
+        for m in re.finditer(r"\]\(([^)\s]+)\)", teks):
+            t = m.group(1)
+            if t.startswith(("http://", "https://", "#", "mailto:")):
+                continue
+            if not (f.parent / t.split("#")[0]).resolve().exists():
+                rusak.append((f.as_posix(), t))
+    assert not rusak, rusak
+    return f"{len(berkas)} file markdown: semua tautan relatif menunjuk file yang ada"
+
+def t_wiki_publikasi_dryrun():
+    if sys.platform != "win32":
+        return "SKIP: hanya untuk Windows (PowerShell)"
+    import subprocess
+    r = subprocess.run(["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-File",
+                        "docs/wiki/publikasikan.ps1", "-DryRun"], capture_output=True, text=True, timeout=120)
+    assert r.returncode == 0, (r.stdout, r.stderr)
+    assert "tersisa: 0" in r.stdout and "DryRun selesai" in r.stdout, r.stdout
+    assert not any(Path(tempfile.gettempdir()).glob("wiki_*")), "folder sementara tidak dibersihkan"
+    return "skrip publikasi wiki (DryRun): tautan .md relatif diubah semua, tanpa jaringan, folder sementara bersih"
+
+test("Dokumentasi: tautan tidak patah", t_docs_tautan)
+test("Wiki: skrip publikasi (DryRun)", t_wiki_publikasi_dryrun)
 test("requirements.txt lengkap", t_requirements)
 
 
@@ -222,10 +306,11 @@ def _seg(i, start, end, text, words=None, lp=-0.3, ns=0.05, cr=1.4):
 
 class FakeModel:
     last_kwargs = None
+    last_audio = None
     def __init__(self, name, device, compute_type):
         self.args = (name, device, compute_type)
     def transcribe(self, audio, **kw):
-        FakeModel.last_kwargs = kw
+        FakeModel.last_kwargs, FakeModel.last_audio = kw, audio
         W = types.SimpleNamespace
         segs = [_seg(0, 0.0, 4.2, "Bab thaharah.", [W(start=0.0, end=0.5, word=" Bab", probability=0.99)]),
                 _seg(1, 4.2, 9.87654, "Hadats kecil dan besar.")]
@@ -240,12 +325,13 @@ class FakeBatched:
 fake_fw = types.ModuleType("faster_whisper")
 fake_fw.WhisperModel, fake_fw.BatchedInferencePipeline = FakeModel, FakeBatched
 
-def _make(batch):
+def _make(batch, vad=None):
     import models
     with mock.patch.dict(sys.modules, {"faster_whisper": fake_fw}), \
-         mock.patch.object(models, "ensure_whisper_model", lambda name: f"/cache/{name}"):
+         mock.patch.object(models, "ensure_whisper_model", lambda name: f"/cache/{name}"), \
+         mock.patch("sys.stdout", io.StringIO()):
         import transcriber
-        t = transcriber.Transcriber("large-v3", "cuda", "float16", batch)
+        t = transcriber.Transcriber("large-v3", "cuda", "float16", batch, vad=vad)
     assert t.model.args[0] == "/cache/large-v3", "WhisperModel harus memuat folder hasil unduhan"
     return t
 
@@ -254,13 +340,49 @@ def t_transcriber_kwargs():
     r = t.transcribe(Path("x.m4a"), hotwords="thaharah, hadats")
     kw = FakeModel.last_kwargs
     assert kw["language"] == "id"
-    assert kw["vad_filter"] is True
+    assert kw["vad_filter"] is True and kw["vad_parameters"] == {"min_silence_duration_ms": 700}
+    assert "clip_timestamps" not in kw and r["vad"] is True
     assert kw["condition_on_previous_text"] is False
     assert kw["hotwords"] == "thaharah, hadats"
     assert FakeBatched.batch_size == 8
     assert r["segments"][1]["end"] == 9.88 and r["segments"][0]["text"] == "Bab thaharah."
     assert r["durasi_audio"] == 600.0 and r["model"] == "large-v3"
     return "bahasa id, VAD, anti-loop, glosarium, batch 8"
+
+def t_vad_off():
+    import numpy as np
+
+    import transcriber
+    # klip_tetap: potongan 30 detik berurutan menutupi seluruh audio
+    assert transcriber.klip_tetap(75) == [{"start": 0.0, "end": 30.0}, {"start": 30.0, "end": 60.0},
+                                          {"start": 60.0, "end": 75.0}]
+    assert transcriber.klip_tetap(30) == [{"start": 0.0, "end": 30.0}] and transcriber.klip_tetap(0) == []
+    # ekor nyaris kosong (sisa pembulatan) dibuang; audio sangat pendek tetap satu klip
+    assert transcriber.klip_tetap(60.0001) == transcriber.klip_tetap(60) and len(transcriber.klip_tetap(60.0001)) == 2
+    assert [k["end"] for k in transcriber.klip_tetap(60.5)] == [30.0, 60.0, 60.5], "ekor 0,5 dtk dipertahankan"
+    assert transcriber.klip_tetap(0.05) == [{"start": 0.0, "end": 0.05}]
+    fake_audio = types.ModuleType("faster_whisper.audio")
+    fake_audio.decode_audio = lambda path, sampling_rate: np.zeros(int(sampling_rate * 75), dtype=np.float32)
+    mods = {"faster_whisper": fake_fw, "faster_whisper.audio": fake_audio}
+    # batch + VAD mati: wajib clip_timestamps (pipeline batch menolak vad_filter=False tanpa itu), tanpa vad_parameters
+    t = _make(8, vad=False)
+    with mock.patch.dict(sys.modules, mods):
+        r = t.transcribe(Path("x.m4a"), hotwords="thaharah")
+    kw = FakeModel.last_kwargs
+    assert kw["vad_filter"] is False and "vad_parameters" not in kw
+    assert kw["clip_timestamps"][-1] == {"start": 60.0, "end": 75.0} and len(kw["clip_timestamps"]) == 3
+    assert isinstance(FakeModel.last_audio, np.ndarray) and r["vad"] is False
+    # tanpa batch (model langsung): VAD mati cukup vad_filter=False, audio tetap path file
+    t1 = _make(1, vad=False)
+    with mock.patch.dict(sys.modules, mods):
+        t1.transcribe(Path("x.m4a"))
+    assert FakeModel.last_kwargs["vad_filter"] is False and "clip_timestamps" not in FakeModel.last_kwargs
+    assert FakeModel.last_audio == "x.m4a"
+    # bawaan mengikuti config.VAD (.env)
+    with mock.patch.object(_config, "VAD", False):
+        assert _make(8).vad is False
+    assert _make(8).vad is True
+    return "VAD mati: batch pakai klip tetap 30 dtk tanpa vad_parameters; tanpa batch cukup vad_filter=False; hasil mencatat vad"
 
 def t_transcriber_no_batch_no_hotwords():
     t = _make(1)
@@ -369,13 +491,13 @@ test("Progress: mati saat output dialihkan", t_transcribe_no_spam)
 test("Unduh model Whisper (progress)", t_model_download)
 test("Transcriber: parameter anti-halusinasi & glosarium", t_transcriber_kwargs)
 test("Transcriber: tanpa batch, hotwords kosong", t_transcriber_no_batch_no_hotwords)
+test("Transcriber: WHISPER_VAD=0 (tanpa VAD)", t_vad_off)
 test("Transcriber: timestamp per kata opsional", t_word_timestamps)
 test("gpu_setup: daftar DLL CUDA di Windows", t_gpu_setup_windows)
 
 
 # ═════════════════════════════════════════════════════════════════════
 group("4b. BACKEND & GROQ API (HTTP di-mock)")
-import io
 import urllib.error
 
 import config
@@ -502,6 +624,13 @@ def t_groq_retry_dan_error():
                 t._post(p, "", False); raise AssertionError("harusnya error")
             except gt.GroqError as e:
                 assert "401" in str(e) and "GROQ_API_KEY" in str(e) and "gsk_RAHASIA" not in str(e)
+        # API yang mengutip key di pesan errornya: key harus disembunyikan (pesan bisa masuk riwayat.json → GitHub)
+        with mock.patch.object(gt.urllib.request, "urlopen", lambda r, timeout: (_ for _ in ()).throw(
+                _http_error(400, "Invalid key 'gsk_RAHASIA' for org"))):
+            try:
+                t._post(p, "", False); raise AssertionError("harusnya error")
+            except gt.GroqError as e:
+                assert "gsk_RAHASIA" not in str(e) and "Invalid key '***' for org" in str(e), str(e)
     try:
         with mock.patch("sys.stdout", io.StringIO()):
             gt.GroqTranscriber("large-v3", api_key=""); raise AssertionError("harusnya error")
@@ -864,6 +993,27 @@ test("Riwayat: BOM / ANSI / bukan objek", t_riwayat_bom_ansi_bukan_dict)
 test("Downloader: metadata cache BOM & rusak", t_meta_cache_bom_dan_rusak)
 test("Config: angka .env tidak valid", t_env_angka_salah)
 
+def t_env_vad():
+    import importlib
+    def muat(nilai):
+        # None = kosong (bukan dihapus): variabel yang hilang akan dibaca dari .env oleh load_dotenv()
+        with mock.patch.dict(os.environ, {"WHISPER_VAD": nilai or ""}), mock.patch("sys.stdout", io.StringIO()) as out:
+            importlib.reload(config)
+            return config.VAD, out.getvalue()
+    try:
+        assert muat(None) == (True, ""), "bawaan: VAD aktif"
+        for v in ("1", "true", "TRUE", "on", "ya", " yes "):
+            assert muat(v) == (True, ""), v
+        for v in ("0", "false", "False", "off", "tidak", "no", "nonaktif"):
+            assert muat(v) == (False, ""), v
+        nilai, pesan = muat("mungkin ✓")
+        assert nilai is True and "WHISPER_VAD" in pesan and pesan.isascii(), "tidak valid → bawaan + peringatan ASCII"
+    finally:
+        importlib.reload(config)
+    return "WHISPER_VAD: bawaan aktif; 1/true/on/ya vs 0/false/off/tidak; nilai aneh → bawaan + peringatan"
+
+test("Config: WHISPER_VAD di .env", t_env_vad)
+
 
 # ═════════════════════════════════════════════════════════════════════
 group("7. ALUR PROSES (run.process)")
@@ -1083,6 +1233,37 @@ def t_process_riwayat_gagal_simpan():
     return "riwayat tak bisa disimpan: semua video tetap diproses + peringatan; RiwayatError → exit 5 + pesan"
 
 test("Proses: riwayat gagal disimpan", t_process_riwayat_gagal_simpan)
+
+def t_api_key_tidak_bocor():
+    kunci = "gsk_RAHASIA_PANJANG_1234"
+    d = TMP / "bocor"; d.mkdir()
+    class Bocor(StubTranscriber):
+        def transcribe(self, audio_path, hotwords="", word_timestamps=False):
+            raise RuntimeError(f"Request gagal, header Authorization: Bearer {kunci}")
+    with mock.patch.object(config, "GROQ_API_KEY", kunci), mock.patch("sys.stdout", io.StringIO()) as out:
+        rep, _s, _f = None, None, None
+        rep = run.process(ITEMS[:1], Bocor, stub_download, d / "riwayat.json", d / "hasil", d / "audio")
+    assert rep[0]["status"] == "gagal" and "Bearer ***" in rep[0]["error"], rep[0]["error"]
+    assert kunci not in out.getvalue() and kunci not in (d / "riwayat.json").read_text(encoding="utf-8")
+    # key pendek (salah ketik) tidak dipakai untuk mengganti: tidak merusak pesan lain
+    with mock.patch.object(config, "GROQ_API_KEY", "k"):
+        assert run._aman("kunci kuning") == "kunci kuning"
+    return "API key di pesan error dicetak & disimpan sebagai '***' (riwayat.json aman untuk di-commit)"
+
+test("API key tidak bocor ke riwayat/layar", t_api_key_tidak_bocor)
+
+def t_vad_diabaikan_di_groq():
+    with mock.patch.object(config, "GROQ_API_KEY", "gsk_uji"), mock.patch.object(config, "VAD", False), \
+         mock.patch.object(run, "process", return_value=[]), mock.patch("sys.stdout", io.StringIO()) as out:
+        assert run.main(["https://youtu.be/AAAAAAAAAAA", "--backend", "groq"]) == 0
+        assert "WHISPER_VAD=0 tidak berlaku di backend groq" in out.getvalue()
+    with mock.patch.object(config, "GROQ_API_KEY", "gsk_uji"), mock.patch.object(config, "VAD", True), \
+         mock.patch.object(run, "process", return_value=[]), mock.patch("sys.stdout", io.StringIO()) as out2:
+        run.main(["https://youtu.be/AAAAAAAAAAA", "--backend", "groq"])
+        assert "tidak berlaku" not in out2.getvalue(), "VAD aktif (bawaan): tidak perlu catatan"
+    return "WHISPER_VAD=0 + backend groq → catatan 'tidak berlaku'; VAD bawaan → tanpa catatan"
+
+test("CLI: WHISPER_VAD diabaikan di Groq", t_vad_diabaikan_di_groq)
 test("Cleanup --force hanya di dalam hasil/", t_cleanup_hanya_di_hasil)
 test("riwayat.json: path portabel antar PC/folder", t_riwayat_path_portabel)
 test("Proses: --hapus-audio", t_process_hapus_audio)
@@ -1188,6 +1369,23 @@ def t_koreksi_folder_cli():
 test("Koreksi: baca kamus & validasi", t_koreksi_parse)
 test("Koreksi: terapkan ke segmen", t_koreksi_terapkan)
 test("Koreksi: kamus koreksi.txt asli valid", t_koreksi_kamus_asli)
+
+def t_koreksi_varian_groq():
+    a = koreksi.load_koreksi()
+    segs = [{"text": "Kata Imam Ad-Dhahabi dan ad-dzahabi, juga Halim Ad-Dzahabi menjelaskan."},
+            {"text": "Kitab apa? Soe Bukhari bukan Soe Muslim, bukan suhaim muslim."},
+            {"text": "Sudah benar: adz-Dzahabi, Shahih Bukhari, Shahih Muslim, al-imam adz-Dzahabi."},
+            {"text": "Kata lain tidak disentuh: Ad-Dhahabiyyah, soerat, suhaimi muslim."}]
+    n = koreksi.terapkan(segs, a)
+    assert segs[0]["text"] == "Kata Imam adz-Dzahabi dan adz-Dzahabi, juga al-imam adz-Dzahabi menjelaskan.", segs[0]["text"]
+    assert segs[1]["text"] == "Kitab apa? Shahih Bukhari bukan Shahih Muslim, bukan Shahih Muslim.", segs[1]["text"]
+    assert "revisi" not in segs[2], "teks yang sudah benar tidak boleh berubah"
+    assert segs[3]["text"] == "Kata lain tidak disentuh: Ad-Dhahabiyyah, soerat, suhaimi muslim.", segs[3]["text"]
+    assert n == 6, n                                     # 3 di kalimat pertama + 3 di kedua
+    assert koreksi.terapkan(segs, a) == 0, "idempoten"
+    return "varian keluaran Groq (Ad-Dhahabi, Halim Ad-Dzahabi, Soe Bukhari/Muslim, suhaim muslim) dikoreksi; kata mirip tidak"
+
+test("Koreksi: varian keluaran Groq", t_koreksi_varian_groq)
 test("Koreksi: otomatis di run.process", t_koreksi_di_process)
 test("Koreksi: CLI untuk hasil lama", t_koreksi_folder_cli)
 
@@ -1528,15 +1726,32 @@ def t_real_model():
         return f"SKIP: model tidak bisa diunduh di lingkungan ini ({type(e).__name__})"
     import transcriber
     t = transcriber.Transcriber.__new__(transcriber.Transcriber)
-    t.model, t.pipeline, t.model_name, t.device, t.compute_type, t.batch_size = m, None, "tiny", "cpu", "int8", 1
-    wav = TMP / "silence.wav"
+    t.model, t.pipeline, t.model_name, t.device, t.compute_type, t.batch_size, t.vad = (
+        m, None, "tiny", "cpu", "int8", 1, True)
     import wave
-    with wave.open(str(wav), "wb") as w:
-        w.setnchannels(1); w.setsampwidth(2); w.setframerate(16000)
-        w.writeframes(np.zeros(16000 * 5, dtype=np.int16).tobytes())
+
+    def tulis(path, detik):
+        with wave.open(str(path), "wb") as w:
+            w.setnchannels(1); w.setsampwidth(2); w.setframerate(16000)
+            w.writeframes(np.zeros(16000 * detik, dtype=np.int16).tobytes())
+
+    wav = TMP / "silence.wav"
+    tulis(wav, 5)
     r = t.transcribe(wav, hotwords="thaharah")
-    assert r["durasi_audio"] == 5.0
-    return f"model tiny jalan end-to-end, {len(r['segments'])} segmen pada audio hening (VAD)"
+    assert r["durasi_audio"] == 5.0 and r["vad"] is True
+    # pipeline BATCH asli + VAD mati pada audio 75 dtk: tanpa klip tetap, faster-whisper melempar
+    # RuntimeError "No clip timestamps found" — jalur WHISPER_VAD=0 harus lolos
+    from faster_whisper import BatchedInferencePipeline
+    wav75 = TMP / "silence75.wav"
+    tulis(wav75, 75)
+    tb = transcriber.Transcriber.__new__(transcriber.Transcriber)
+    tb.model, tb.pipeline, tb.model_name, tb.device, tb.compute_type, tb.batch_size, tb.vad = (
+        m, BatchedInferencePipeline(model=m), "tiny", "cpu", "int8", 4, False)
+    with mock.patch("sys.stdout", io.StringIO()):
+        rb = tb.transcribe(wav75, show_progress=False)
+    assert rb["durasi_audio"] == 75.0 and rb["vad"] is False
+    return (f"model tiny jalan end-to-end ({len(r['segments'])} segmen hening dgn VAD); "
+            f"batch asli tanpa VAD pada 75 dtk lolos ({len(rb['segments'])} segmen)")
 
 test("faster-whisper sungguhan (tiny, CPU)", t_real_model)
 

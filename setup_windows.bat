@@ -1,8 +1,8 @@
 @echo off
 setlocal
 REM ============================================================
-REM  Setup transcriber di Windows (RTX 4060)
-REM  Jalankan sekali dari folder transcriber:  .\setup_windows.bat
+REM  Setup transcriber di Windows (GPU NVIDIA atau tanpa GPU)
+REM  Jalankan sekali dari folder repo ini:  .\setup_windows.bat
 REM ============================================================
 cd /d "%~dp0"
 
@@ -25,6 +25,14 @@ if not defined PY goto :nopython
 %PY% -c "import sys; print('      Python', sys.version.split()[0], sys.executable)"
 
 echo [1/4] Membuat virtual environment .venv ...
+REM -- cek venv rusak (mulai)
+if exist .venv\Scripts\python.exe (
+    .venv\Scripts\python.exe -c "import sys" >nul 2>&1 || (
+        echo      .venv tidak bisa dijalankan - dibuat di PC lain? Dibuat ulang ...
+        rmdir /s /q .venv
+    )
+)
+REM -- cek venv rusak (selesai)
 if not exist .venv\Scripts\python.exe (
     %PY% -m venv .venv || goto :error
 )
@@ -40,7 +48,7 @@ echo [4/4] Cek GPU ...
 .venv\Scripts\python.exe check_gpu.py
 echo.
 echo Selesai. Untuk memakai (CMD atau PowerShell), dari folder ini:
-echo    .\run.bat --file antrian\contoh_bab_thaharah.txt
+echo    .\run.bat --file antrian\niat.txt
 exit /b 0
 
 :nopython

@@ -6,6 +6,11 @@ Hasilnya siap diproses ke tahap berikutnya (Claude: rapikan, potong per topik, k
 
 > Notebook RAG (Second Brain Ustadz) yang memakai hasil transkrip ini ada di repo/folder terpisah `RAG-secondbrain`.
 
+**Dokumentasi:** [panduan pengguna (wiki)](docs/wiki/Home.md) ·
+[dokumentasi teknis](docs/README.md) ·
+[temuan lokal vs Groq](docs/temuan-lokal-vs-groq.md) ·
+[Issues](https://github.com/fadjrimohammad79-alt/transcriber-kajian/issues)
+
 ## Alur
 
 ```
@@ -124,6 +129,11 @@ Semua contoh `python run.py ...` di bawah bisa diganti `.\run.bat ...`, dan `.\r
 ```
 python run.py https://youtu.be/AAAA https://youtu.be/BBBB --bab "Thaharah"
 ```
+> **Awas tanda `&` di URL** (mis. `watch?v=ID&list=...`). Lewat `run.bat`, `&` memecah perintah di PowerShell
+> **walau URL dikutip** (juga di CMD bila tidak dikutip): bagian setelah `&` dijalankan sebagai perintah terpisah
+> dan muncul `'list' is not recognized`. Aman: (1) taruh URL di file antrian (cara B), (2) cukup **ID video**
+> 11 karakter: `.\run.bat hHn8Od5_oqs`, atau (3) panggil Python langsung:
+> `.venv\Scripts\python.exe run.py "https://...&list=..."`.
 
 **B. File antrian per bab (disarankan)** — buat file di folder `antrian\`, contoh `antrian\bab_thaharah.txt`:
 ```
@@ -187,6 +197,22 @@ Dua file ini digabung dan diberikan ke model di **setiap potongan audio ±30 det
 akhir potongan yang padat ucapan terpotong. Isi glosarium hanya dengan istilah yang memang
 terbukti salah eja di hasil, bukan semua istilah yang mungkin muncul.
 
+## Bacaan Arab hilang? Coba matikan VAD (backend lokal)
+
+Backend lokal memakai **VAD** (penyaring bagian hening, Silero) agar Whisper tidak berhalusinasi di jeda.
+Dugaan (belum terbukti): VAD juga bisa memotong bacaan Arab yang dilantunkan atau pelan. Pada perbandingan
+dua video bab Niat, Groq (tanpa VAD) menangkap ayat, shalawat, dan doa penutup yang dilewati lokal.
+Untuk mengujinya di PC GPU:
+
+1. Di `.env` isi `WHISPER_VAD=0` (bawaan `1` = aktif).
+2. Ulangi satu video: `.\run.bat --force https://youtu.be/hHn8Od5_oqs` (atau lewat file antrian).
+3. Bandingkan dengan hasil sebelumnya: apakah bacaan Arab muncul? Apakah tanda `HALUSINASI` /
+   `FRASA_CURIGA` bertambah di bagian hening?
+
+Tanpa VAD, audio dipotong tetap 30 detik (batch tetap dipakai, kecepatan sama) dan program menampilkan
+peringatan saat model dimuat. Setiap hasil mencatat `"vad": true/false` di `transkripsi`. Opsi ini
+tidak berlaku untuk Groq (Groq tidak memakai VAD lokal). Kembalikan ke `1` bila halusinasi mengganggu.
+
 ## Koreksi otomatis (`koreksi.txt`)
 
 Glosarium *mencegah* salah eja; `koreksi.txt` *memperbaiki* yang tetap lolos. Setelah transkripsi,
@@ -231,7 +257,7 @@ dan jumlahnya di `transkripsi.koreksi_otomatis`.
 | PowerShell: "running scripts is disabled" saat aktivasi venv | Tidak perlu aktivasi: pakai `.\run.bat ...` |
 | `CUDA out of memory` | `--batch 4` (atau 2), atau `--model large-v3-turbo` |
 | Download YouTube gagal / format tidak tersedia | `pip install -U yt-dlp`. Jika masih gagal, install Deno (`winget install DenoLand.Deno`), yang dipakai yt-dlp untuk membaca halaman YouTube |
-| Bacaan Arab (ayat, hadits, doa) hilang dari transkrip / tanda `TERLEWAT` | Pastikan `prompt_gaya.txt` ada; tambahkan contoh transliterasi bacaan yang sering dibaca ustadz; ringkas glosarium |
+| Bacaan Arab (ayat, hadits, doa) hilang dari transkrip / tanda `TERLEWAT` | Pastikan `prompt_gaya.txt` ada; tambahkan contoh transliterasi bacaan yang sering dibaca ustadz; ringkas glosarium. Backend lokal: coba `WHISPER_VAD=0` ([penjelasan](#bacaan-arab-hilang-coba-matikan-vad-backend-lokal)) atau pakai Groq |
 | Banyak segmen HALUSINASI di bagian hening | Normal untuk jeda panjang; bagian itu cukup dihapus saat QC |
 | "Video sedang live / belum tayang" | Video live/premiere sengaja tidak diunduh. Jalankan ulang setelah siaran selesai diproses YouTube |
 | Video privat / batas usia / khusus member | Isi `YTDLP_COOKIES_BROWSER=firefox` di `.env` (login YouTube di Firefox dulu) |
@@ -253,13 +279,27 @@ dan jumlahnya di `transkripsi.koreksi_otomatis`.
 - Satu video hanya tercatat di satu bab (bab pertama yang memprosesnya).
 - URL `watch?v=...&list=...` dianggap **satu video**; untuk seluruh playlist pakai link `playlist?list=...`.
 - Audio dan metadata disimpan di `audio\`, jadi transkripsi ulang tidak butuh internet.
+- `.\setup_windows.bat` mendeteksi `.venv` yang rusak (mis. disalin dari PC lain) dan membuatnya ulang.
+
+**Kode keluar (untuk otomasi, mis. n8n):**
+
+| Kode | Arti |
+|---|---|
+| 0 | Semua video selesai (atau tidak ada yang perlu diproses) |
+| 1 | Input salah: tidak ada URL/antrian, file antrian tidak ada, `--backend groq` tanpa `GROQ_API_KEY`; untuk `.\run.bat check`: GPU belum siap |
+| 2 | Ada video yang gagal (jalankan ulang untuk mencoba yang gagal saja) |
+| 3 | Model gagal dimuat (CUDA/DLL, internet, nama model) |
+| 4 | `run.py` lain sedang berjalan di folder ini |
+| 5 | `riwayat.json` tidak bisa dibaca (terkunci) |
+| 130 | Dihentikan dengan Ctrl+C |
 
 ## Uji
 
 ```
 .venv\Scripts\python.exe eval_test.py
 ```
-84 test logika & edge case (tanpa GPU/internet; Groq API di-mock) + 1 test model sungguhan bila model bisa diunduh.
+92 test logika & edge case (tanpa GPU/internet; Groq API di-mock) + 1 test model sungguhan bila model bisa diunduh.
+Test tidak terpengaruh isi `.env` (mis. `WHISPER_VAD=0`, `GROQ_API_KEY`), jadi aman dijalankan di PC mana pun.
 
 **Lint (ruff)** — wajib bersih sebelum commit. Aturan ada di `pyproject.toml`.
 ```

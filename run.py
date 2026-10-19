@@ -120,6 +120,12 @@ def resolve_backend(choice: str, cuda_check=cuda_available, api_key: str | None 
 # Path file hasil di riwayat.json disimpan RELATIF terhadap hasil_dir: '<bab>/<file>' (format hasil
 # save_result selalu dua tingkat). Portabel saat folder dipindah / repo di-clone di PC atau OS lain.
 
+def _aman(teks: str) -> str:
+    """Hapus nilai API key dari teks yang akan dicetak / disimpan (pesan error dari library atau API)."""
+    kunci = config.GROQ_API_KEY
+    return teks.replace(kunci, "***") if len(kunci) >= 8 else teks
+
+
 def _path_riwayat(p: str, root: Path) -> str:
     """Path file hasil (dari save_result) → bentuk riwayat '<bab>/<file>'. root = hasil_dir.resolve()."""
     try:
@@ -201,7 +207,7 @@ def process(items, transcriber_factory, download_fn, riwayat_path: Path, hasil_d
     try:
         transcriber = transcriber_factory()   # model dimuat hanya kalau ada pekerjaan
     except Exception as e:
-        raise ModelGagalDimuat(f"{type(e).__name__}: {e}\n   💡 {_hint_model_error(e)}") from e
+        raise ModelGagalDimuat(_aman(f"{type(e).__name__}: {e}") + f"\n   💡 {_hint_model_error(e)}") from e
     report = []
     belum_tersimpan = False
     for n, it in enumerate(todo, 1):
@@ -241,8 +247,9 @@ def process(items, transcriber_factory, download_fn, riwayat_path: Path, hasil_d
                 except OSError as e:
                     print(f"   ⚠️  Audio tidak bisa dihapus ({type(e).__name__}): {Path(audio_path).name}")
         except Exception as e:  # noqa: BLE001 — catat & lanjut
-            print(f"   ❌ Gagal: {type(e).__name__}: {e}")
-            entry.update({"status": "gagal", "error": f"{type(e).__name__}: {e}"})
+            pesan = _aman(f"{type(e).__name__}: {e}")   # riwayat.json ikut di-commit: jangan simpan API key
+            print(f"   ❌ Gagal: {pesan}")
+            entry.update({"status": "gagal", "error": pesan})
             prev = old_entry.get("file") or old_entry.get("file_sebelumnya")   # sudah dinormalisasi
             if prev:   # hasil lama tetap tercatat supaya bisa dibersihkan saat berhasil nanti
                 entry["file_sebelumnya"] = prev
@@ -282,7 +289,7 @@ def print_summary(report: list[dict]) -> None:
 
 
 def main(argv=None) -> int:
-    p = argparse.ArgumentParser(description="Transcriber kajian YouTube (faster-whisper, GPU)")
+    p = argparse.ArgumentParser(description="Transcriber kajian YouTube (Whisper: GPU NVIDIA / Groq / CPU)")
     p.add_argument("urls", nargs="*", help="URL video atau playlist YouTube")
     p.add_argument("--file", action="append", help="File antrian (boleh diulang: --file a.txt --file b.txt)")
     p.add_argument("--bab", help="Nama bab (menimpa '# bab:' di file)")
@@ -325,6 +332,8 @@ def main(argv=None) -> int:
         print(f"❌ {e}")
         return 1
     print(f"⚙️  Backend: {backend} ({alasan}).")
+    if backend == "groq" and not config.VAD:
+        print("   ℹ️  WHISPER_VAD=0 tidak berlaku di backend groq (Groq tidak memakai VAD lokal).")
     device = "cpu" if backend == "cpu" else config.DEVICE
     compute = "int8" if backend == "cpu" else config.COMPUTE_TYPE
 

@@ -35,6 +35,25 @@ def _env_num(name: str, default, cast, minimum=None, maximum=None):
     print(f"PERINGATAN .env: {name}={raw!a} tidak valid{batas}, memakai bawaan {default}")
     return cast(default)
 
+_BENAR = {"1", "true", "yes", "y", "on", "ya", "aktif"}
+_SALAH = {"0", "false", "no", "n", "off", "tidak", "nonaktif", "mati"}
+
+
+def _env_bool(name: str, default: bool) -> bool:
+    """Pilihan ya/tidak dari .env (1/0, true/false, on/off, ya/tidak); nilai lain → peringatan + bawaan."""
+    raw = os.getenv(name, "").strip().lower()
+    if not raw:
+        return default
+    if raw in _BENAR:
+        return True
+    if raw in _SALAH:
+        return False
+    # ASCII saja: dicetak saat import, sebelum force_utf8_output()
+    print(f"PERINGATAN .env: {name}={raw!a} bukan pilihan ya/tidak (1/0, true/false, on/off), "
+          f"memakai bawaan {'1' if default else '0'}")
+    return default
+
+
 # ── Folder ───────────────────────────────────────────────────────────
 DIR_ANTRIAN = BASE_DIR / "antrian"      # file daftar URL per bab
 DIR_AUDIO   = BASE_DIR / "audio"        # audio hasil download (cache)
@@ -54,6 +73,9 @@ COMPUTE_TYPE = os.getenv("WHISPER_COMPUTE", "float16")      # float16 (GPU) | in
 BATCH_SIZE   = _env_num("WHISPER_BATCH", 8, int, minimum=1)   # 8 aman untuk RTX 4060 8 GB
 BEAM_SIZE    = _env_num("WHISPER_BEAM", 5, int, minimum=1)
 LANGUAGE     = os.getenv("WHISPER_LANG", "id")              # dikunci Bahasa Indonesia
+# VAD (Silero) menyaring bagian hening agar Whisper tidak berhalusinasi, tetapi bisa ikut memotong bacaan Arab
+# yang dilantunkan/pelan. 0 = mati: audio dipotong tetap 30 detik (lihat README: bacaan Arab hilang).
+VAD          = _env_bool("WHISPER_VAD", True)
 
 # ── Backend transkripsi ──────────────────────────────────────────────
 # auto  : GPU NVIDIA lokal bila ada → Groq API bila GROQ_API_KEY diisi → CPU lokal

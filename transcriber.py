@@ -41,6 +41,26 @@ def patch_av_compat() -> bool:
     return True
 
 
+SAMPLE_RATE = 16000    # Whisper selalu 16 kHz
+PANJANG_KLIP = 30.0    # detik; batas satu potongan Whisper
+
+
+KLIP_MINIMAL = 0.1     # detik; ekor audio lebih pendek dari ini dibuang (Whisper berhalusinasi di klip nyaris kosong)
+
+
+def klip_tetap(durasi: float, panjang: float = PANJANG_KLIP) -> list[dict]:
+    """Potongan tetap berurutan [{'start','end'}] (detik) menutupi seluruh audio, tanpa VAD.
+    Pipeline batch faster-whisper menolak vad_filter=False tanpa clip_timestamps pada audio > 30 detik."""
+    klip, mulai = [], 0.0
+    while mulai < durasi:
+        akhir = min(mulai + panjang, durasi)
+        if klip and akhir - mulai < KLIP_MINIMAL:   # ekor sisa pembulatan (mis. 60,0001 dtk)
+            break
+        klip.append({"start": mulai, "end": akhir})
+        mulai += panjang
+    return klip
+
+
 class Transcriber:
     def __init__(
         self,
@@ -48,6 +68,7 @@ class Transcriber:
         device: str = config.DEVICE,
         compute_type: str = config.COMPUTE_TYPE,
         batch_size: int = config.BATCH_SIZE,
+        vad: bool | None = None,
     ):
         from faster_whisper import BatchedInferencePipeline, WhisperModel
 
@@ -60,12 +81,17 @@ class Transcriber:
         self.device = device
         self.compute_type = compute_type
         self.batch_size = batch_size
+        self.vad = config.VAD if vad is None else vad
 
         print(f"🧠 Memuat model '{model_name}' ke {device} ({compute_type}) ...")
         t0 = time.time()
         self.model = WhisperModel(path, device=device, compute_type=compute_type)
         self.pipeline = BatchedInferencePipeline(model=self.model) if batch_size > 1 else None
         print(f"   ✅ Model siap ({time.time() - t0:.1f}s)")
+        if not self.vad:
+            print("   ⚠️  VAD dimatikan (WHISPER_VAD=0): audio dipotong tetap 30 detik. Bacaan Arab yang pelan/"
+                  "dilantunkan lebih mungkin tertangkap, tapi halusinasi di bagian hening bisa naik (cek tanda "
+                  "HALUSINASI / FRASA_CURIGA).")
 
     def transcribe(self, audio_path: Path, hotwords: str = "", word_timestamps: bool = False,
                    show_progress: bool = True) -> dict:
@@ -73,18 +99,25 @@ class Transcriber:
         kwargs = dict(
             language=config.LANGUAGE,          # dikunci: cegah salah deteksi saat bacaan Arab
             beam_size=config.BEAM_SIZE,
-            vad_filter=True,                   # lewati hening → kurangi halusinasi
-            vad_parameters={"min_silence_duration_ms": 700},
+            vad_filter=self.vad,               # lewati hening → kurangi halusinasi (WHISPER_VAD=0 untuk mematikan)
             condition_on_previous_text=False,  # cegah "macet" mengulang kalimat
             hotwords=hotwords or None,         # glosarium istilah Arab/fiqih, berlaku tiap potongan
             word_timestamps=word_timestamps,
         )
+        if self.vad:
+            kwargs["vad_parameters"] = {"min_silence_duration_ms": 700}
 
         t0 = time.time()
+        audio_in = str(audio_path)
         if self.pipeline is not None:
-            seg_iter, info = self.pipeline.transcribe(str(audio_path), batch_size=self.batch_size, **kwargs)
+            if not self.vad:
+                # batch tanpa VAD: wajib beri potongan tetap 30 detik (audio didekode sekali di sini)
+                from faster_whisper.audio import decode_audio
+                audio_in = decode_audio(audio_in, sampling_rate=SAMPLE_RATE)
+                kwargs["clip_timestamps"] = klip_tetap(len(audio_in) / SAMPLE_RATE)
+            seg_iter, info = self.pipeline.transcribe(audio_in, batch_size=self.batch_size, **kwargs)
         else:
-            seg_iter, info = self.model.transcribe(str(audio_path), **kwargs)
+            seg_iter, info = self.model.transcribe(audio_in, **kwargs)
 
         from tqdm import tqdm
         total = float(getattr(info, "duration", 0) or 0)
@@ -124,4 +157,5 @@ class Transcriber:
             "model": self.model_name,
             "device": self.device,
             "compute_type": self.compute_type,
+            "vad": self.vad,
         }
