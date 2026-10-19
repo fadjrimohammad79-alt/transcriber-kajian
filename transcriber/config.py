@@ -41,6 +41,9 @@ QC_REPEAT_MIN       = int(os.getenv("QC_REPEAT_MIN", "3"))         # kalimat sam
 # Ucapan normal ±12–16 huruf/detik. Potongan ≥10 detik dengan < 4 huruf/detik → kemungkinan ada yang terlewat.
 QC_MIN_DUR_TERLEWAT  = float(os.getenv("QC_MIN_DUR_TERLEWAT", "10"))
 QC_MIN_CHARS_PER_SEC = float(os.getenv("QC_MIN_CHARS_PER_SEC", "4"))
+# Nama penceramah untuk tanda NAMA_BOCOR, dipisah koma. Kosong = pakai nama channel YouTube.
+# Bila diisi, menimpa nama channel (mis. channel lembaga, atau nama yang mirip nama sahabat/ulama).
+QC_NAMA_PEMBICARA = [n.strip() for n in os.getenv("QC_NAMA_PEMBICARA", "").split(",") if n.strip()]
 
 
 # Cookies browser untuk video yang butuh login/batas usia (kosong = tidak dipakai).

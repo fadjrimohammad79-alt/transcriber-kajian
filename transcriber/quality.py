@@ -13,8 +13,12 @@ Tanda:
                 tidak tertulis (mis. bacaan Arab yang dilewati model). Dengarkan bagian ini.
   MIRIP_PROMPT: teks segmen hampir sama dengan contoh gaya / glosarium. Bisa memang diucapkan
                 (pembukaan khutbah), bisa juga "bocoran" prompt yang dikarang model saat hening.
+  NAMA_BOCOR  : nama penceramah muncul di teks. Whisper sering menempelkannya ke kutipan ulama lain
+                (mis. "al-imam Muhammad Nuzul Uthaymeen" padahal yang dikutip al-Utsaimin).
+                Bisa juga memang diucapkan (perkenalan MC): dengarkan bagian ini.
 
-Status video minimal PERLU_CEK bila ada TERLEWAT (ada ucapan yang mungkin hilang dari transkrip).
+Status video minimal PERLU_CEK bila ada TERLEWAT (ada ucapan yang mungkin hilang dari transkrip)
+atau NAMA_BOCOR (atribusi kutipan bisa salah).
 """
 
 import re
@@ -47,11 +51,42 @@ def _mirip_prompt(text: str, prompt_words: list[str], prompt_set: set[str]) -> b
     return len(words) >= 6 and sum(w in prompt_set for w in words) / len(words) >= 0.9
 
 
-def flag_segments(segments: list[dict], prompt: str = "") -> list[dict]:
+# Kata umum dalam nama/gelar: tidak cukup khas untuk menandai nama penceramah.
+_NAMA_UMUM = {
+    "muhammad", "muhammed", "mohammad", "ahmad", "abdullah", "abdul", "abu", "ummu", "bin", "binti",
+    "ibnu", "ibn", "al", "ustadz", "ustad", "ustadzah", "syaikh", "syekh", "syeikh", "kh", "dr", "lc",
+    "ma", "official", "channel", "tv", "kajian", "media", "dakwah",
+    # kata umum nama channel lembaga (mis. "Kajian Sunnah", "Radio Rodja")
+    "sunnah", "islam", "islami", "islamic", "muslim", "ilmu", "ilmiah", "radio", "studio", "masjid",
+    "yayasan", "pondok", "pesantren", "indonesia", "dzikir", "quran", "alquran", "tafsir",
+}
+# Kata sebelum token yang membuatnya istilah/bacaan Arab biasa, bukan nama
+# (mis. "asbabun nuzul", "wa dzikri maatsirihim", "li dzikri").
+_NAMA_KECUALI_SEBELUM = {"asbabun", "asbab", "sabab", "sababun", "wa", "li", "bi", "fi"}
+
+
+def nama_tokens(nama: list[str] | tuple[str, ...] | str) -> set[str]:
+    """Token khas dari nama penceramah (≥4 huruf, bukan kata umum/gelar).
+    'Muhammad Nuzul Dzikri' → {'nuzul', 'dzikri'}."""
+    if isinstance(nama, str):
+        nama = [nama]
+    return {w for n in nama for w in _norm(n or "").split() if len(w) >= 4 and w not in _NAMA_UMUM}
+
+
+def _nama_bocor(text: str, tokens: set[str]) -> bool:
+    words = _norm(text).split()
+    return any(w in tokens and (i == 0 or words[i - 1] not in _NAMA_KECUALI_SEBELUM)
+               for i, w in enumerate(words))
+
+
+def flag_segments(segments: list[dict], prompt: str = "",
+                  nama_pembicara: list[str] | tuple[str, ...] | str = ()) -> list[dict]:
     """Tambahkan field 'flags' (list) ke setiap segmen. Mengubah & mengembalikan list yang sama.
-    prompt: contoh gaya + glosarium yang diberikan ke model (untuk tanda MIRIP_PROMPT)."""
+    prompt: contoh gaya + glosarium yang diberikan ke model (untuk tanda MIRIP_PROMPT).
+    nama_pembicara: nama penceramah, mis. dari channel YouTube (untuk tanda NAMA_BOCOR)."""
     prompt_words = _norm(prompt or "").split()
     prompt_set = set(prompt_words)
+    tokens_nama = nama_tokens(nama_pembicara)
     for s in segments:
         flags = []
         if s.get("avg_logprob", 0) < config.QC_LOW_LOGPROB:
@@ -69,6 +104,8 @@ def flag_segments(segments: list[dict], prompt: str = "") -> list[dict]:
             flags.append("TERLEWAT")
         if _mirip_prompt(s.get("text", ""), prompt_words, prompt_set):
             flags.append("MIRIP_PROMPT")
+        if tokens_nama and _nama_bocor(s.get("text", ""), tokens_nama):
+            flags.append("NAMA_BOCOR")
         s["flags"] = flags
 
     # Halusinasi: teks identik berturut-turut ≥ QC_REPEAT_MIN
@@ -105,8 +142,8 @@ def summarize(segments: list[dict], durasi_detik: float = 0) -> dict:
         status = "PERLU_CEK"
     else:
         status = "BURUK"
-    if status == "BAIK" and per_flag.get("TERLEWAT"):
-        status = "PERLU_CEK"   # sedikit segmen, tapi isinya bisa hilang: wajib didengar
+    if status == "BAIK" and (per_flag.get("TERLEWAT") or per_flag.get("NAMA_BOCOR")):
+        status = "PERLU_CEK"   # sedikit segmen, tapi isi/atribusi kutipan bisa salah: wajib didengar
 
     return {
         "status": status,

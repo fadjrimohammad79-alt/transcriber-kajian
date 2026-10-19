@@ -10,7 +10,7 @@ Hasilnya siap diproses ke tahap berikutnya (Claude: rapikan, potong per topik, k
 URL / playlist / file antrian per bab
    → yt-dlp ambil audio saja (disimpan di audio\ sebagai cache)
    → faster-whisper di GPU (large-v3, bahasa dikunci "id", VAD, glosarium istilah)
-   → cek kualitas otomatis (RAGU / NOISE / BERULANG / HALUSINASI / TERLEWAT / MIRIP_PROMPT)
+   → cek kualitas otomatis (RAGU / NOISE / BERULANG / HALUSINASI / TERLEWAT / MIRIP_PROMPT / NAMA_BOCOR)
    → hasil\<Bab>\  : .json (untuk pipeline) + .srt (cek di pemutar) + .txt (baca cepat)
    → riwayat.json  : video yang sudah selesai otomatis dilewati
 ```
@@ -91,11 +91,15 @@ terbukti salah eja di hasil, bukan semua istilah yang mungkin muncul.
   (kalimat sama ≥3x berturut), `FRASA_CURIGA` (mis. "terima kasih telah menonton", khas halusinasi Whisper),
   `TERLEWAT` (potongan panjang tapi teksnya sangat sedikit: kemungkinan ada bacaan yang tidak tertulis),
   `MIRIP_PROMPT` (teks hampir sama persis dengan `prompt_gaya.txt`/glosarium: pastikan memang diucapkan
-  ustadz, bukan "bocoran" contoh yang dikarang model saat hening; jika bocoran, hapus barisnya).
+  ustadz, bukan "bocoran" contoh yang dikarang model saat hening; jika bocoran, hapus barisnya),
+  `NAMA_BOCOR` (nama penceramah muncul di teks: Whisper sering menempelkannya ke kutipan ulama lain,
+  mis. "al-imam Muhammad Nuzul Uthaymeen" padahal yang dikutip al-Utsaimin; ganti dengan nama yang benar).
+  Nama diambil dari channel YouTube; isi `QC_NAMA_PEMBICARA` di `.env` untuk menimpanya (channel lembaga).
 - **`.json`**: setiap segmen punya `link` YouTube yang langsung lompat ke detiknya,
   untuk sitasi jawaban bot nanti.
 - **Status kualitas per video**: BAIK (≤5% ditandai) · PERLU_CEK (≤20%) · BURUK (>20%).
-  Ada satu saja `TERLEWAT` → minimal PERLU_CEK, karena isi kajian bisa hilang.
+  Ada satu saja `TERLEWAT` atau `NAMA_BOCOR` → minimal PERLU_CEK, karena isi kajian bisa hilang
+  atau atribusi kutipan salah.
 - Prompt yang dipakai tersimpan di `.json` (`transkripsi.prompt`), supaya hasil bisa ditelusuri setelah prompt diubah.
 
 ## Troubleshooting

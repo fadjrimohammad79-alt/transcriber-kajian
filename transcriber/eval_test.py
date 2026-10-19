@@ -432,6 +432,35 @@ def t_summarize_terlewat_floor():
     assert q["persen_ditandai"] == 1.0 and q["status"] == "PERLU_CEK", q
     return "1% saja tapi ada TERLEWAT → PERLU_CEK (bukan BAIK)"
 
+def t_flag_nama_bocor():
+    from quality import nama_tokens
+    assert nama_tokens("Muhammad Nuzul Dzikri") == {"nuzul", "dzikri"}
+    assert nama_tokens(["", "Ustadz Abu Muhammad"]) == set(), "hanya gelar/kata umum: tidak ada token"
+    assert nama_tokens(["Kajian Sunnah Official", "Radio Rodja"]) == {"rodja"}, "channel lembaga"
+    assert nama_tokens([None]) == set(), "channel kosong/None dari info.json lama"
+    nama = ["Muhammad Nuzul Dzikri"]
+    teks = {   # kasus nyata dari LAPORAN_REVISI.md (revisi 2026-10-17)
+        "Al-imam Muhammad Nuzul Uthaymeen rahimahullah mengatakan": True,
+        "Imam Muhammad Nuzul Dzikri menjelaskan,": True,
+        "berlomba-lomba untuk Muhammad Nuzul Dzikri.": True,
+        "udah main Nuzul,": True,
+        "Syaikh Muhammad bin Shalih al-Utsaimin menjelaskan": False,
+        "Para ulama menyebutkan asbabun nuzul ayat ini": False,
+        "Perbanyak dzikir pagi dan petang": False,
+        "wa birrihim wa dzikri maathirihim wa thanai": False,   # video 05 seg 23: bacaan Arab
+        "aqimish shalata li dzikri": False,
+        "": False,
+    }
+    for t, harus in teks.items():
+        got = "NAMA_BOCOR" in flag_segments([_s(t)], "", nama)[0]["flags"]
+        assert got == harus, (t, got)
+    assert flag_segments([_s(list(teks)[0])])[0]["flags"] == [], "tanpa nama: tidak ditandai"
+    segs = [_s(f"kalimat {i}") for i in range(99)] + [_s("udah main Nuzul,")]
+    q = summarize(flag_segments(segs, "", nama))
+    assert q["persen_ditandai"] == 1.0 and q["status"] == "PERLU_CEK", q
+    return "4 bocoran nyata ditandai; al-Utsaimin, asbabun nuzul, dzikir tidak; 1% → PERLU_CEK"
+
+test("Tanda NAMA_BOCOR (nama penceramah bocor ke kutipan)", t_flag_nama_bocor)
 test("Tanda TERLEWAT (bacaan Arab dilewati)", t_flag_terlewat)
 test("Tanda MIRIP_PROMPT (prompt bocor ke transkrip)", t_flag_mirip_prompt)
 test("Status minimal PERLU_CEK bila ada TERLEWAT", t_summarize_terlewat_floor)
@@ -534,6 +563,31 @@ def t_prompt_recorded():
     assert doc["transkripsi"]["prompt"] == "Amma ba'du. thaharah"
     return "prompt yang dipakai tersimpan di JSON hasil"
 
+def t_process_nama_dari_channel():
+    d = TMP / "nb"
+    class Bocor(StubTranscriber):
+        def transcribe(self, audio_path, hotwords="", word_timestamps=False):
+            r = super().transcribe(audio_path, hotwords, word_timestamps)
+            r["segments"][0]["text"] = "Imam Muhammad Nuzul Dzikri menjelaskan,"
+            return r
+    def dl(vid, audio_dir):
+        p, meta = stub_download(vid, audio_dir)
+        return p, {**meta, "channel": "Muhammad Nuzul Dzikri"}
+    run.process(ITEMS[:1], Bocor, dl, d / "riwayat.json", d / "hasil", d / "audio")
+    doc = json.loads(next((d / "hasil").rglob("*.json")).read_text(encoding="utf-8"))
+    assert doc["segments"][0]["flags"] == ["NAMA_BOCOR"], doc["segments"][0]
+    assert doc["kualitas"]["per_tanda"] == {"NAMA_BOCOR": 1}, doc["kualitas"]
+    old = config.QC_NAMA_PEMBICARA
+    try:   # .env menimpa channel: nama lain → bocoran "Nuzul" tidak lagi ditandai
+        config.QC_NAMA_PEMBICARA = ["Firanda Andirja"]
+        d2 = TMP / "nb2"
+        run.process(ITEMS[:1], Bocor, dl, d2 / "riwayat.json", d2 / "hasil", d2 / "audio")
+        doc = json.loads(next((d2 / "hasil").rglob("*.json")).read_text(encoding="utf-8"))
+        assert doc["segments"][0]["flags"] == [], doc["segments"][0]
+    finally:
+        config.QC_NAMA_PEMBICARA = old
+    return "nama channel YouTube dipakai untuk NAMA_BOCOR; QC_NAMA_PEMBICARA menimpanya"
+
 def t_process_failure_continues():
     d = TMP / "p1"
     rep, stub, _ = _run(ITEMS, fail_on={"BBBBBBBBBBB"}, dir=d)
@@ -584,6 +638,7 @@ def t_build_items_merge():
     return "URL langsung + file digabung tanpa duplikat"
 
 test("Prompt tercatat di JSON hasil", t_prompt_recorded)
+test("Nama channel → tanda NAMA_BOCOR", t_process_nama_dari_channel)
 test("Proses: satu gagal, lainnya lanjut", t_process_failure_continues)
 test("Proses: resume hanya yang gagal", t_process_resume)
 test("Proses: tidak ada kerja → model tak dimuat", t_process_nothing_no_model)

@@ -120,7 +120,9 @@ def process(items, transcriber_factory, download_fn, riwayat_path: Path, hasil_d
 
             result = transcriber.transcribe(audio_path, hotwords=hotwords, word_timestamps=word_timestamps)
             result["prompt"] = hotwords   # tercatat di JSON: transkrip bisa ditelusuri ulang
-            segs = flag_segments(result["segments"], hotwords)
+            # QC_NAMA_PEMBICARA menimpa nama channel (channel lembaga bukan nama penceramah)
+            nama = config.QC_NAMA_PEMBICARA or [meta.get("channel") or ""]
+            segs = flag_segments(result["segments"], hotwords, nama)
             q = summarize(segs, result.get("durasi_audio", 0))
             paths = save_result(hasil_dir, meta, result, q)
             _cleanup_old_files(old_entry, paths)
