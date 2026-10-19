@@ -23,7 +23,8 @@ URL / playlist / file antrian per bab
 
 Semua perintah dijalankan di terminal (PowerShell atau CMD) dari folder utama repo ini (`transcriber-kajian\`).
 
-**1. Setup sekali** — lihat [Setup sekali](#setup-sekali-windows): jalankan `.\setup_windows.bat`.
+**1. Setup sekali** — di PC baru, mulai dari [Pasang dari GitHub](#pasang-dari-github-pc-baru);
+   lalu [Setup sekali](#setup-sekali-windows): jalankan `.\setup_windows.bat`.
    Lalu cek mesin: `.\run.bat check`.
    - Muncul **🎉 GPU siap!** → transkripsi jalan lokal di GPU, gratis. Lanjut ke langkah 3.
    - GPU NVIDIA tidak ada (laptop AMD/Intel, VPS) → lanjut ke langkah 2.
@@ -67,12 +68,43 @@ Semua perintah dijalankan di terminal (PowerShell atau CMD) dari folder utama re
 **7. Tambah video baru** → tambahkan URL di file antrian yang sama lalu jalankan langkah 4 lagi.
    Untuk mengulang video yang sudah selesai (mis. setelah ganti model atau prompt) tambahkan `--force`.
 
+## Pasang dari GitHub (PC baru)
+
+Proyek ini program **Python** (bukan paket Node.js), jadi dipasang dengan `git clone` lalu menjalankan
+skrip setup. `npx` / `npm` tidak dipakai.
+
+1. Pasang Git dan Python 3.12 (sekali per PC), lalu **tutup dan buka lagi terminal**:
+   ```
+   winget install -e --id Git.Git
+   winget install -e --id Python.Python.3.12
+   ```
+2. Clone repo dan masuk ke foldernya:
+   ```
+   git clone https://github.com/fadjrimohammad79-alt/transcriber-kajian.git
+   cd transcriber-kajian
+   ```
+   Repo ini **private**: saat clone akan muncul jendela login GitHub di browser (pakai akun
+   pemilik repo), atau login dulu lewat `gh auth login`.
+3. Jalankan setup sekali, lalu lanjut ke [Cara pakai](#cara-pakai-langkah-demi-langkah):
+   ```
+   .\setup_windows.bat
+   ```
+4. Tanpa GPU NVIDIA: isi `GROQ_API_KEY` di `.env` (lihat [Tanpa GPU NVIDIA: Groq API](#tanpa-gpu-nvidia-groq-api)).
+
+**Ikut ter-clone:** kode, `koreksi.txt`, `glosarium.txt`, `prompt_gaya.txt`, folder `antrian\`, hasil
+transkrip di `hasil\`, dan `riwayat.json` (path-nya relatif, jadi tetap valid di PC lain; video yang
+sudah selesai dilewati). **Tidak ikut:** `.env` (berisi key), `.venv\`, dan `audio\` (diunduh ulang
+bila perlu). Memperbarui di PC yang sudah terpasang: `git pull`, lalu `.\setup_windows.bat` lagi bila
+`requirements.txt` berubah.
+
 ## Setup sekali (Windows)
 
 1. Install **Python 3.10–3.12 (64-bit)** dari python.org, centang *Add python.exe to PATH*.
-2. Pastikan **driver NVIDIA** terbaru terpasang (tidak perlu install CUDA Toolkit terpisah;
-   library CUDA/cuDNN ikut terpasang lewat pip).
-3. Ekstrak folder ini, buka terminal (PowerShell atau CMD) di dalamnya, lalu jalankan:
+2. Bila punya GPU NVIDIA, pastikan **driver NVIDIA** terbaru terpasang (tidak perlu install CUDA Toolkit
+   terpisah; library CUDA/cuDNN ikut terpasang lewat pip). Tanpa GPU NVIDIA, lihat
+   [Tanpa GPU NVIDIA: Groq API](#tanpa-gpu-nvidia-groq-api).
+3. Clone ([Pasang dari GitHub](#pasang-dari-github-pc-baru)) atau ekstrak folder ini, buka terminal
+   (PowerShell atau CMD) di dalamnya, lalu jalankan:
    ```
    .\setup_windows.bat
    ```
