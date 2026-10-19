@@ -53,7 +53,7 @@ python run.py [URL ...] [--file ANTRIAN] [--bab NAMA] [--kitab NAMA] [--model M]
 | `URL ...` | URL video / playlist, atau cukup ID video 11 karakter |
 | `--file F` | File antrian; boleh diulang (`--file a.txt --file b.txt`) |
 | `--bab`, `--kitab` | Menimpa `# bab:` / `# kitab:` di file antrian |
-| `--model M` | `large-v3` atau `large-v3-turbo` |
+| `--model M` | `large-v3` atau `large-v3-turbo`; backend lokal juga menerima nama repo Hugging Face (Groq memetakannya ke `whisper-large-v3`) |
 | `--batch N` | Ukuran batch GPU |
 | `--backend B` | Memilih mesin transkripsi (lihat tabel di atas) |
 | `--cpu` | Sama dengan `--backend cpu` |

@@ -19,11 +19,15 @@ dengan `No Python at ...`; `setup_windows.bat` mendeteksinya dan membuat ulang.
 .venv\Scripts\python.exe eval_test.py            # seluruh test, tanpa GPU/internet
 ```
 
-- `eval_test.py` memuat ±92 test dalam beberapa grup (statis, antrian, downloader, transcriber ber-mock,
+- `eval_test.py` memuat puluhan test dalam beberapa grup (statis, antrian, downloader, transcriber ber-mock,
   kualitas, output, alur proses, backend/Groq, koreksi, config, edge case) dan **satu** test model sungguhan
   (`tiny`, CPU) yang di-SKIP bila model tidak bisa diunduh.
 - **Test hermetik:** variabel `.env`/shell di PC itu (mis. `WHISPER_VAD=0`, `GROQ_API_KEY`) tidak memengaruhi hasil,
   karena nilai baku diatur sebelum `import config`. Jangan menambah test yang membaca `.env` sungguhan.
+- **Test dokumentasi:** tautan relatif di README/`docs/` tidak boleh patah, dan setiap variabel `.env`, opsi
+  perintah, tanda QC, kode keluar, modul, serta nilai bawaan angka harus tercantum dan cocok di dokumen.
+  Menambah pengaturan baru tanpa memperbarui dokumen membuat test ini gagal (disengaja).
+- Skrip publikasi wiki diuji sampai ke clone/commit/push terhadap repo bare lokal (tanpa jaringan).
 - Groq API selalu di-mock (tidak ada panggilan jaringan dan tidak memakai kunci).
 - Test menulis ke folder sementara dan membersihkannya sendiri (juga bila terhenti).
 - Konfigurasi ruff ada di `pyproject.toml` (`E W F B BLE I UP SIM RUF`, panjang baris 120).

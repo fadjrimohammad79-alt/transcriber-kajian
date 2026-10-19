@@ -157,6 +157,7 @@ python run.py "https://youtube.com/playlist?list=XXXX" --bab "Shalat"
 
 | Opsi | Fungsi |
 |---|---|
+| `--bab "Nama"` / `--kitab "Nama"` | Nama bab / kitab; menimpa `# bab:` / `# kitab:` di file antrian |
 | `--model large-v3-turbo` | 2–3x lebih cepat, akurasi sedikit turun |
 | `--batch 4` | Turunkan jika muncul error *out of memory* |
 | `--words` | Simpan timestamp per kata |
@@ -298,7 +299,8 @@ dan jumlahnya di `transkripsi.koreksi_otomatis`.
 ```
 .venv\Scripts\python.exe eval_test.py
 ```
-92 test logika & edge case (tanpa GPU/internet; Groq API di-mock) + 1 test model sungguhan bila model bisa diunduh.
+Puluhan test logika & edge case (tanpa GPU/internet; Groq API di-mock; juga memeriksa dokumentasi tetap sinkron dengan kode)
++ 1 test model sungguhan bila model bisa diunduh. Laporan akhir menampilkan `Total / PASS / FAIL`.
 Test tidak terpengaruh isi `.env` (mis. `WHISPER_VAD=0`, `GROQ_API_KEY`), jadi aman dijalankan di PC mana pun.
 
 **Lint (ruff)** — wajib bersih sebelum commit. Aturan ada di `pyproject.toml`.

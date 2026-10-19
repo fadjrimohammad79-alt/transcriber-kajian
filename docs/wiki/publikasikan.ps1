@@ -6,7 +6,8 @@ param(
     [switch]$DryRun,
     [string]$Owner = "fadjrimohammad79-alt",
     [string]$Repo = "transcriber-kajian",
-    [string]$Branch = "main"
+    [string]$Branch = "main",
+    [string]$WikiUrl = ""    # untuk uji lokal (mis. file:///...); kosong = wiki GitHub repo ini
 )
 $ErrorActionPreference = "Stop"
 $src = $PSScriptRoot
@@ -23,13 +24,15 @@ try {
         $wiki = $tmp
     } else {
         $wiki = Join-Path $tmp "wiki"
-        git clone "https://github.com/$Owner/$Repo.wiki.git" $wiki
+        $url = if ($WikiUrl) { $WikiUrl } else { "https://github.com/$Owner/$Repo.wiki.git" }
+        git clone $url $wiki
         if ($LASTEXITCODE -ne 0) {
             throw "Clone wiki gagal. Pastikan tab Wiki aktif dan halaman pertama sudah dibuat lewat web (lihat docs/wiki/README.md)."
         }
     }
 
     $total = 0
+    $ditulis = @()
     foreach ($f in Get-ChildItem -LiteralPath $src -Filter *.md -File) {
         if ($f.Name -eq "README.md") { continue }
         $teks = [System.IO.File]::ReadAllText($f.FullName, [System.Text.Encoding]::UTF8)
@@ -38,13 +41,15 @@ try {
         $teks = [regex]::Replace($teks, '\]\(\.\./([A-Za-z0-9_.-]+\.md)\)', ('](' + $base + '/$1)'))
         $teks = [regex]::Replace($teks, '\]\((?!http)([A-Za-z0-9_-]+)\.md\)', ']($1)')
         [System.IO.File]::WriteAllText((Join-Path $wiki $f.Name), $teks, $utf8)
+        $ditulis += $f.Name
         $total += $naik + $dalam
         Tulis ("  {0,-24} {1} tautan antar-halaman, {2} tautan ke docs/" -f $f.Name, $dalam, $naik)
     }
 
     $sisa = 0
-    foreach ($f in Get-ChildItem -LiteralPath $wiki -Filter *.md -File) {
-        $sisa += [regex]::Matches([System.IO.File]::ReadAllText($f.FullName, [System.Text.Encoding]::UTF8), '\]\((?!http)[^)]*\.md\)').Count
+    # hanya halaman yang baru ditulis; halaman lain yang sudah ada di wiki tidak dinilai
+    foreach ($nama in $ditulis) {
+        $sisa += [regex]::Matches([System.IO.File]::ReadAllText((Join-Path $wiki $nama), [System.Text.Encoding]::UTF8), '\]\((?!http)[^)]*\.md\)').Count
     }
     Tulis "Tautan ditulis ulang: $total | tautan .md relatif yang tersisa: $sisa"
     if ($sisa -ne 0) { throw "Masih ada tautan .md relatif yang tidak diubah." }

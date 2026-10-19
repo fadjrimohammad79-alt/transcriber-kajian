@@ -11,6 +11,7 @@ import io
 import json
 import os
 import shutil
+import stat
 import sys
 import tempfile
 import time
@@ -38,7 +39,23 @@ _config.force_utf8_output()   # simbol ═ ✅ tidak crash di konsol cp1252 tanp
 PASS, FAIL, WARN = "✅ PASS", "❌ FAIL", "⚠️  WARN"
 results = []
 TMP = Path(tempfile.mkdtemp(prefix="eval_transcriber_"))
-atexit.register(shutil.rmtree, TMP, ignore_errors=True)   # juga bila test terhenti (Ctrl+C / error)
+
+
+def hapus_paksa(path):
+    """Hapus folder sementara. File read-only (objek .git di Windows) di-chmod dulu agar benar-benar terhapus."""
+    def paksa(fungsi, p, _galat):
+        try:
+            os.chmod(p, stat.S_IWRITE)
+            fungsi(p)
+        except OSError:
+            pass
+    if sys.version_info >= (3, 12):
+        shutil.rmtree(path, onexc=paksa)
+    else:
+        shutil.rmtree(path, onerror=paksa)
+
+
+atexit.register(hapus_paksa, TMP)   # juga bila test terhenti (Ctrl+C / error)
 
 
 def test(name, fn):
@@ -151,6 +168,37 @@ def t_docs_tautan():
     assert not rusak, rusak
     return f"{len(berkas)} file markdown: semua tautan relatif menunjuk file yang ada"
 
+def t_docs_sinkron():
+    """Dokumentasi tidak boleh menyimpang dari kode: variabel .env, opsi CLI, tanda QC, kode keluar, modul, nilai bawaan."""
+    import re
+    baca = lambda p: Path(p).read_text(encoding="utf-8")  # noqa: E731
+    konf, kual, arsi, readme = baca("docs/konfigurasi.md"), baca("docs/kontrol-kualitas.md"), baca("docs/arsitektur.md"), baca("README.md")
+    wiki_hasil, cfg, kualitas, jalan, envex = baca("docs/wiki/Membaca-Hasil.md"), baca("config.py"), baca("quality.py"), baca("run.py"), baca(".env.example")
+    var = set(re.findall(r'(?:getenv|_env_num|_env_bool)\(\s*"([A-Z_]+)"', cfg))
+    opsi = set(re.findall(r'add_argument\(\s*"(--[a-z-]+)"', jalan))
+    tanda = set(re.findall(r'append\("([A-Z_]+)"\)', kualitas))
+    kode = {int(x) for x in re.findall(r"return (\d+)\b|else (\d+)\b", jalan) for x in x if x} | {130}
+    assert len(var) >= 15 and len(opsi) >= 9 and len(tanda) >= 8 and kode >= {0, 1, 2, 3, 4, 5, 130}, (var, opsi, tanda, kode)
+    temuan = [f"konfigurasi.md tanpa `{v}`" for v in sorted(var) if f"`{v}`" not in konf]
+    temuan += [f".env.example tanpa {v}" for v in sorted(var) if not v.startswith("QC_") and v not in envex]
+    temuan += [f"{d} tanpa {o}" for o in sorted(opsi) for d, t in (("konfigurasi.md", konf), ("README.md", readme)) if o not in t]
+    temuan += [f"{d} tanpa tanda {x}" for x in sorted(tanda)
+               for d, t in (("kontrol-kualitas.md", kual), ("README.md", readme), ("wiki/Membaca-Hasil.md", wiki_hasil)) if x not in t]
+    temuan += [f"{d} tanpa kode keluar {k}" for k in sorted(kode)
+               for d, t in (("konfigurasi.md", konf), ("README.md", readme)) if not re.search(rf"^\| {k} \|", t, re.M)]
+    temuan += [f"arsitektur.md tanpa modul {m.name}" for m in sorted(Path(".").glob("*.py")) if m.name not in arsi]
+    pemetaan = {"WHISPER_BATCH": "BATCH_SIZE", "WHISPER_BEAM": "BEAM_SIZE", "WHISPER_VAD": "VAD"}
+    n_nilai = 0
+    for nama, sel in re.findall(r"\| `((?:QC|WHISPER)_[A-Z_]+)` \| `?([-0-9.,]+)`? \|", konf):
+        nilai = getattr(_config, pemetaan.get(nama, nama))
+        n_nilai += 1
+        if float(sel.replace(",", ".")) != float(nilai):
+            temuan.append(f"bawaan {nama}: docs={sel} config={nilai}")
+    assert n_nilai >= 8, "tabel nilai bawaan tidak terbaca"
+    assert not temuan, temuan
+    return (f"{len(var)} variabel, {len(opsi)} opsi, {len(tanda)} tanda QC, {len(kode)} kode keluar, "
+            f"{len(list(Path('.').glob('*.py')))} modul, {n_nilai} nilai bawaan: dokumentasi sinkron dengan kode")
+
 def t_wiki_publikasi_dryrun():
     if sys.platform != "win32":
         return "SKIP: hanya untuk Windows (PowerShell)"
@@ -162,7 +210,47 @@ def t_wiki_publikasi_dryrun():
     assert not any(Path(tempfile.gettempdir()).glob("wiki_*")), "folder sementara tidak dibersihkan"
     return "skrip publikasi wiki (DryRun): tautan .md relatif diubah semua, tanpa jaringan, folder sementara bersih"
 
+def t_wiki_publikasi_nyata():
+    """Jalur sungguhan skrip wiki (clone, salin, commit, push) terhadap repo bare lokal; tanpa jaringan."""
+    if sys.platform != "win32":
+        return "SKIP: hanya untuk Windows (PowerShell)"
+    import subprocess
+
+    def git(*a, cwd=None):
+        r = subprocess.run(["git", *a], capture_output=True, text=True, cwd=cwd, timeout=60)
+        assert r.returncode == 0, (a, r.stdout, r.stderr)
+        return r.stdout.strip()
+
+    d = TMP / "wikirepo"; d.mkdir()
+    bare = d / "wiki.git"
+    git("init", "--bare", "-q", str(bare))
+    awal = d / "awal"
+    git("clone", "-q", str(bare), str(awal))
+    (awal / "Home.md").write_text("halaman lama", encoding="utf-8")
+    (awal / "Halaman-Lama.md").write_text("[tautan relatif lain](Lain.md) tidak boleh menggagalkan publikasi", encoding="utf-8")
+    git("-c", "user.name=uji", "-c", "user.email=uji@example.com", "add", "-A", cwd=awal)
+    git("-c", "user.name=uji", "-c", "user.email=uji@example.com", "commit", "-q", "-m", "awal", cwd=awal)
+    git("push", "-q", "origin", "HEAD", cwd=awal)
+    url = "file:///" + bare.as_posix()
+    cmd = ["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-File", "docs/wiki/publikasikan.ps1", "-WikiUrl", url]
+    env = {**os.environ, "GIT_AUTHOR_NAME": "uji", "GIT_AUTHOR_EMAIL": "uji@example.com",
+           "GIT_COMMITTER_NAME": "uji", "GIT_COMMITTER_EMAIL": "uji@example.com"}
+    r = subprocess.run(cmd, capture_output=True, text=True, timeout=180, env=env)
+    assert r.returncode == 0 and "Wiki dipublikasikan" in r.stdout, (r.stdout, r.stderr)
+    hasil = d / "hasil"
+    git("clone", "-q", str(bare), str(hasil))
+    home = (hasil / "Home.md").read_text(encoding="utf-8")
+    assert "](Instalasi)" in home and "](Instalasi.md)" not in home, "tautan antar-halaman harus tanpa .md"
+    assert "blob/main/docs/README.md" in home, "tautan ke docs/ harus absolut"
+    assert (hasil / "Halaman-Lama.md").exists() and not (hasil / "README.md").exists(), "halaman lain tetap, README tidak ikut"
+    r2 = subprocess.run(cmd, capture_output=True, text=True, timeout=180, env=env)
+    assert r2.returncode == 0 and "tidak ada perubahan" in r2.stdout, (r2.stdout, r2.stderr)
+    assert not any(Path(tempfile.gettempdir()).glob("wiki_*")), "folder sementara tidak dibersihkan"
+    return "clone -> salin -> commit -> push ke repo lokal; halaman lain tetap; jalan kedua: tidak ada perubahan"
+
+test("Wiki: publikasi sungguhan (repo lokal)", t_wiki_publikasi_nyata)
 test("Dokumentasi: tautan tidak patah", t_docs_tautan)
+test("Dokumentasi: sinkron dengan kode", t_docs_sinkron)
 test("Wiki: skrip publikasi (DryRun)", t_wiki_publikasi_dryrun)
 test("requirements.txt lengkap", t_requirements)
 
@@ -1757,7 +1845,7 @@ test("faster-whisper sungguhan (tiny, CPU)", t_real_model)
 
 
 # ═════════════════════════════════════════════════════════════════════
-shutil.rmtree(TMP, ignore_errors=True)
+hapus_paksa(TMP)
 print(f"\n{'═'*60}\n  LAPORAN HASIL EVAL\n{'═'*60}")
 for status, name, detail in results:
     print(f"{status}  {name}\n        {detail}")

@@ -56,8 +56,7 @@ Setiap video menghasilkan tiga file di `hasil\<Bab>\`, dengan nama
     "durasi_audio": 2342.5, "waktu_proses": 51.0, "kecepatan_x_realtime": 46.0,
     "model": "groq/whisper-large-v3", "device": "groq", "compute_type": "api",
     "prompt": "<contoh gaya + glosarium yang dikirim ke model>",
-    "koreksi_otomatis": 0,
-    "vad": true
+    "koreksi_otomatis": 0
   },
   "kualitas": {
     "status": "PERLU_CEK", "total_segmen": 265, "segmen_ditandai": 8,
@@ -77,7 +76,8 @@ Setiap video menghasilkan tiga file di `hasil\<Bab>\`, dengan nama
 
 Catatan:
 
-- `vad` hanya ada pada backend lokal. Pada Groq, kuncinya tidak ada.
+- `transkripsi.vad` (`true`/`false`) hanya ada pada backend lokal; contoh di atas berasal dari Groq sehingga
+  kuncinya tidak muncul.
 - `revisi` hanya muncul pada segmen yang diubah kamus koreksi. `words` (timestamp per kata) hanya ada
   bila memakai `--words`.
 - `link` lompat langsung ke detik segmen, untuk sitasi jawaban bot.
