@@ -62,7 +62,7 @@ def ensure_whisper_model(name: str, show_progress: bool = True) -> str:
         disable_progress_bars()
     try:
         path = snapshot_download(repo, **kwargs)
-    except Exception as e:  # noqa: BLE001
+    except Exception as e:
         raise ModelDownloadError(
             f"Gagal mengunduh model Whisper '{name}': {type(e).__name__}: {e}\n"
             "   Cek internet, lalu jalankan ulang (unduhan dilanjutkan, tidak mulai dari nol)."

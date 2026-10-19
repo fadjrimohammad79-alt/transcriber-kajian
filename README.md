@@ -210,6 +210,8 @@ dan jumlahnya di `transkripsi.koreksi_otomatis`.
 | `⚙️ Backend: cpu` padahal ingin Groq | `GROQ_API_KEY` di `.env` masih kosong |
 | `Groq HTTP 401` | API key salah/kedaluwarsa → buat ulang di console.groq.com |
 | `Groq HTTP 429` | Batas pemakaian Groq tercapai; program menunggu & mencoba ulang otomatis, bila tetap gagal jalankan ulang nanti |
+| `riwayat.json tidak bisa dibaca` (exit 5) | File dipegang program lain: editor, Excel, atau sinkronisasi OneDrive yang sedang berjalan. Tutup/tunggu sinkronisasi selesai, lalu jalankan ulang |
+| `riwayat.json tidak bisa disimpan` | Terkunci sementara; dicoba lagi otomatis setelah video berikutnya. Bila di akhir muncul `GAGAL disimpan`, video terakhir diproses ulang pada run berikutnya |
 
 ## Catatan perilaku
 
@@ -225,4 +227,13 @@ dan jumlahnya di `transkripsi.koreksi_otomatis`.
 ```
 .venv\Scripts\python.exe eval_test.py
 ```
-73 test logika & edge case (tanpa GPU/internet; Groq API di-mock) + 1 test model sungguhan bila model bisa diunduh.
+84 test logika & edge case (tanpa GPU/internet; Groq API di-mock) + 1 test model sungguhan bila model bisa diunduh.
+
+**Lint (ruff)** — wajib bersih sebelum commit. Aturan ada di `pyproject.toml`.
+```
+.venv\Scripts\python.exe -m pip install -r requirements-dev.txt     (sekali)
+.venv\Scripts\ruff.exe check .
+.venv\Scripts\ruff.exe check --fix .                                 (perbaiki otomatis yang aman)
+```
+Catatan: `import gpu_setup` harus tetap **sebelum** `ctranslate2`/`faster_whisper` (mendaftarkan DLL CUDA
+di Windows). Urutannya dikunci dengan `# isort: split` / `# noqa: I001`; jangan dihapus saat merapikan import.

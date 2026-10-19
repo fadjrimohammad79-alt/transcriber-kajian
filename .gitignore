@@ -19,3 +19,7 @@ Niat_back/
 
 # Output graphify (lokal)
 graphify-out/
+
+# Backup otomatis riwayat rusak & file sementara
+riwayat.rusak-*.json
+*.tmp

@@ -1,0 +1,16 @@
+[tool.ruff]
+target-version = "py310"
+line-length = 120
+extend-exclude = ["hasil", "audio", "Niat_back", "graphify-out"]
+
+[tool.ruff.lint]
+# E/W: pycodestyle, F: pyflakes, B: bugbear, BLE: except Exception tanpa alasan,
+# I: urutan import, UP: sintaks Python modern, SIM: penyederhanaan, RUF: aturan ruff
+select = ["E", "W", "F", "B", "BLE", "I", "UP", "SIM", "RUF"]
+ignore = [
+    "RUF001", "RUF002", "RUF003",   # karakter mirip ASCII (’ “ ” — →) disengaja: teks & komentar Bahasa Indonesia
+]
+
+[tool.ruff.lint.per-file-ignores]
+# Test suite: fungsi test pendek ditulis padat (beberapa statement per baris), import per grup test
+"eval_test.py" = ["E501", "E701", "E702", "E402", "B023"]

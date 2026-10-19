@@ -1,0 +1,3 @@
+# Alat pengembangan (tidak dibutuhkan untuk menjalankan transcriber)
+-r requirements.txt
+ruff>=0.17

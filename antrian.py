@@ -12,7 +12,7 @@ Format file antrian (antrian/bab_xxx.txt):
 import re
 from dataclasses import dataclass, field
 from pathlib import Path
-from urllib.parse import urlparse, parse_qs
+from urllib.parse import parse_qs, urlparse
 
 _ID_RE = re.compile(r"^[A-Za-z0-9_-]{11}$")
 
@@ -40,7 +40,9 @@ def parse_file(path: str | Path) -> Antrian:
         if line.startswith("#"):
             m = re.match(r"#\s*(bab|kitab)\s*:\s*(.+)", line, re.IGNORECASE)
             if m:
-                setattr(q, m.group(1).lower(), m.group(2).strip())
+                nilai = re.sub(r"(^|\s+)#.*$", "", m.group(2)).strip()   # '# bab: Niat  # catatan'; 'C# Dasar' utuh
+                if nilai:
+                    setattr(q, m.group(1).lower(), nilai)
             continue
         url = clean_url(line.split()[0])   # abaikan komentar setelah URL
         if url and url not in q.urls:
@@ -49,8 +51,12 @@ def parse_file(path: str | Path) -> Antrian:
 
 
 def clean_url(url: str) -> str:
-    """Buang tanda kutip/kurung/koma yang ikut tersalin, mis. <https://...> atau "https://...",."""
-    return url.strip().strip("<>\"'`,;()[]").strip()
+    """Buang tanda kutip/kurung/koma yang ikut tersalin, mis. <https://...> atau "https://...",.
+    URL tanpa skema (youtu.be/xxx, www.youtube.com/...) diberi https://."""
+    url = url.strip().strip("<>\"'`,;()[]").strip()
+    if url and "://" not in url and re.match(r"(?i)^(www\.|m\.|music\.)?(youtu\.be|youtube\.com)/", url):
+        url = "https://" + url
+    return url
 
 
 def video_id(url: str) -> str | None:
@@ -83,7 +89,7 @@ def is_playlist(url: str) -> bool:
     except ValueError:
         return False
     host = (p.hostname or "").lower().removeprefix("www.").removeprefix("m.")
-    return host == "youtube.com" and p.path == "/playlist" and "list" in parse_qs(p.query)
+    return host in ("youtube.com", "music.youtube.com") and p.path == "/playlist" and "list" in parse_qs(p.query)
 
 
 def youtube_link(vid: str, seconds: float = 0) -> str:

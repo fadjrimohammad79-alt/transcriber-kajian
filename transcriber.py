@@ -6,6 +6,8 @@ Model dimuat sekali lalu dipakai untuk banyak video.
 
 import gpu_setup  # noqa: F401  (harus sebelum faster_whisper — daftarkan DLL CUDA di Windows)
 
+# isort: split
+
 import functools
 import time
 from pathlib import Path
@@ -47,7 +49,8 @@ class Transcriber:
         compute_type: str = config.COMPUTE_TYPE,
         batch_size: int = config.BATCH_SIZE,
     ):
-        from faster_whisper import WhisperModel, BatchedInferencePipeline
+        from faster_whisper import BatchedInferencePipeline, WhisperModel
+
         from models import ensure_whisper_model
 
         patch_av_compat()

@@ -78,7 +78,7 @@ def terapkan(segments: list[dict], aturan: list[Aturan]) -> int:
             hits = [m.group(0) for m in a.pola.finditer(teks)]
             if not hits:
                 continue
-            teks = a.pola.sub(lambda _m: a.baru, teks)
+            teks = a.pola.sub(lambda _m, baru=a.baru: baru, teks)   # lambda: 'baru' dipakai literal (tanpa \1)
             s.setdefault("revisi", []).extend(
                 {"lama": h, "baru": a.baru, "alasan": a.alasan, "oleh": "koreksi.txt"} for h in hits)
             total += len(hits)
@@ -95,7 +95,7 @@ def koreksi_folder(folder: Path, out: Path, aturan: list[Aturan]) -> list[tuple[
     laporan = []
     for f in sorted(folder.glob("*.json")):
         try:
-            doc = json.loads(f.read_text(encoding="utf-8-sig"))
+            doc = config.read_json(f)
         except (ValueError, OSError) as e:
             print(f"⚠️  {f.name} dilewati: {type(e).__name__}: {e}")
             continue

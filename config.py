@@ -3,6 +3,8 @@ config.py — semua pengaturan transcriber di satu tempat.
 Nilai bisa diubah lewat file .env (lihat .env.example) atau argumen run.py.
 """
 
+import json
+import math
 import os
 from pathlib import Path
 
@@ -13,6 +15,25 @@ except ImportError:
     pass
 
 BASE_DIR = Path(__file__).resolve().parent
+
+
+def _env_num(name: str, default, cast, minimum=None, maximum=None):
+    """Angka dari .env; nilai tidak valid (bukan angka, nan/inf, di luar batas) → peringatan + nilai
+    bawaan, bukan crash saat import atau tanda QC yang diam-diam mati (mis. QC_LOW_LOGPROB=nan)."""
+    raw = os.getenv(name, "").strip()
+    if not raw:
+        return cast(default)
+    try:
+        val = cast(raw)
+        ok = math.isfinite(val) and (minimum is None or val >= minimum) and (maximum is None or val <= maximum)
+    except (ValueError, OverflowError):   # OverflowError: int ratusan digit → isfinite gagal
+        ok = False
+    if ok:
+        return val
+    batas = f" (batas {minimum if minimum is not None else '-inf'}..{maximum if maximum is not None else 'inf'})"
+    # ASCII saja: dicetak saat import, sebelum force_utf8_output() (konsol cp1252 tidak crash)
+    print(f"PERINGATAN .env: {name}={raw!a} tidak valid{batas}, memakai bawaan {default}")
+    return cast(default)
 
 # ── Folder ───────────────────────────────────────────────────────────
 DIR_ANTRIAN = BASE_DIR / "antrian"      # file daftar URL per bab
@@ -30,8 +51,8 @@ FILE_KOREKSI = BASE_DIR / "koreksi.txt"            # kamus koreksi otomatis (sal
 MODEL_NAME   = os.getenv("WHISPER_MODEL", "large-v3")
 DEVICE       = os.getenv("WHISPER_DEVICE", "cuda")          # cuda | cpu
 COMPUTE_TYPE = os.getenv("WHISPER_COMPUTE", "float16")      # float16 (GPU) | int8 (CPU)
-BATCH_SIZE   = int(os.getenv("WHISPER_BATCH", "8"))         # 8 aman untuk RTX 4060 8 GB
-BEAM_SIZE    = int(os.getenv("WHISPER_BEAM", "5"))
+BATCH_SIZE   = _env_num("WHISPER_BATCH", 8, int, minimum=1)   # 8 aman untuk RTX 4060 8 GB
+BEAM_SIZE    = _env_num("WHISPER_BEAM", 5, int, minimum=1)
 LANGUAGE     = os.getenv("WHISPER_LANG", "id")              # dikunci Bahasa Indonesia
 
 # ── Backend transkripsi ──────────────────────────────────────────────
@@ -41,13 +62,13 @@ BACKEND      = os.getenv("WHISPER_BACKEND", "auto").strip().lower() or "auto"
 GROQ_API_KEY = os.getenv("GROQ_API_KEY", "").strip()
 
 # ── Cek kualitas ─────────────────────────────────────────────────────
-QC_LOW_LOGPROB      = float(os.getenv("QC_LOW_LOGPROB", "-1.0"))   # di bawah ini = model ragu
-QC_HIGH_NO_SPEECH   = float(os.getenv("QC_HIGH_NO_SPEECH", "0.6")) # di atas ini = mungkin noise
-QC_HIGH_COMPRESSION = float(os.getenv("QC_HIGH_COMPRESSION", "2.4"))  # teks berulang-ulang
-QC_REPEAT_MIN       = int(os.getenv("QC_REPEAT_MIN", "3"))         # kalimat sama ≥3x berturut
+QC_LOW_LOGPROB      = _env_num("QC_LOW_LOGPROB", -1.0, float, maximum=0)   # di bawah ini = model ragu
+QC_HIGH_NO_SPEECH   = _env_num("QC_HIGH_NO_SPEECH", 0.6, float, 0, 1)    # di atas ini = mungkin noise
+QC_HIGH_COMPRESSION = _env_num("QC_HIGH_COMPRESSION", 2.4, float, minimum=0)  # teks berulang-ulang
+QC_REPEAT_MIN       = _env_num("QC_REPEAT_MIN", 3, int, minimum=2)        # kalimat sama ≥3x berturut
 # Ucapan normal ±12–16 huruf/detik. Potongan ≥10 detik dengan < 4 huruf/detik → kemungkinan ada yang terlewat.
-QC_MIN_DUR_TERLEWAT  = float(os.getenv("QC_MIN_DUR_TERLEWAT", "10"))
-QC_MIN_CHARS_PER_SEC = float(os.getenv("QC_MIN_CHARS_PER_SEC", "4"))
+QC_MIN_DUR_TERLEWAT  = _env_num("QC_MIN_DUR_TERLEWAT", 10, float, minimum=0.1)
+QC_MIN_CHARS_PER_SEC = _env_num("QC_MIN_CHARS_PER_SEC", 4, float, minimum=0)
 # Nama penceramah untuk tanda NAMA_BOCOR, dipisah koma. Kosong = pakai nama channel YouTube.
 # Bila diisi, menimpa nama channel (mis. channel lembaga, atau nama yang mirip nama sahabat/ulama).
 QC_NAMA_PEMBICARA = [n.strip() for n in os.getenv("QC_NAMA_PEMBICARA", "").split(",") if n.strip()]
@@ -67,14 +88,20 @@ def read_text_any(path: Path) -> str:
         return raw.decode("cp1252", errors="replace")
 
 
+def read_json(path: Path):
+    """Baca JSON buatan program: UTF-8 ketat, BOM (Notepad) diterima. TIDAK menebak cp1252:
+    teks Arab/“ ” yang salah dibaca lalu tersimpan ulang akan rusak permanen.
+    UnicodeDecodeError / json.JSONDecodeError (keduanya ValueError) diteruskan ke pemanggil."""
+    return json.loads(Path(path).read_bytes().decode("utf-8-sig"))
+
+
 def force_utf8_output() -> None:
     """Cegah crash emoji saat output dialihkan ke file/pipe di Windows (cp1252)."""
+    import contextlib
     import sys
     for stream in (sys.stdout, sys.stderr):
-        try:
+        with contextlib.suppress(AttributeError, OSError, ValueError):   # stream tanpa reconfigure / sudah ditutup
             stream.reconfigure(encoding="utf-8", errors="replace")
-        except Exception:
-            pass
 
 
 # Batas hotwords di faster-whisper: setengah konteks Whisper (448 // 2 - 1 token); sisanya terpotong.
@@ -93,7 +120,7 @@ def load_prompt_gaya(path: Path = FILE_PROMPT_GAYA) -> str:
     """Contoh gaya penulisan (transliterasi Arab-Latin). Baris # = komentar."""
     if not Path(path).exists():
         return ""
-    lines = [l.strip() for l in read_text_any(path).splitlines() if l.strip() and not l.strip().startswith("#")]
+    lines = [s.strip() for s in read_text_any(path).splitlines() if s.strip() and not s.strip().startswith("#")]
     return " ".join(lines)
 
 

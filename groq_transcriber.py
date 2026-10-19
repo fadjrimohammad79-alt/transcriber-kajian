@@ -138,16 +138,15 @@ class GroqTranscriber:
                     return json.loads(resp.read().decode("utf-8"))
             except urllib.error.HTTPError as e:
                 msg = _error_message(e)
-                if e.code == 429 or e.code >= 500:
-                    if attempt < MAX_RETRY:
-                        try:
-                            wait = float(e.headers.get("retry-after") or 0)
-                        except ValueError:
-                            wait = 0
-                        wait = min(max(wait, 5 * attempt), 300)
-                        print(f"   ⏳ Groq {e.code} ({msg[:80]}), coba lagi dalam {wait:.0f} dtk ...")
-                        self._sleep(wait)
-                        continue
+                if (e.code == 429 or e.code >= 500) and attempt < MAX_RETRY:
+                    try:
+                        wait = float(e.headers.get("retry-after") or 0)
+                    except ValueError:
+                        wait = 0
+                    wait = min(max(wait, 5 * attempt), 300)
+                    print(f"   ⏳ Groq {e.code} ({msg[:80]}), coba lagi dalam {wait:.0f} dtk ...")
+                    self._sleep(wait)
+                    continue
                 hint = {401: " → cek GROQ_API_KEY", 413: " → file terlalu besar",
                         429: " → batas pemakaian Groq tercapai, coba lagi nanti"}.get(e.code, "")
                 raise GroqError(f"Groq HTTP {e.code}: {msg}{hint}") from None

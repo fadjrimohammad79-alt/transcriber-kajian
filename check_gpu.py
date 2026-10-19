@@ -5,18 +5,19 @@ check_gpu.py — pastikan GPU NVIDIA siap dipakai sebelum memproses banyak video
     python check_gpu.py --full     # juga muat model large-v3 (download ~3 GB pertama kali)
 """
 
-import gpu_setup
+import gpu_setup  # harus sebelum ctranslate2/faster_whisper (daftarkan DLL CUDA di Windows)
+
+# isort: split
 
 import shutil
 import subprocess
 import sys
 
+import config
+
 
 def main() -> int:
-    try:
-        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
-    except Exception:
-        pass
+    config.force_utf8_output()   # stdout & stderr: emoji tidak crash di konsol cp1252
     ok = True
     print("═" * 55)
     print("  CEK KESIAPAN GPU")
@@ -48,7 +49,7 @@ def main() -> int:
         else:
             print("❌ CTranslate2 tidak melihat GPU CUDA.")
             ok = False
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001 — alat diagnosis: semua error dilaporkan, bukan crash
         print(f"❌ CTranslate2 error: {e}")
         ok = False
 
@@ -60,7 +61,7 @@ def main() -> int:
             print(f"⏳ Memuat model '{model}' di GPU ...")
             WhisperModel(model, device="cuda", compute_type="float16")
             print(f"✅ Model '{model}' berhasil dimuat di GPU")
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001 — alat diagnosis: semua error dilaporkan, bukan crash
             print(f"❌ Gagal memuat model di GPU: {type(e).__name__}: {e}")
             if "cudnn" in str(e).lower() or "cublas" in str(e).lower():
                 print("   → pip install --force-reinstall nvidia-cublas-cu12 nvidia-cudnn-cu12==9.*")

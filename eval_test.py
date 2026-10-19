@@ -19,6 +19,9 @@ from unittest import mock
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 os.chdir(Path(__file__).resolve().parent)
+import config as _config
+
+_config.force_utf8_output()   # simbol ═ ✅ tidak crash di konsol cp1252 tanpa PYTHONIOENCODING
 
 PASS, FAIL, WARN = "✅ PASS", "❌ FAIL", "⚠️  WARN"
 results = []
@@ -33,7 +36,7 @@ def test(name, fn):
             results.append((WARN, name, msg))
         else:
             results.append((PASS, name, f"{msg or 'OK'} ({time.time()-t0:.2f}s)"))
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001 — harness: kegagalan apa pun dicatat sebagai FAIL
         results.append((FAIL, name, f"{type(e).__name__}: {e}"))
         if "--verbose" in sys.argv:
             traceback.print_exc()
@@ -58,9 +61,14 @@ def t_bat_crlf():
     n = 0
     for f in ("setup_windows.bat", "run.bat"):
         lines = Path(f).read_bytes().split(b"\n")[:-1]
-        assert all(l.endswith(b"\r") for l in lines), f"{f}: ada baris tanpa CRLF"
+        assert all(ln.endswith(b"\r") for ln in lines), f"{f}: ada baris tanpa CRLF"
         n += len(lines)
     assert b"%~dp0.venv" in Path("run.bat").read_bytes(), "run.bat harus pakai python di .venv"
+    # %errorlevel% di dalam blok if ( ... ) diganti nilainya sebelum perintah jalan → exit code selalu 0
+    blok, dalam = Path("run.bat").read_text(encoding="ascii").splitlines(), False
+    for baris in blok:
+        dalam = (dalam or baris.rstrip().endswith("(")) and baris.strip() != ")"
+        assert not (dalam and "%errorlevel%" in baris.lower()), f"run.bat: %errorlevel% di dalam blok ( ): {baris}"
     assert b"run.bat" in Path("setup_windows.bat").read_bytes()
     return f"setup_windows.bat + run.bat, {n} baris CRLF"
 
@@ -77,7 +85,8 @@ test("requirements.txt lengkap", t_requirements)
 
 # ═════════════════════════════════════════════════════════════════════
 group("2. ANTRIAN: parsing URL & file")
-from antrian import parse_file, video_id, is_playlist, youtube_link
+from antrian import is_playlist, parse_file, video_id, youtube_link
+
 
 def t_video_id_variants():
     V = "dQw4w9WgXcQ"
@@ -153,6 +162,7 @@ test("youtube_link: sitasi per detik", t_youtube_link)
 # ═════════════════════════════════════════════════════════════════════
 group("3. DOWNLOADER (yt-dlp di-mock)")
 import downloader
+
 
 class FakeYDL:
     def __init__(self, playlist=None, download_dir=None):
@@ -321,7 +331,11 @@ def t_transcribe_no_spam():
     return "output dialihkan (log/n8n) → tanpa progress bar"
 
 def t_model_download():
-    import models, huggingface_hub, io as _io
+    import io as _io
+
+    import huggingface_hub
+
+    import models
     good = TMP / "m_ok"; good.mkdir(); (good / "model.bin").write_bytes(b"0" * 2_000_000)
     bad = TMP / "m_bad"; bad.mkdir(); (bad / "model.bin").write_bytes(b"")
     state = {"local": "complete", "fail": False}; calls = []
@@ -363,12 +377,15 @@ test("gpu_setup: daftar DLL CUDA di Windows", t_gpu_setup_windows)
 group("4b. BACKEND & GROQ API (HTTP di-mock)")
 import io
 import urllib.error
+
 import config
 import groq_transcriber as gt
 from quality import flag_segments
 
+
 def _sine_audio(path, detik):
-    import av, numpy as np
+    import av
+    import numpy as np
     with av.open(str(path), "w", format="wav") as out:
         st = out.add_stream("pcm_s16le", rate=16000, layout="mono")
         t = np.arange(int(16000 * detik)) / 16000
@@ -528,8 +545,8 @@ test("CLI: --backend groq tanpa key", t_cli_backend_groq_tanpa_key)
 
 # ═════════════════════════════════════════════════════════════════════
 group("5. CEK KUALITAS")
-import config
-from quality import flag_segments, summarize
+from quality import summarize
+
 
 def _s(text, lp=-0.3, ns=0.05, cr=1.4):
     return {"text": text, "avg_logprob": lp, "no_speech_prob": ns, "compression_ratio": cr}
@@ -594,7 +611,7 @@ def t_flag_mirip_prompt():
     for t, harus in teks.items():
         got = "MIRIP_PROMPT" in flag_segments([_s(t)], P)[0]["flags"]
         assert got == harus, (t, got)
-    assert flag_segments([_s(list(teks)[0])])[0]["flags"] == [], "tanpa prompt: tidak ditandai"
+    assert flag_segments([_s(next(iter(teks)))])[0]["flags"] == [], "tanpa prompt: tidak ditandai"
     return "bocoran gaya/glosarium ditandai; pembukaan asli & kalimat ber-istilah tidak"
 
 def t_summarize_terlewat_floor():
@@ -625,7 +642,7 @@ def t_flag_nama_bocor():
     for t, harus in teks.items():
         got = "NAMA_BOCOR" in flag_segments([_s(t)], "", nama)[0]["flags"]
         assert got == harus, (t, got)
-    assert flag_segments([_s(list(teks)[0])])[0]["flags"] == [], "tanpa nama: tidak ditandai"
+    assert flag_segments([_s(next(iter(teks)))])[0]["flags"] == [], "tanpa nama: tidak ditandai"
     segs = [_s(f"kalimat {i}") for i in range(99)] + [_s("udah main Nuzul,")]
     q = summarize(flag_segments(segs, "", nama))
     assert q["persen_ditandai"] == 1.0 and q["status"] == "PERLU_CEK", q
@@ -644,6 +661,7 @@ test("Ringkasan status kualitas", t_summarize)
 # ═════════════════════════════════════════════════════════════════════
 group("6. OUTPUT: JSON / SRT / TXT / riwayat")
 import output
+
 
 def t_srt_time():
     assert output.fmt_srt_time(0) == "00:00:00,000"
@@ -684,8 +702,9 @@ def t_riwayat_atomic_and_corrupt():
     assert output.load_riwayat(p) == {"A": {"status": "selesai"}}
     assert not p.with_suffix(".tmp").exists()
     p.write_text("{rusak", encoding="utf-8")
-    assert output.load_riwayat(p) == {}
-    assert p.with_suffix(".rusak.json").exists()
+    with mock.patch("sys.stdout", io.StringIO()):
+        assert output.load_riwayat(p) == {}
+    assert len(list(TMP.glob("riwayat.rusak-*.json"))) == 1
     return "simpan atomic, file rusak di-backup"
 
 test("Format waktu SRT", t_srt_time)
@@ -693,10 +712,163 @@ test("Nama file aman Windows", t_safe_name)
 test("save_result: JSON + SRT + TXT", t_save_result)
 test("Riwayat: atomic & pemulihan file rusak", t_riwayat_atomic_and_corrupt)
 
+def t_riwayat_bom_ansi_bukan_dict():
+    p = TMP / "rw_bom.json"
+    data = {"A": {"status": "selesai", "judul": "Niat — “HIJRAH”"}}
+    p.write_bytes(b"\xef\xbb\xbf" + json.dumps(data, ensure_ascii=False).encode("utf-8"))
+    assert output.load_riwayat(p) == data, "BOM (Notepad) tidak boleh membuat riwayat ter-reset"
+    assert not list(TMP.glob("rw_bom.rusak-*.json"))
+    # entri bukan objek (hasil edit tangan) diabaikan, entri lain tetap
+    p.write_text('{"A": {"status": "selesai"}, "B": null, "C": "selesai", "D": 5}', encoding="utf-8")
+    with mock.patch("sys.stdout", io.StringIO()) as out:
+        assert output.load_riwayat(p) == {"A": {"status": "selesai"}}
+    assert "3 entri tidak valid" in out.getvalue()
+    bak0 = list(TMP.glob("rw_bom.rusak-*.json"))
+    assert len(bak0) == 1 and '"C": "selesai"' in bak0[0].read_text(encoding="utf-8"), "entri dibuang → asli di-backup"
+    with mock.patch("sys.stdout", io.StringIO()):
+        assert output.load_riwayat(p) == {"A": {"status": "selesai"}}
+    assert len(list(TMP.glob("rw_bom.rusak-*.json"))) == 1, "riwayat langsung dibersihkan: load berikutnya tanpa backup baru"
+    bak0[0].unlink()
+    # byte UTF-8 tidak valid: JANGAN ditebak cp1252 (teks Arab/“ ” rusak permanen) → backup utuh
+    asli = '{"A": {"judul": "إِنَّمَا “x”'.encode() + b'\xff"}}'
+    p.write_bytes(asli)
+    with mock.patch("sys.stdout", io.StringIO()):
+        assert output.load_riwayat(p) == {}
+    bak = list(TMP.glob("rw_bom.rusak-*.json"))
+    assert len(bak) == 1 and bak[0].read_bytes() == asli, "isi asli tersimpan utuh di backup"
+    # rusak kedua kali: backup pertama tidak boleh tertimpa
+    p.write_text("[1, 2]", encoding="utf-8")
+    import datetime as _dt
+    with mock.patch("sys.stdout", io.StringIO()), mock.patch.object(output, "datetime") as dt:
+        dt.now.return_value = _dt.datetime(2030, 1, 1)
+        assert output.load_riwayat(p) == {}, "JSON bukan objek → dianggap rusak, tidak crash"
+    assert len(list(TMP.glob("rw_bom.rusak-*.json"))) == 2
+    with mock.patch("sys.stdout", io.StringIO()), mock.patch.object(output, "datetime") as dt:
+        dt.now.return_value = _dt.datetime(2030, 1, 1)          # rusak lagi di detik yang sama
+        for _ in range(2):
+            p.write_text("[3]", encoding="utf-8"); output.load_riwayat(p)
+    assert len(list(TMP.glob("rw_bom.rusak-*.json"))) == 4, "backup di detik yang sama tidak boleh tertimpa"
+    return "BOM diterima; entri rusak diabaikan; UTF-8 tidak valid di-backup utuh; backup tidak tertimpa"
+
+def t_meta_cache_bom_dan_rusak():
+    d = TMP / "meta_cache"; d.mkdir()
+    (d / "AAAAAAAAAAA.m4a").write_bytes(b"audio")
+    meta = {"video_id": "AAAAAAAAAAA", "judul": "Kajian “Niat”", "channel": "X"}
+    (d / "AAAAAAAAAAA.info.json").write_bytes(b"\xef\xbb\xbf" + json.dumps(meta, ensure_ascii=False).encode())
+    with mock.patch.object(downloader, "_ydl", side_effect=AssertionError("tidak boleh online")):
+        p, m = downloader.download_audio("AAAAAAAAAAA", d)
+    assert m == meta and p.name == "AAAAAAAAAAA.m4a"
+    tanpa_id = {k: v for k, v in meta.items() if k != "video_id"}   # metadata lama tanpa video_id: tetap offline
+    (d / "AAAAAAAAAAA.info.json").write_text(json.dumps(tanpa_id), encoding="utf-8")
+    with mock.patch.object(downloader, "_ydl", side_effect=AssertionError("tidak boleh online")):
+        assert downloader.download_audio("AAAAAAAAAAA", d)[1]["video_id"] == "AAAAAAAAAAA"
+    for isi in ("[]", json.dumps({**meta, "video_id": "BBBBBBBBBBB"})):   # bukan objek / milik video lain
+        (d / "AAAAAAAAAAA.info.json").write_text(isi, encoding="utf-8")
+        with mock.patch.object(downloader, "_ydl", side_effect=RuntimeError("online")), \
+             mock.patch("sys.stdout", io.StringIO()):
+            try:
+                downloader.download_audio("AAAAAAAAAAA", d); raise AssertionError(f"harusnya ambil ulang: {isi}")
+            except RuntimeError as e:
+                assert "online" in str(e)
+    # ID beda huruf besar-kecil = video lain (Windows: glob tidak peka huruf besar-kecil)
+    assert downloader.find_cached_audio("aaaaaaaaaaa", d) is None
+    assert downloader.find_cached_audio("AAAAAAAAAAA", d).name == "AAAAAAAAAAA.m4a"
+    return "cache ber-BOM dipakai offline; metadata rusak/milik video lain → diambil ulang; ID peka huruf besar-kecil"
+
+def t_env_angka_salah():
+    import importlib
+    with mock.patch.dict(os.environ, {"WHISPER_BATCH": "８GB 🚀", "QC_LOW_LOGPROB": "abc", "QC_REPEAT_MIN": " 4 "}), \
+         mock.patch("sys.stdout", io.StringIO()) as out:
+        importlib.reload(config)
+        assert config.BATCH_SIZE == 8 and config.QC_LOW_LOGPROB == -1.0 and config.QC_REPEAT_MIN == 4
+    # nan/inf/di luar batas: diam-diam mematikan tanda QC atau membuat --batch ditolak
+    with mock.patch.dict(os.environ, {"QC_LOW_LOGPROB": "nan", "QC_HIGH_NO_SPEECH": "inf", "WHISPER_BATCH": "9" * 400,
+                                      "QC_REPEAT_MIN": "1", "QC_HIGH_COMPRESSION": "-2", "QC_MIN_DUR_TERLEWAT": "1e999"}), \
+         mock.patch("sys.stdout", io.StringIO()) as out2:
+        importlib.reload(config)
+        assert (config.QC_LOW_LOGPROB, config.QC_HIGH_NO_SPEECH, config.BATCH_SIZE, config.QC_REPEAT_MIN,
+                config.QC_HIGH_COMPRESSION, config.QC_MIN_DUR_TERLEWAT) == (-1.0, 0.6, 8, 3, 2.4, 10.0)
+    importlib.reload(config)
+    assert "WHISPER_BATCH" in out.getvalue() and out.getvalue().isascii(), "peringatan ASCII saat import"
+    assert out2.getvalue().count("tidak valid") == 6, out2.getvalue()
+    return ".env bukan angka / nan / inf / di luar batas → peringatan + bawaan, bukan crash/QC mati"
+
+def t_segmen_tidak_lengkap():
+    """JSON hasil edit tangan / versi lama: 'text' hilang, nilai null/nan/teks → tidak boleh crash."""
+    segs = [{"start": 0, "end": 1}, {"text": None, "start": None, "end": "x", "avg_logprob": None},
+            {"text": "a", "avg_logprob": float("nan"), "no_speech_prob": "tinggi", "compression_ratio": float("inf")},
+            {"text": 5}, {"text": "ulang"}, {"text": "ulang"}, {"text": "ulang"}]
+    out = flag_segments(segs)
+    assert all(isinstance(s["flags"], list) for s in out)
+    assert [s["flags"] for s in out[4:]] == [["HALUSINASI"]] * 3, "deteksi halusinasi tetap jalan"
+    assert summarize(out)["total_segmen"] == 7
+    srt = output.to_srt([{"start": 1.5, "text": "a"}, {"end": float("inf")}, {"start": "x", "end": 3, "text": None}])
+    assert srt.startswith("1\n00:00:01,500 --> 00:00:01,500\na\n"), srt
+    assert "00:00:00,000 --> 00:00:03,000" in srt
+    txt = output.to_txt({"judul": "j"}, [{"text": "a", "flags": ["RAGU", 3]}, {"start": None}])
+    assert "[0:00] a  ⚠ RAGU,3" in txt and "[0:00] \n" in txt, txt
+    return "segmen tanpa text/start/end, nilai null/nan/inf/teks → QC, SRT, TXT tidak crash"
+
+def t_riwayat_terkunci():
+    d = TMP / "rwlock"; d.mkdir()
+    p = d / "riwayat.json"
+    output.save_riwayat(p, {"A": {"status": "selesai"}})
+    tidur = []
+    # simpan: terkunci 2x (OneDrive/antivirus) lalu bebas → berhasil lewat retry
+    asli, n = Path.replace, {"x": 0}
+    def kadang(self, target):
+        n["x"] += 1
+        if n["x"] <= 2:
+            raise PermissionError("dipegang program lain")
+        return asli(self, target)
+    with mock.patch.object(Path, "replace", kadang):
+        output.save_riwayat(p, {"B": {"status": "selesai"}}, tunggu=tidur.append)
+    assert n["x"] == 3 and tidur == [0.2, 0.4] and json.loads(p.read_text(encoding="utf-8")) == {"B": {"status": "selesai"}}
+    # simpan: terkunci terus → PermissionError diteruskan setelah semua percobaan; isi lama utuh
+    with mock.patch.object(Path, "replace", side_effect=PermissionError("terus")):
+        try:
+            output.save_riwayat(p, {"C": {}}, percobaan=3, tunggu=lambda s: None); raise AssertionError("harusnya error")
+        except PermissionError:
+            pass
+    assert json.loads(p.read_text(encoding="utf-8")) == {"B": {"status": "selesai"}}, "riwayat lama tidak rusak"
+    # baca: terkunci terus → RiwayatError berpesan jelas (bukan traceback), dicoba 3x; folder → langsung
+    tidur.clear()
+    with mock.patch.object(Path, "read_bytes", side_effect=PermissionError("dikunci")):
+        try:
+            output.load_riwayat(p, tunggu=tidur.append); raise AssertionError("harusnya RiwayatError")
+        except output.RiwayatError as e:
+            assert "riwayat.json tidak bisa dibaca" in str(e) and "OneDrive" in str(e)
+    assert len(tidur) == 2, "3 percobaan baca → 2 kali menunggu"
+    (d / "dir.json").mkdir()
+    tidur.clear()
+    try:
+        output.load_riwayat(d / "dir.json", tunggu=tidur.append); raise AssertionError("harusnya RiwayatError")
+    except output.RiwayatError:
+        assert tidur == [], "path folder: tidak perlu menunggu"
+    return "simpan dicoba ulang saat terkunci, riwayat lama tetap utuh; baca terkunci/folder → RiwayatError jelas"
+
+def t_antrian_header_komentar():
+    f = TMP / "q_komentar.txt"
+    f.write_text("# bab: Niat   # catatan pribadi\n# kitab: C# Dasar\n# bab:    \nhttps://youtu.be/AAAAAAAAAAA\n",
+                 encoding="utf-8")
+    q = parse_file(f)
+    assert q.bab == "Niat" and q.kitab == "C# Dasar", (q.bab, q.kitab)
+    f.write_text("# bab:   # hanya komentar\nhttps://youtu.be/AAAAAAAAAAA\n", encoding="utf-8")
+    assert parse_file(f).bab == "Q Komentar", "header kosong → nama dari file"
+    return "komentar di belakang header dibuang; 'C# Dasar' utuh; header kosong → nama file"
+
+test("Segmen tidak lengkap / null / nan", t_segmen_tidak_lengkap)
+test("Riwayat terkunci: retry & pesan jelas", t_riwayat_terkunci)
+test("Antrian: komentar di header", t_antrian_header_komentar)
+test("Riwayat: BOM / ANSI / bukan objek", t_riwayat_bom_ansi_bukan_dict)
+test("Downloader: metadata cache BOM & rusak", t_meta_cache_bom_dan_rusak)
+test("Config: angka .env tidak valid", t_env_angka_salah)
+
 
 # ═════════════════════════════════════════════════════════════════════
 group("7. ALUR PROSES (run.process)")
 import run
+
 
 class StubTranscriber:
     def __init__(self, fail_on=()):
@@ -761,7 +933,7 @@ def t_process_nama_dari_channel():
 
 def t_process_failure_continues():
     d = TMP / "p1"
-    rep, stub, _ = _run(ITEMS, fail_on={"BBBBBBBBBBB"}, dir=d)
+    rep, _stub, _ = _run(ITEMS, fail_on={"BBBBBBBBBBB"}, dir=d)
     assert [r["status"] for r in rep] == ["selesai", "gagal", "selesai"]
     rw = json.loads((d / "riwayat.json").read_text(encoding="utf-8"))
     assert rw["BBBBBBBBBBB"]["status"] == "gagal" and "out of memory" in rw["BBBBBBBBBBB"]["error"]
@@ -769,19 +941,19 @@ def t_process_failure_continues():
 
 def t_process_resume():
     d = TMP / "p1"   # lanjut dari test sebelumnya
-    rep, stub, _ = _run(ITEMS, dir=d)
+    _rep, stub, _ = _run(ITEMS, dir=d)
     assert stub.calls == ["BBBBBBBBBBB"], stub.calls
     return "jalan ulang: hanya video gagal yang diproses"
 
 def t_process_nothing_no_model():
     d = TMP / "p1"
-    rep, stub, factory_calls = _run(ITEMS, dir=d)
+    rep, _stub, factory_calls = _run(ITEMS, dir=d)
     assert rep == [] and factory_calls == [], "model tidak boleh dimuat jika tak ada kerja"
     return "semua selesai → model tidak dimuat"
 
 def t_process_force():
     d = TMP / "p1"
-    rep, stub, _ = _run(ITEMS[:1], dir=d, force=True)
+    _rep, stub, _ = _run(ITEMS[:1], dir=d, force=True)
     assert stub.calls == ["AAAAAAAAAAA"]
     return "--force mengulang video selesai"
 
@@ -791,7 +963,17 @@ def t_process_hapus_audio():
     assert not (d / "audio" / "AAAAAAAAAAA.m4a").exists()
     _run(ITEMS[1:2], dir=d)
     assert (d / "audio" / "BBBBBBBBBBB.m4a").exists()
-    return "--hapus-audio bekerja, default menyimpan cache"
+    # audio terkunci (pemutar/antivirus) setelah hasil tersimpan: video tetap 'selesai', file baru tercatat
+    asli_unlink = Path.unlink
+    def unlink_kunci(self, *a, **k):
+        if self.suffix == ".m4a":
+            raise PermissionError("dipakai program lain")
+        return asli_unlink(self, *a, **k)
+    with mock.patch.object(Path, "unlink", unlink_kunci), mock.patch("sys.stdout", io.StringIO()) as out:
+        rep, _stub, _ = _run(ITEMS[2:3], dir=d, hapus_audio=True)
+    assert rep[0]["status"] == "selesai" and rep[0]["file"]["json"].startswith("Thaharah/"), rep
+    assert "Audio tidak bisa dihapus" in out.getvalue()
+    return "--hapus-audio bekerja, default menyimpan cache, audio terkunci tidak membuat video gagal"
 
 def t_main_no_args():
     with mock.patch("sys.stdout"):
@@ -814,6 +996,95 @@ test("Proses: satu gagal, lainnya lanjut", t_process_failure_continues)
 test("Proses: resume hanya yang gagal", t_process_resume)
 test("Proses: tidak ada kerja → model tak dimuat", t_process_nothing_no_model)
 test("Proses: --force", t_process_force)
+
+def t_cleanup_hanya_di_hasil():
+    d = TMP / "cl"
+    (d / "hasil" / "Bab").mkdir(parents=True)
+    di_hasil = d / "hasil" / "Bab" / "lama.json"; di_hasil.write_text("x")
+    luar = d / "penting.txt"; luar.write_text("jangan dihapus")
+    baru = d / "hasil" / "Bab" / "baru.json"; baru.write_text("x")
+    run._cleanup_old_files({"file": {"json": "Bab/lama.json", "txt": str(luar)},
+                            "file_sebelumnya": {"srt": str(baru)}}, {"json": str(baru)}, d / "hasil")
+    assert not di_hasil.exists(), "file lama di hasil/ harus dihapus"
+    assert luar.exists(), "file di luar hasil/ tidak boleh dihapus (riwayat.json dari PC lain)"
+    assert baru.exists(), "file baru tidak boleh dihapus"
+    # riwayat rusak (folder, null, angka, bukan dict) & file terkunci: tidak boleh melempar error
+    sub = d / "hasil" / "Bab" / "folder"; sub.mkdir()
+    kunci = d / "hasil" / "Bab" / "terkunci.json"; kunci.write_text("x")
+    with mock.patch("sys.stdout", io.StringIO()) as out, \
+         mock.patch.object(Path, "unlink", side_effect=PermissionError("dipakai program lain")):
+        run._cleanup_old_files({"file": {"a": "Bab/folder", "b": None, "c": 5, "d": "Bab/terkunci.json",
+                                         "e": "../penting.txt"},
+                                "file_sebelumnya": ["bukan", "dict"]}, {}, d / "hasil")
+    assert sub.is_dir() and kunci.exists() and luar.exists() and "tidak bisa dihapus" in out.getvalue()
+    # hasil_dir RELATIF + --force judul sama: file yang baru ditulis tidak boleh ikut terhapus
+    sama = d / "hasil" / "Bab" / "sama.json"; sama.write_text("x")
+    cwd = os.getcwd(); os.chdir(d)
+    try:
+        run._cleanup_old_files({"file": {"json": "Bab/sama.json"}}, {"json": str(Path("hasil") / "Bab" / "sama.json")},
+                               Path("hasil"))
+    finally:
+        os.chdir(cwd)
+    assert sama.exists(), "hasil_dir relatif: file baru (sama dengan entri lama) terhapus"
+    return "hanya file lama di dalam hasil/ yang dihapus; file luar/baru/folder aman; riwayat rusak, file terkunci, hasil_dir relatif aman"
+
+def t_riwayat_path_portabel():
+    import pathlib
+    h = TMP / "porta" / "hasil"; h.mkdir(parents=True)
+    root = h.resolve()
+    p = h / "Niat" / "a.json"
+    assert run._path_riwayat(str(p), root) == "Niat/a.json"
+    luar = TMP / "x.json"; luar.write_text("x")
+    assert run._path_riwayat(str(luar), root) == str(luar), "di luar hasil_dir: tetap absolut"
+    m = run._migrasi_path
+    win = r"C:\Users\ORANGLAIN\Documents\transcriber2\transcriber-kajian\transcriber\hasil\Niat\a.json"
+    posix = "/home/ustadz/transcriber-kajian/hasil/Niat/a.json"
+    assert m(win, root) == m(posix, root) == m(r"Niat\a.json", root) == "Niat/a.json", "PC/OS lain → <bab>/<file>"
+    with mock.patch.object(run, "Path", pathlib.PurePosixPath):   # seolah berjalan di Linux/VPS
+        assert m(win, root) == "Niat/a.json"
+    assert m(r"C:\Lain\proj\hasil\Hasil\x.json", root) == "Hasil/x.json", "bab bernama 'Hasil'"
+    assert m(str(p), root) == "Niat/a.json", "path absolut di dalam hasil_dir"
+    # proyek disalin, path lama masih ada di disk → tetap dipetakan ke hasil/ yang sekarang
+    lama = TMP / "proyek_lama" / "hasil" / "Niat" / "a.json"; lama.parent.mkdir(parents=True); lama.write_text("x")
+    assert m(str(lama), root) == "Niat/a.json"
+    # path absolut BUKAN pola hasil/<bab>/<file> (folder --out lain, drive lain): dibiarkan, tidak ditebak
+    for asing in (r"C:\x\y.json", "/srv/x.json", r"D:\arsip\Niat\a.json"):
+        assert m(asing, root) == asing, asing
+    rw = run._normalisasi_riwayat({"V": {"file": {"json": win, "x": None, "y": 3}, "file_sebelumnya": {"txt": posix}},
+                                   "W": {}, "X": {"file": ["bukan dict"]}, "Y": {"file": {"json": "Bab/sudah.json"}}}, h)
+    assert rw == {"V": {"file": {"json": "Niat/a.json"}, "file_sebelumnya": {"txt": "Niat/a.json"}}, "W": {},
+                  "X": {"file": {}}, "Y": {"file": {"json": "Bab/sudah.json"}}}, rw
+    return "path relatif ke hasil/; path Windows/Linux/salinan lama dipetakan; path asing & bab 'Hasil' tidak salah tebak"
+
+def t_process_riwayat_entri_rusak():
+    d = TMP / "rwrusak"; d.mkdir()
+    (d / "riwayat.json").write_text(json.dumps({"AAAAAAAAAAA": None, "BBBBBBBBBBB": "selesai"}), encoding="utf-8")
+    with mock.patch("sys.stdout", io.StringIO()):
+        rep, _stub, _ = _run(ITEMS[:2], dir=d)
+    assert [r["status"] for r in rep] == ["selesai", "selesai"], rep
+    rw = json.loads((d / "riwayat.json").read_text(encoding="utf-8"))
+    assert rw["AAAAAAAAAAA"]["file"]["json"].startswith("Thaharah/"), "path riwayat relatif ke hasil/"
+    return "entri riwayat null/teks tidak menghentikan run; path tersimpan relatif ke hasil/"
+
+test("Proses: entri riwayat rusak", t_process_riwayat_entri_rusak)
+
+def t_process_riwayat_gagal_simpan():
+    d = TMP / "gagalsimpan"; d.mkdir()
+    with mock.patch.object(run, "save_riwayat", side_effect=PermissionError("terkunci")), \
+         mock.patch("sys.stdout", io.StringIO()) as out:
+        rep, _stub, _ = _run(ITEMS[:2], dir=d)
+    assert [r["status"] for r in rep] == ["selesai", "selesai"], "video tetap diproses semua"
+    assert len(list((d / "hasil").rglob("*.json"))) == 2
+    assert out.getvalue().count("tidak bisa disimpan") == 2 and "GAGAL disimpan" in out.getvalue()
+    with mock.patch.object(run, "process", side_effect=output.RiwayatError("riwayat.json tidak bisa dibaca")), \
+         mock.patch("sys.stdout", io.StringIO()) as out2:
+        assert run.main(["https://youtu.be/AAAAAAAAAAA", "--backend", "cpu"]) == 5
+    assert "riwayat.json tidak bisa dibaca" in out2.getvalue()
+    return "riwayat tak bisa disimpan: semua video tetap diproses + peringatan; RiwayatError → exit 5 + pesan"
+
+test("Proses: riwayat gagal disimpan", t_process_riwayat_gagal_simpan)
+test("Cleanup --force hanya di dalam hasil/", t_cleanup_hanya_di_hasil)
+test("riwayat.json: path portabel antar PC/folder", t_riwayat_path_portabel)
 test("Proses: --hapus-audio", t_process_hapus_audio)
 test("run.main tanpa argumen", t_main_no_args)
 test("build_items: gabung URL & file", t_build_items_merge)
@@ -920,15 +1191,37 @@ test("Koreksi: kamus koreksi.txt asli valid", t_koreksi_kamus_asli)
 test("Koreksi: otomatis di run.process", t_koreksi_di_process)
 test("Koreksi: CLI untuk hasil lama", t_koreksi_folder_cli)
 
+SULIT = ('Kutip "ganda" & \'tunggal\' ’melengkung’ “HIJRAH”, backslash C:\\Users\\x \\n bukan newline, '
+         'tab\there, baris\nbaru, emoji 🕌, Arab إِنَّمَا الْأَعْمَالُ بِالنِّيَّاتِ, al-Dhahabi')
+
+def t_json_escape_roundtrip():
+    d = TMP / "esc"
+    meta = {"video_id": "AAAAAAAAAAA", "judul": 'Judul "kutip" \\ / “HIJRAH”', "url": "https://youtu.be/AAAAAAAAAAA",
+            "bab": "Bab \"Uji\"", "channel": "Muhammad Nuzul Dzikri"}
+    seg = {"id": 0, "start": 0.0, "end": 5.0, "text": SULIT, "avg_logprob": -0.2,
+           "no_speech_prob": 0.0, "compression_ratio": 1.2}
+    paths = output.save_result(d, meta, {"segments": [seg], "durasi_audio": 5.0}, {"status": "BAIK"})
+    raw = Path(paths["json"]).read_text(encoding="utf-8")
+    doc = json.loads(raw)
+    assert doc["segments"][0]["text"] == SULIT and doc["video"]["judul"] == meta["judul"]
+    assert "🕌" in raw and "إِنَّمَا" in raw, "ensure_ascii=False: teks tetap terbaca di file"
+    with mock.patch("sys.stdout", io.StringIO()):
+        assert koreksi.main([str(Path(paths["json"]).parent), "--out", str(d / "out")]) == 0
+    s = json.loads(next((d / "out").glob("*.json")).read_text(encoding="utf-8"))["segments"][0]
+    assert s["text"] == SULIT.replace("al-Dhahabi", "adz-Dzahabi"), s["text"]
+    assert s["revisi"][0]["lama"] == "al-Dhahabi"
+    return "kutip, backslash, '\\n' literal, newline, tab, emoji, Arab utuh lewat save_result & koreksi.py"
+
+test("JSON: escape karakter sulit (round-trip)", t_json_escape_roundtrip)
+
 
 # ═════════════════════════════════════════════════════════════════════
 group("8. CONFIG & GLOSARIUM")
-import config
 
 def t_glosarium():
     # Isi glosarium.txt berubah tiap revisi: uji parsing dengan file sendiri, file asli cukup valid.
     f = TMP / "glos.txt"
-    f.write_bytes("﻿# komentar\r\nthaharah\r\n\r\n  hadats  \r\n# shiratal mustaqim\r\n".encode("utf-8"))
+    f.write_bytes("﻿# komentar\r\nthaharah\r\n\r\n  hadats  \r\n# shiratal mustaqim\r\n".encode())
     assert config.load_glosarium(f) == "thaharah, hadats"
     assert config.load_glosarium(TMP / "tidak_ada.txt") == ""
     g = config.load_glosarium()
@@ -971,7 +1264,6 @@ test("Glosarium tidak melebihi batas", t_glosarium_length)
 
 # ═════════════════════════════════════════════════════════════════════
 group("10. EDGE CASES")
-import io
 
 def t_edge_clean_url():
     from antrian import clean_url
@@ -980,7 +1272,13 @@ def t_edge_clean_url():
                 f"  https://youtu.be/{V};  ", f"'https://www.youtube.com/watch?v={V}'"):
         assert video_id(raw) == V, raw
     assert clean_url('"",') == ""
-    return "URL dalam kutip/kurung/koma tetap terbaca"
+    for raw in (f"youtu.be/{V}", f"www.youtube.com/watch?v={V}", f"youtube.com/watch?v={V}&t=30",
+                f"m.youtube.com/shorts/{V}", f"<YOUTU.BE/{V}>"):
+        assert video_id(raw) == V, raw
+    assert is_playlist("youtube.com/playlist?list=PLx") and is_playlist("www.youtube.com/playlist?list=PLx")
+    assert is_playlist("music.youtube.com/playlist?list=PLx") and is_playlist("https://music.youtube.com/playlist?list=PLx")
+    assert video_id("bukan-url.com/watch?v=" + V) is None and clean_url("catatan biasa") == "catatan biasa"
+    return "URL dalam kutip/kurung/koma & tanpa https:// tetap terbaca"
 
 def t_edge_file_encodings():
     f1 = TMP / "ansi.txt"
@@ -988,7 +1286,7 @@ def t_edge_file_encodings():
     q = parse_file(f1)
     assert q.bab == "Café Fiqih" and q.urls == ["https://youtu.be/AAAAAAAAAAA"], (q.bab, q.urls)
     g = TMP / "glos.txt"
-    g.write_bytes("﻿thaharah\r\nالطهارة\r\n".encode("utf-8"))
+    g.write_bytes("﻿thaharah\r\nالطهارة\r\n".encode())
     out = config.load_glosarium(g)
     assert out == "thaharah, الطهارة", repr(out)
     empty = TMP / "kosong.txt"; empty.write_bytes(b"")
@@ -1096,7 +1394,7 @@ def t_edge_force_fail_then_success():
                     d / "r.json", d / "hasil", d / "audio", force=True)
     rw = json.loads((d / "r.json").read_text(encoding="utf-8"))["AAAAAAAAAAA"]
     assert rw["status"] == "gagal" and "file_sebelumnya" in rw
-    old_json = Path(rw["file_sebelumnya"]["json"]); assert old_json.exists()
+    old_json = d / "hasil" / rw["file_sebelumnya"]["json"]; assert old_json.exists()   # relatif ke hasil/
     def dl2(vid, ad):
         p, m = stub_download(vid, ad); m["judul"] = "Versi Baru"; return p, m
     with mock.patch("sys.stdout", io.StringIO()):
@@ -1167,7 +1465,9 @@ def t_edge_av19_compat():
     import av
     from faster_whisper.audio import decode_audio
     wav = TMP / "av.wav"
-    import wave, numpy as np
+    import wave
+
+    import numpy as np
     with wave.open(str(wav), "wb") as w:
         w.setnchannels(1); w.setsampwidth(2); w.setframerate(16000)
         w.writeframes(np.zeros(16000, dtype=np.int16).tobytes())
@@ -1221,10 +1521,10 @@ group("9. MODEL SUNGGUHAN (opsional — butuh unduh model)")
 
 def t_real_model():
     try:
-        from faster_whisper import WhisperModel
         import numpy as np
+        from faster_whisper import WhisperModel
         m = WhisperModel("tiny", device="cpu", compute_type="int8")
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001 — model tidak tersedia (offline, dll.) → SKIP
         return f"SKIP: model tidak bisa diunduh di lingkungan ini ({type(e).__name__})"
     import transcriber
     t = transcriber.Transcriber.__new__(transcriber.Transcriber)

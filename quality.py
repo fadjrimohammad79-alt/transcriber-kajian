@@ -21,11 +21,11 @@ Status video minimal PERLU_CEK bila ada TERLEWAT (ada ucapan yang mungkin hilang
 atau NAMA_BOCOR (atribusi kutipan bisa salah).
 """
 
+import math
 import re
 from difflib import SequenceMatcher
 
 import config
-
 
 # Frasa yang sering muncul sebagai halusinasi Whisper Bahasa Indonesia (dari data subtitle).
 FRASA_CURIGA = (
@@ -33,6 +33,15 @@ FRASA_CURIGA = (
     "sampai jumpa di video", "jangan lupa like", "jangan lupa subscribe", "subtitle oleh",
     "subtitles by", "terjemahan oleh", "amara.org", "diterjemahkan oleh",
 )
+
+
+def _angka(v, default: float = 0.0) -> float:
+    """Angka berhingga dari nilai segmen; hilang/null/teks/nan/inf → default (tidak crash)."""
+    try:
+        x = float(v)
+    except (TypeError, ValueError):
+        return default
+    return x if math.isfinite(x) else default
 
 
 def _norm(text: str) -> str:
@@ -87,33 +96,37 @@ def flag_segments(segments: list[dict], prompt: str = "",
     prompt_words = _norm(prompt or "").split()
     prompt_set = set(prompt_words)
     tokens_nama = nama_tokens(nama_pembicara)
+    normed = []   # teks ternormalisasi per segmen (untuk deteksi halusinasi)
     for s in segments:
         flags = []
-        if s.get("avg_logprob", 0) < config.QC_LOW_LOGPROB:
+        teks = s.get("text")
+        teks = teks if isinstance(teks, str) else ""   # JSON hasil edit tangan: 'text' bisa hilang / null
+        if _angka(s.get("avg_logprob")) < config.QC_LOW_LOGPROB:
             flags.append("RAGU")
-        if s.get("no_speech_prob", 0) > config.QC_HIGH_NO_SPEECH:
+        if _angka(s.get("no_speech_prob")) > config.QC_HIGH_NO_SPEECH:
             flags.append("NOISE")
-        if s.get("compression_ratio", 0) > config.QC_HIGH_COMPRESSION:
+        if _angka(s.get("compression_ratio")) > config.QC_HIGH_COMPRESSION:
             flags.append("BERULANG")
-        low = s.get("text", "").lower()
+        low = teks.lower()
         if any(f in low for f in FRASA_CURIGA):
             flags.append("FRASA_CURIGA")
-        dur = float(s.get("end", 0) or 0) - float(s.get("start", 0) or 0)
+        dur = _angka(s.get("end")) - _angka(s.get("start"))
         if (dur >= config.QC_MIN_DUR_TERLEWAT and "NOISE" not in flags
-                and len(s.get("text", "").strip()) / dur < config.QC_MIN_CHARS_PER_SEC):
+                and len(teks.strip()) / dur < config.QC_MIN_CHARS_PER_SEC):
             flags.append("TERLEWAT")
-        if _mirip_prompt(s.get("text", ""), prompt_words, prompt_set):
+        if _mirip_prompt(teks, prompt_words, prompt_set):
             flags.append("MIRIP_PROMPT")
-        if tokens_nama and _nama_bocor(s.get("text", ""), tokens_nama):
+        if tokens_nama and _nama_bocor(teks, tokens_nama):
             flags.append("NAMA_BOCOR")
         s["flags"] = flags
+        normed.append(_norm(teks))
 
     # Halusinasi: teks identik berturut-turut ≥ QC_REPEAT_MIN
     i = 0
     while i < len(segments):
-        key = _norm(segments[i]["text"])
+        key = normed[i]
         j = i
-        while j + 1 < len(segments) and key and _norm(segments[j + 1]["text"]) == key:
+        while j + 1 < len(segments) and key and normed[j + 1] == key:
             j += 1
         run = j - i + 1
         if key and run >= config.QC_REPEAT_MIN:

@@ -94,6 +94,9 @@ def expand_urls(urls: list[str]) -> list[str]:
 
 def find_cached_audio(vid: str, audio_dir: Path) -> Path | None:
     for f in audio_dir.glob(f"{vid}.*"):
+        # ID YouTube peka huruf besar-kecil, glob di Windows tidak: 'abcDEF…' ≠ 'ABCdef…'
+        if f.name.split(".", 1)[0] != vid:
+            continue
         if f.suffix not in (".part", ".ytdl", ".json", ".tmp") and f.stat().st_size > 0:
             return f
     return None
@@ -111,9 +114,16 @@ def download_audio(vid: str, audio_dir: Path) -> tuple[Path, dict]:
     mp = _meta_path(vid, audio_dir)
     if cached and mp.exists():
         try:
-            return cached, json.loads(mp.read_text(encoding="utf-8"))
-        except json.JSONDecodeError:
-            pass   # metadata rusak → ambil ulang
+            meta = config.read_json(mp)
+        except ValueError:
+            meta = None   # metadata rusak → ambil ulang
+        if isinstance(meta, dict) and meta.get("video_id", vid) == vid:   # tanpa video_id (lama): tetap offline
+            meta.setdefault("video_id", vid)
+            return cached, meta
+        if isinstance(meta, dict):
+            # metadata milik video lain (nama file bertabrakan / disalin manual) → audionya juga diragukan
+            print(f"   ⚠️  Cache {mp.name} berisi video {meta['video_id']}, bukan {vid}: diunduh ulang.")
+            cached = None
 
     url = f"https://www.youtube.com/watch?v={vid}"
     opts = {
@@ -137,6 +147,10 @@ def download_audio(vid: str, audio_dir: Path) -> tuple[Path, dict]:
 
     path = cached or find_cached_audio(vid, audio_dir)
     if path is None:
+        bentrok = [f.name for f in audio_dir.glob(f"{vid}.*") if f.name.split(".", 1)[0] != vid]
+        if bentrok:   # Windows: nama file tidak peka huruf besar-kecil, yt-dlp mengira sudah terunduh
+            raise RuntimeError(f"Audio {vid} bertabrakan nama dengan {bentrok[0]} (ID beda huruf besar-kecil). "
+                               f"Proses video ini di folder audio terpisah atau di Linux/VPS.")
         raise RuntimeError(f"Audio untuk {vid} tidak ditemukan setelah download.")
 
     meta = {

@@ -11,15 +11,17 @@ Video yang sudah selesai otomatis dilewati (lihat riwayat.json). Pakai --force u
 """
 
 import argparse
+import re
 import sys
 import time
 from datetime import datetime
-from pathlib import Path
+from pathlib import Path, PurePosixPath, PureWindowsPath
 
 import config
 from antrian import Antrian, parse_file
-from koreksi import load_koreksi, terapkan as terapkan_koreksi
-from output import load_riwayat, save_result, save_riwayat
+from koreksi import load_koreksi
+from koreksi import terapkan as terapkan_koreksi
+from output import RiwayatError, load_riwayat, save_result, save_riwayat
 from quality import flag_segments, summarize
 
 
@@ -50,7 +52,7 @@ def build_items(args) -> list[dict]:
 def acquire_lock(path: Path):
     """Kunci agar tidak ada dua run.py berjalan bersamaan. Lepas otomatis saat proses selesai/crash.
     Return file handle (simpan selama proses berjalan) atau None jika sedang dipakai."""
-    f = open(path, "a+")
+    f = open(path, "a+")  # noqa: SIM115 — handle sengaja tetap terbuka: kunci berlaku selama proses hidup
     try:
         f.seek(0)
         if sys.platform == "win32":
@@ -91,7 +93,8 @@ BACKENDS = ("auto", "lokal", "groq", "cpu")
 def cuda_available() -> bool:
     """True bila CTranslate2 melihat GPU NVIDIA (CUDA)."""
     try:
-        import gpu_setup  # noqa: F401  (daftarkan DLL CUDA di Windows sebelum ctranslate2)
+        # urutan wajib: gpu_setup mendaftarkan DLL CUDA di Windows SEBELUM ctranslate2 dimuat
+        import gpu_setup  # noqa: F401, I001
         import ctranslate2
         return ctranslate2.get_cuda_device_count() > 0
     except Exception:  # noqa: BLE001
@@ -114,13 +117,68 @@ def resolve_backend(choice: str, cuda_check=cuda_available, api_key: str | None 
     return "cpu", "GPU NVIDIA tidak ditemukan dan GROQ_API_KEY kosong (CPU lambat; isi GROQ_API_KEY untuk Groq)"
 
 
-def _cleanup_old_files(old_entry: dict, new_paths: dict) -> None:
-    """Hapus file hasil lama (judul/bab berubah saat --force) supaya tidak ada duplikat saat ingest."""
-    keep = set(new_paths.values())
+# Path file hasil di riwayat.json disimpan RELATIF terhadap hasil_dir: '<bab>/<file>' (format hasil
+# save_result selalu dua tingkat). Portabel saat folder dipindah / repo di-clone di PC atau OS lain.
+
+def _path_riwayat(p: str, root: Path) -> str:
+    """Path file hasil (dari save_result) → bentuk riwayat '<bab>/<file>'. root = hasil_dir.resolve()."""
+    try:
+        return Path(p).resolve().relative_to(root).as_posix()
+    except ValueError:
+        return str(p)   # di luar hasil_dir: disimpan apa adanya, tidak pernah dihapus cleanup
+
+
+def _migrasi_path(p: str, root: Path) -> str:
+    """Path format lama (absolut dari folder/PC/OS lain, atau dengan backslash) → '<bab>/<file>'.
+    Hanya pola .../hasil/<bab>/<file> yang dipetakan; path lain dibiarkan (dianggap di luar hasil)."""
+    gaya = PureWindowsPath if ("\\" in p or re.match(r"^[A-Za-z]:", p)) else PurePosixPath
+    asal = gaya(p)
+    if not asal.is_absolute():
+        return PurePosixPath(*asal.parts).as_posix() if asal.parts else p
+    lokal = Path(p)
+    if lokal.is_absolute():
+        try:
+            return lokal.resolve().relative_to(root).as_posix()
+        except ValueError:
+            pass
+    if len(asal.parts) >= 4 and asal.parts[-3].lower() == "hasil":
+        return f"{asal.parts[-2]}/{asal.parts[-1]}"
+    return p
+
+
+def _normalisasi_riwayat(riwayat: dict, hasil_dir: Path) -> dict:
+    """Sekali setelah dimuat: path format lama di 'file'/'file_sebelumnya' dimigrasi ke '<bab>/<file>';
+    nilai bukan teks dibuang. Path yang sudah relatif ('Bab/x.json') tidak disentuh (tanpa akses disk)."""
+    root = Path(hasil_dir).resolve()
+    for e in riwayat.values():
+        for key in ("file", "file_sebelumnya"):
+            if key not in e:
+                continue
+            paths = e[key] if isinstance(e[key], dict) else {}
+            e[key] = {k: (_migrasi_path(v, root) if "\\" in v or ":" in v or v.startswith("/") else v)
+                      for k, v in paths.items() if isinstance(v, str) and v}
+    return riwayat
+
+
+def _cleanup_old_files(old_entry: dict, new_paths: dict, hasil_dir: Path) -> None:
+    """Hapus file hasil lama (judul/bab berubah saat --force) supaya tidak ada duplikat saat ingest.
+    old_entry sudah dinormalisasi ('<bab>/<file>'); new_paths = path asli dari save_result.
+    Hanya file di dalam hasil_dir yang boleh dihapus (riwayat.json bisa berasal dari PC lain).
+    Gagal menghapus tidak membatalkan video yang sudah berhasil ditranskripsi."""
+    root = Path(hasil_dir).resolve()
+    keep = {Path(p).resolve() for p in new_paths.values()}
     for key in ("file", "file_sebelumnya"):
-        for p in (old_entry.get(key) or {}).values():
-            if p not in keep:
-                Path(p).unlink(missing_ok=True)
+        old = old_entry.get(key)
+        for p in (old.values() if isinstance(old, dict) else []):
+            if not isinstance(p, str) or not p or Path(p).is_absolute():
+                continue
+            f = (root / p).resolve()
+            if f in keep or root not in f.parents or not f.is_file():
+                continue
+            try:
+                f.unlink()
+            except OSError as e:
+                print(f"   ⚠️  File lama tidak bisa dihapus ({type(e).__name__}): {f.name}")
 
 
 def process(items, transcriber_factory, download_fn, riwayat_path: Path, hasil_dir: Path,
@@ -131,7 +189,7 @@ def process(items, transcriber_factory, download_fn, riwayat_path: Path, hasil_d
     aturan_koreksi: kamus koreksi (None = muat koreksi.txt)."""
     if aturan_koreksi is None:
         aturan_koreksi = load_koreksi()
-    riwayat = load_riwayat(riwayat_path)
+    riwayat = _normalisasi_riwayat(load_riwayat(riwayat_path), hasil_dir)
     todo = [it for it in items if force or riwayat.get(it["vid"], {}).get("status") != "selesai"]
     skipped = len(items) - len(todo)
     if skipped:
@@ -142,9 +200,10 @@ def process(items, transcriber_factory, download_fn, riwayat_path: Path, hasil_d
 
     try:
         transcriber = transcriber_factory()   # model dimuat hanya kalau ada pekerjaan
-    except Exception as e:  # noqa: BLE001
+    except Exception as e:
         raise ModelGagalDimuat(f"{type(e).__name__}: {e}\n   💡 {_hint_model_error(e)}") from e
     report = []
+    belum_tersimpan = False
     for n, it in enumerate(todo, 1):
         vid = it["vid"]
         print(f"\n[{n}/{len(todo)}] 🎬 {vid}  (bab: {it['bab']})")
@@ -165,7 +224,7 @@ def process(items, transcriber_factory, download_fn, riwayat_path: Path, hasil_d
             segs = flag_segments(result["segments"], hotwords, nama)
             q = summarize(segs, result.get("durasi_audio", 0))
             paths = save_result(hasil_dir, meta, result, q)
-            _cleanup_old_files(old_entry, paths)
+            _cleanup_old_files(old_entry, paths, hasil_dir)
 
             print(f"   ✍️  {len(segs)} segmen | {result['durasi_audio']/60:.1f} mnt audio "
                   f"dalam {result['waktu_proses']:.0f}s ({result['kecepatan_x_realtime']}x real-time)")
@@ -173,20 +232,36 @@ def process(items, transcriber_factory, download_fn, riwayat_path: Path, hasil_d
             if q["per_tanda"]:
                 print("      " + ", ".join(f"{k} {v}" for k, v in sorted(q["per_tanda"].items())))
 
+            root = Path(hasil_dir).resolve()
             entry.update({"status": "selesai", "judul": meta.get("judul", ""), "model": result.get("model"),
-                          "kualitas": q["status"], "file": paths})
+                          "kualitas": q["status"], "file": {k: _path_riwayat(v, root) for k, v in paths.items()}})
             if hapus_audio:
-                Path(audio_path).unlink(missing_ok=True)
+                try:   # hasil sudah tersimpan: gagal menghapus audio tidak boleh menjadikan video 'gagal'
+                    Path(audio_path).unlink(missing_ok=True)
+                except OSError as e:
+                    print(f"   ⚠️  Audio tidak bisa dihapus ({type(e).__name__}): {Path(audio_path).name}")
         except Exception as e:  # noqa: BLE001 — catat & lanjut
             print(f"   ❌ Gagal: {type(e).__name__}: {e}")
             entry.update({"status": "gagal", "error": f"{type(e).__name__}: {e}"})
-            prev = old_entry.get("file") or old_entry.get("file_sebelumnya")
+            prev = old_entry.get("file") or old_entry.get("file_sebelumnya")   # sudah dinormalisasi
             if prev:   # hasil lama tetap tercatat supaya bisa dibersihkan saat berhasil nanti
                 entry["file_sebelumnya"] = prev
 
         riwayat[vid] = entry
-        save_riwayat(riwayat_path, riwayat)   # simpan tiap video: aman kalau terhenti di tengah
+        try:   # simpan tiap video: aman kalau terhenti di tengah
+            save_riwayat(riwayat_path, riwayat)
+            belum_tersimpan = False
+        except PermissionError as e:   # terkunci terus (OneDrive/antivirus): hasil video sudah tersimpan, lanjut
+            belum_tersimpan = True
+            print(f"   ⚠️  riwayat.json tidak bisa disimpan ({e.strerror or type(e).__name__}); "
+                  "dicoba lagi setelah video berikutnya.")
         report.append({"vid": vid, **entry})
+    if belum_tersimpan:
+        try:
+            save_riwayat(riwayat_path, riwayat)
+        except PermissionError:
+            print("❌ riwayat.json GAGAL disimpan: video terakhir tidak tercatat selesai dan akan diproses ulang "
+                  "pada run berikutnya. Tutup program yang memakai riwayat.json (editor/OneDrive) lalu jalankan ulang.")
     return report
 
 
@@ -213,7 +288,8 @@ def main(argv=None) -> int:
     p.add_argument("--bab", help="Nama bab (menimpa '# bab:' di file)")
     p.add_argument("--kitab", help="Nama kitab")
     p.add_argument("--model", default=config.MODEL_NAME, help="large-v3 (default) | large-v3-turbo | repo HF")
-    p.add_argument("--batch", type=int, default=config.BATCH_SIZE, help="Ukuran batch GPU (default 8; turunkan jika VRAM habis)")
+    p.add_argument("--batch", type=int, default=config.BATCH_SIZE,
+                   help="Ukuran batch GPU (default 8; turunkan jika VRAM habis)")
     p.add_argument("--backend", default=config.BACKEND, choices=BACKENDS,
                    help="auto (default): GPU NVIDIA → Groq API → CPU | lokal | groq | cpu")
     p.add_argument("--cpu", action="store_true", help="Sama dengan --backend cpu (int8, lambat)")
@@ -281,6 +357,9 @@ def main(argv=None) -> int:
     except ModelGagalDimuat as e:
         print(f"\n❌ Model gagal dimuat: {e}")
         return 3
+    except RiwayatError as e:
+        print(f"\n❌ {e}")
+        return 5
     except KeyboardInterrupt:
         print("\n⏹️  Dihentikan. Video yang sudah selesai tersimpan; jalankan ulang untuk melanjutkan.")
         return 130
