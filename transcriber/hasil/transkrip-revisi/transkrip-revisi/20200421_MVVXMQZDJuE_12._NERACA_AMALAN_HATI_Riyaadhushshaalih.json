@@ -1,0 +1,1013 @@
+{
+  "video": {
+    "video_id": "MVVXMQZDJuE",
+    "judul": "12. NERACA AMALAN HATI | Riyaadhushshaalihiin",
+    "channel": "Muhammad Nuzul Dzikri",
+    "tanggal_upload": "20200421",
+    "durasi_detik": 3125,
+    "url": "https://youtu.be/MVVXMQZDJuE",
+    "bab": "Niat",
+    "kitab": "Riyadhussalihiin"
+  },
+  "transkripsi": {
+    "durasi_audio": 3125.2,
+    "waktu_proses": 687.4,
+    "kecepatan_x_realtime": 4.5,
+    "model": "large-v3",
+    "device": "cuda",
+    "compute_type": "float16",
+    "prompt": "Alhamdulillah, hamdan katsiran thayyiban mubarakan fih, kama yuhibbu rabbuna wa yardha. Ash-shalatu wassalamu 'ala Muhammadin wa 'ala alihi wa shahbihi wa man sara 'ala nahjihi bi ihsanin ila yaumiddin. Amma ba'du. ustadz Muhammad Nuzul Dzikri, Riyadhush Shalihin, Imam Nawawi, shallallahu 'alaihi wa sallam, radhiyallahu 'anhu, hadits shahih, hadits dhaif, jumhur ulama, shiratul mustaqim, al-imam al-Zahabi"
+  },
+  "kualitas": {
+    "status": "PERLU_CEK",
+    "total_segmen": 87,
+    "segmen_ditandai": 2,
+    "persen_ditandai": 2.3,
+    "per_tanda": {
+      "TERLEWAT": 2
+    },
+    "durasi_detik": 3125.2
+  },
+  "diproses_pada": "2026-10-17T09:24:08",
+  "segments": [
+    {
+      "id": 0,
+      "start": 7.66,
+      "end": 40.75,
+      "text": "Assalamualaikum warahmatullahi wabarakatuh. Alhamdulillah, hamdan katsiran thayyiban mubarakan fih, kama yuhibbu rabbuna wa yardha. Wassalatu wassalamu ala nabina Muhammadin wa ala alihi wa shahbihi wa man sara ala nahjihi bi ihsanin ila yaumiddin. Wa ba'd. Allahumma inna nas'aluka ilmana fi'a wa na'udhu bikamin ilmin la yanfa' Sadaraku yang Allah muliakan, tidak ada kata yang pantas untuk kita ucapkan pada kesempatan kali ini, kecuali bersyukur kepada Allah SWT.",
+      "avg_logprob": -0.145,
+      "no_speech_prob": 0.015,
+      "compression_ratio": 1.733,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=7"
+    },
+    {
+      "id": 1,
+      "start": 41.42,
+      "end": 62.38,
+      "text": "Atas segala nikmat dan karunia yang Allah berikan kepada kita, sebagaimana salawat dan salam semoga senantiasa tercurahkan kepada junjungan kita. Nabi kita Muhammadin beserta para keluarga, para sahabat dan orang-orang yang istiqomah berjalan di bawah naungan sunnah beliau sampai hari kiamat kelak.",
+      "avg_logprob": -0.099,
+      "no_speech_prob": 0.035,
+      "compression_ratio": 1.587,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=41"
+    },
+    {
+      "id": 2,
+      "start": 63.95,
+      "end": 95.28,
+      "text": "Sedaraku yang Allah muliakan, setelah kita bersyukur kepada Allah SWT atas segala kemudahan, segala taufik, segala hidayah yang Allah berikan kepada kita, sehingga kita bisa bersuah pada kesempatan kali ini, walaupun kondor Allah lagi-lagi ada kendala teknis, ada kendala koneksi, tapi sekali lagi dengan izin, taufik, dan hidayah dari Allah SWT, akhirnya kita bisa kembali belajar bersama.",
+      "avg_logprob": -0.095,
+      "no_speech_prob": 0.048,
+      "compression_ratio": 1.827,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=63"
+    },
+    {
+      "id": 3,
+      "start": 95.44,
+      "end": 124.91,
+      "text": "dan bisa bersuah dengan Riyadhush Shalihin dan ini tidak lain tidak bukan berkat taufiq dan hidayah dan kemudahan dari Allah SWT dan sekali lagi jangan lupa konsepnya ketika ada kendala seperti di atas dan kita sudah berusaha kita sudah berikhtiar semampu kita maka Allah punya tugas lain untuk kita",
+      "avg_logprob": -0.113,
+      "no_speech_prob": 0.015,
+      "compression_ratio": 1.667,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=95"
+    },
+    {
+      "id": 4,
+      "start": 126.13,
+      "end": 149.68,
+      "text": "Allah ingin meng-egodukasi, ingin mengajarkan secara real tentang kesabaran, tentang menjaga lisan, tentang tetap fokus. Kita sudah siap mendengarkan dan belajar dari jam 5.30. Saya begitu 5.30 ada kendala sampai",
+      "avg_logprob": -0.137,
+      "no_speech_prob": 0.023,
+      "compression_ratio": 1.459,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=126"
+    },
+    {
+      "id": 5,
+      "start": 149.97,
+      "end": 178.06,
+      "text": "Dan kali ini paling lama ya. Tadi jam berapa? Jam 5.45, jam 5.46 atau 5.47 mungkin ya. Jadi 16 menitan diberikan kendali oleh Allah SWT. Berarti Allah ingin selama 16 menit kita bukan mendengar. Allah menginginkan kita selama 16 menit pertama bukan menyimak. Tapi Allah menginginkan kita untuk bersabar.",
+      "avg_logprob": -0.131,
+      "no_speech_prob": 0.023,
+      "compression_ratio": 1.689,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=149"
+    },
+    {
+      "id": 6,
+      "start": 180.18,
+      "end": 211.6,
+      "text": "Atau bagi yang belum zikir pagi, Allah inginkan kita menuntaskan zikir pagi kita selama 16 menit tersebut. Yang belum baca Quran, sudah zikir pagi, misalnya Allah ingin kita selama 16 menit mengisi waktu dengan membaca Al-Quranul Karim. Yang masih punya PR bersalawat, maka Allah ingin dia bersalawat kepada Nabi kita, shallallahu alaihi wa sallam. Dan begitu seterusnya.",
+      "avg_logprob": -0.09,
+      "no_speech_prob": 0.022,
+      "compression_ratio": 1.755,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=180"
+    },
+    {
+      "id": 7,
+      "start": 212.4,
+      "end": 243.6,
+      "text": "dan begitu seterusnya. Qul qul lun ya'malu ala shakilati. Katakanlah setiap orang hendaknya beramal sesuai dengan kondisinya masing-masing. Kami disini, saat kami sudah siap untuk mengisi, dari jam 5.30 misalnya, dan begitu ada kendala, maka Allah menginginkan kami, bukan mengisi, tapi berusaha menyelesaikan kendala tersebut. Lalu beristighfar kepada Allah SWT.",
+      "avg_logprob": -0.119,
+      "no_speech_prob": 0.015,
+      "compression_ratio": 1.596,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=212"
+    },
+    {
+      "id": 8,
+      "start": 244.46,
+      "end": 264.3,
+      "text": "Oleh karena itu, ini yang perlu kita camkan bersama-sama. Dan ini edukasi mahal ya dari Allah SWT bahwa apa yang kita inginkan itu gak akan bisa kecuali Allah takdirkan, Allah mudahkan, Allah asesi.",
+      "avg_logprob": -0.143,
+      "no_speech_prob": 0.017,
+      "compression_ratio": 1.432,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=244"
+    },
+    {
+      "id": 9,
+      "start": 265.52,
+      "end": 294.16,
+      "text": "Tugas kita berusaha semaksimal mungkin. Ingat, bukan berarti kita gak berusaha, oh berarti gak bisa nih. Aku udah coba berapa lama mas nyoba 30 detik, ternyata ada kendala internet, udah kita liburin aja kajian. Mas baru 30 detik, gitu loh. Masih kita mau liburin. Ah udah gak bisa, gak bisa. Emangnya udah dicoba? Udah. Berapa lama? 1 menit 20 detik. Baru nyoba 1 menit 20 detik aja udah down.",
+      "avg_logprob": -0.139,
+      "no_speech_prob": 0.019,
+      "compression_ratio": 1.763,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=265"
+    },
+    {
+      "id": 10,
+      "start": 294.35,
+      "end": 322.8,
+      "text": "Coba terus aja. Tapi yang nyimbak udah mundur satu demi satu. Ya gak masalah, emangnya kita untuk yang menyimbak. Ya pertama kalikan kita berusaha, masih ingat pelajaran kemarin, mencari wajah Allah SWT. Dan Allah ingin kita berusaha. Allah ingin kita berusaha. Oleh karena itu, saudaraku yang Allah muliakan.",
+      "avg_logprob": -0.167,
+      "no_speech_prob": 0.009,
+      "compression_ratio": 1.667,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=294"
+    },
+    {
+      "id": 11,
+      "start": 323.02,
+      "end": 348.51,
+      "text": "ini adalah pelajaran mahal buat kita semua dan tetap tenang dan tidak, daun ini kan ujian, aduh masa begini terus, ini udah kendalanya udah sampai 10 menit nih sekarang naik lagi 15 menit, 16 menit berarti Allah ingin kita sabar selama 16 menit ingin kita berpikir selama 16 menit ingin kita beristighfar selama 16 menit",
+      "avg_logprob": -0.125,
+      "no_speech_prob": 0.012,
+      "compression_ratio": 1.824,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=323"
+    },
+    {
+      "id": 12,
+      "start": 348.51,
+      "end": 376.82,
+      "text": "Dan nggak ada yang rugi. Yang rugi itu kalau mengisi waktu dengan kemaksiatan. Nah itu rugi. Yang rugi itu mengisi waktu 16 menit tadi dipakai buat bengong. Nah itu rugi. Udah bengong ketiduran lagi. Jadi sekali lagi nggak dapat apa-apa. Itu rugi. Tapi kalau 16 menit dipakai untuk beristighfar, dipakai untuk membaca zikir pagi, dipakai untuk membaca Al-Quran, nggak ada yang rugi.",
+      "avg_logprob": -0.108,
+      "no_speech_prob": 0.017,
+      "compression_ratio": 1.954,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=348"
+    },
+    {
+      "id": 13,
+      "start": 377.9,
+      "end": 399.41,
+      "text": "Nggak ada yang rugi sama sekali. Walaupun terus coba kita evaluasi dan evaluasi. Dan sekali lagi bukan tidak ada evaluasi, tetap diusahakan, tapi qadarallahumma syafa'al. Qadarallahumma syafa'al. Dan itu yang diajarkan. Kita ucapkan, qadarallahumma syafa'al.",
+      "avg_logprob": -0.152,
+      "no_speech_prob": 0.014,
+      "compression_ratio": 1.715,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=377"
+    },
+    {
+      "id": 14,
+      "start": 399.6,
+      "end": 411.54,
+      "text": "Semua ini takdir Allah SWT dan apa yang Allah inginkan itulah yang terjadi. Tugas kita hanya berusaha semaksimal mungkin. Ingat, usaha harus maksimal, saudaraku.",
+      "avg_logprob": -0.128,
+      "no_speech_prob": 0.016,
+      "compression_ratio": 1.361,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=399"
+    },
+    {
+      "id": 15,
+      "start": 411.73,
+      "end": 440.82,
+      "text": "Begitu gagal, ya sudah. Itu yang kita dapatkan. Jadi masalah, gak ada usaha, usaha pas pasan, pas gagal, oh ini udah yang terbaik loh. Anda gak ada usahanya. Sama kayak orang gak ada usaha sholat maghrib, begitu adzan isyak mengatakan, ini pasti yang terbaik dari Allah. Loh, maksudnya apa? Ya aku gak sholat maghrib. Itu bukan yang terbaik mas. Itu anda gak ada usaha. Oh saya lihat anda nonton, anda main.",
+      "avg_logprob": -0.16,
+      "no_speech_prob": 0.007,
+      "compression_ratio": 1.83,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=411"
+    },
+    {
+      "id": 16,
+      "start": 440.82,
+      "end": 468.18,
+      "text": "main game online terus dari tadi, itu gak ada usaha namanya. Oh tapi kan yang terbaik pilihan Allah. Itu setelah kita usaha, setelah kita berjuang, waladzina jahadu fina lana dian nahum subulana. Barangsaip yang bersungguh-sungguh berjuang di atas jalanku, baru kami akan kasih petunjuk. Baru kami akan kasih petunjuk dalam surat Al-Ankabut.",
+      "avg_logprob": -0.216,
+      "no_speech_prob": 0.019,
+      "compression_ratio": 1.668,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=440"
+    },
+    {
+      "id": 17,
+      "start": 468.21,
+      "end": 498.45,
+      "text": "Ayat terakhir. Oleh karena itu, ini yang perlu kita jamkan bersama-sama, saudaraku yang Allah muliakan. Jadi, dan ini adalah miniatur kehidupan, kan? Ini miniatur kehidupan. Kalau kita nggak bisa sabar di majelis ilmu, walaupun hanya sekedar online, tapi ini yang bisa dilakukan pada saat ini. Jadi kalau kita nggak bisa sabar di majelis ilmu, bagaimana kita bisa sabar di rumah? Bagaimana kita bisa sabar di kantor kita?",
+      "avg_logprob": -0.11,
+      "no_speech_prob": 0.02,
+      "compression_ratio": 1.901,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=468"
+    },
+    {
+      "id": 18,
+      "start": 498.61,
+      "end": 524.69,
+      "text": "Bagaimana kita bisa sabar di jalan? Bagaimana kita bisa sabar di kampus nanti? Atau di sekolah nanti? Nggak mungkin bisa sabar. Bagaimana kita bisa sabar di jalanan? Sedangkan di majlis ilmunya kita nggak bisa sabar. Nunggu kajiannya kita nggak bisa sabar. Padahal majlis ilmu itu kata Nabi Sallallahu Alaihi Wasallam, taman-taman surga. إِذَا مَرَرْتُمْ بِرْيَالْدِ الْجَنَّةِ فَارْتَعُوا Bila kalian melintasi taman-taman surga, maka singgahlah di taman tersebut.",
+      "avg_logprob": -0.139,
+      "no_speech_prob": 0.041,
+      "compression_ratio": 1.819,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=498"
+    },
+    {
+      "id": 19,
+      "start": 525.36,
+      "end": 553.78,
+      "text": "Dan makna taman-taman tersebut adalah majlis-majlis ilmu, sebagaimana dijelaskan Atau bin Nabi Rabbah. Jadi kalau kita gak bisa sabar di taman surga, ya gimana di kerasnya kehidupan ibu kota misalnya. Atau ibu kota tidak seramah ibu kandung dan lain sebagainya. Jadi intinya, ya jelas kita sulit lah. Kok di taman surga aja gak bisa sabar? Maka ini adalah...",
+      "avg_logprob": -0.167,
+      "no_speech_prob": 0.126,
+      "compression_ratio": 1.734,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=525"
+    },
+    {
+      "id": 20,
+      "start": 554.13,
+      "end": 574.29,
+      "text": "Pelajaran berharga dari Allah SWT untuk kita. Dan ini menunjukkan bahwa kehidupan tidak selancar yang kita inginkan. Selancar yang kita inginkan. Dan inilah berkahnya majelis ilmu kalau kita bisa melihat. Jika kita bisa melihat.",
+      "avg_logprob": -0.072,
+      "no_speech_prob": 0.012,
+      "compression_ratio": 1.613,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=554"
+    },
+    {
+      "id": 21,
+      "start": 574.58,
+      "end": 604.27,
+      "text": "sebagaimana yang dikatakan al-imam al-Syafi'i, diqotun nadhar, najatun min qurintun laluqa maqol. Tepatnya seseorang dalam melihat, itu yang menyelamatkan dia dari penyimpangan dan kesesatan. Menyelamatkan dia dari salah paham, gagal fokus, akhirnya kecewa, akhirnya marah, akhirnya minder, dan gak melakukan apa-apa. Ini yang perlu kita jawabkan bersama-sama. Oleh karena itu,",
+      "avg_logprob": -0.221,
+      "no_speech_prob": 0.014,
+      "compression_ratio": 1.651,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=574"
+    },
+    {
+      "id": 22,
+      "start": 604.4,
+      "end": 634.93,
+      "text": "Saudara-ku yang Allah muliakan, sekaligus walaupun kendalanya cukup lama saat dikajian kali ini, makanya kita tidak pantas mengucapkan apapun kecuali bersyukur kepada Allah SWT. Kenapa? Karena inipun juga ilmu, ilmu sabar, ilmu hikmah, ilmu luas, ilmu Allah itu luas.",
+      "avg_logprob": -0.15,
+      "no_speech_prob": 0.035,
+      "compression_ratio": 1.54,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=604"
+    },
+    {
+      "id": 23,
+      "start": 636.37,
+      "end": 666.99,
+      "text": "Ini yang perlu kita camkan bersama-sama dan perlu kita renungkan bersama-sama bahwa ilmu Allah itu bukan hanya sekedar ucapan-ucapan guru kita di majlis ilmu atau dikajian atau di video-video pendek atau audio post-up dan lain-lain sebagainya. Tapi ilmu Allah itu jauh lebih luas dan lebih...",
+      "avg_logprob": -0.134,
+      "no_speech_prob": 0.049,
+      "compression_ratio": 1.713,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=636"
+    },
+    {
+      "id": 24,
+      "start": 668.14,
+      "end": 701.01,
+      "text": "tak terbatas dimana itu. Diantaranya Allah berfirman dalam surah Al-Baqarah ayat 282, wattaqullah wa yu'allimukumullah. Dan bertakwalah kepada Allah, dan Allah akan ajarkan kalian ilmunya. Jadi bertakwalah kepada Allah, niscaya Allah akan ajarkan kalian. Ketika ada hamdatan atau kendaraan seperti tadi, berusaha bertakwa kepada Allah. Nanti Allah akan ajarin itu ilmu. Oh iya, ternyata hikmahnya seperti ini ya.",
+      "avg_logprob": -0.273,
+      "no_speech_prob": 0.033,
+      "compression_ratio": 1.811,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=668"
+    },
+    {
+      "id": 25,
+      "start": 706.03,
+      "end": 752.43,
+      "text": "Ketika ada kendala, bertakwa. Nggak emosi. Tapi begitu ada kendala, ada masalah teknis seperti tadi, emosi, nggak diajarin ilmu sama Allah. Kalau ada kendala itu marah-marah, nggak diajarkan ilmu sama Allah subhanahu wa ta'ala. Jadi ini yang berharga buat kita. Ini yang perlu kita, itu yang ingin. Udah selesai atau belum? Ternyata kita belum masuk ke poin kita. Tapi nggak apa-apa.",
+      "avg_logprob": -0.153,
+      "no_speech_prob": 0.021,
+      "compression_ratio": 1.73,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=706"
+    },
+    {
+      "id": 26,
+      "start": 752.91,
+      "end": 773.94,
+      "text": "itu pelajaran berharga buat kita. Selanjutnya, sederaku salawat dan salam. Semoga senantiasa terjurahkan kepada junjungan kita, Nabi kita Muhammadin sallallahu alaihi wa sallam, beserta para keluarga, para sahabat, dan orang-orang yang istiqomah berjalan di bawah namun sunnah beliau sampai hari kiamat kelak.",
+      "avg_logprob": -0.154,
+      "no_speech_prob": 0.033,
+      "compression_ratio": 1.558,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=752"
+    },
+    {
+      "id": 27,
+      "start": 774.86,
+      "end": 810.86,
+      "text": "Saudara ku yang Allah muliakan, kayaknya kita harus punya plan B. Kita gak bisa menyelesaikan hadith besar ini di pertemuan kali ini, karena hadith ini begitu luar biasa dan kita tidak dikatakan kehilangan, tapi kita punya ya. Jadi bukan kehilangan banyak waktu, tapi kita punya waktu yang tidak sebanyak pertemuan-pertemuan yang lalu.",
+      "avg_logprob": -0.155,
+      "no_speech_prob": 0.05,
+      "compression_ratio": 1.75,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=774"
+    },
+    {
+      "id": 28,
+      "start": 810.93,
+      "end": 835.5,
+      "text": "Oleh karena itu, dengan meminta pertolongan kepada Allah, kita mulai, tapi kita tidak bisa tuntaskan pada pertemuan ini. Ya, berkata al-imam Yahya bin Sharaf bin Murri bin Hasan bin Hussein bin Muhammad Abu Zakariyah, atau yang biasa dikenal dengan nama al-imam al-Nawawi r.a.",
+      "avg_logprob": -0.15,
+      "no_speech_prob": 0.013,
+      "compression_ratio": 1.505,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=810"
+    },
+    {
+      "id": 29,
+      "start": 837.01,
+      "end": 872.18,
+      "text": "dalam kitab beliau Riyadhush Shalihin dan semoga Allah SWT merahmati beliau mengampuni segala khilaf beliau meningkatkan derajat beliau dan doa yang sama pun kita panjatkan kepada Allah SWT untuk orang tua beliau dan orang-orang yang beliau kasihi dan seluruh umat Islam dimanapun mereka berada sebagaimana ini keinginan beliau kepada kita",
+      "avg_logprob": -0.073,
+      "no_speech_prob": 0.019,
+      "compression_ratio": 1.762,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=837"
+    },
+    {
+      "id": 30,
+      "start": 872.21,
+      "end": 959.18,
+      "text": "wallahu ta'ala a'la bisawab. Ya, saudaraku yang Allah muliakan, rasanya ada kendala lagi ya, kendala suara. Ya, alhamdulillah sudah, sudah dimudahkan oleh Allah SWT. Dari tadi ada kendala suara, seker-seker. Hadirin yang Allah muliakan, ya sekali lagi, berkata al-imam al-Nawawi rahimahullahu ta'ala, semoga Allah merahmati beliau.",
+      "avg_logprob": -0.193,
+      "no_speech_prob": 0.02,
+      "compression_ratio": 1.685,
+      "flags": [
+        "TERLEWAT"
+      ],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=872"
+    },
+    {
+      "id": 31,
+      "start": 960.02,
+      "end": 986.83,
+      "text": "Semoga Allah merahmati kedua orang tua beliau, orang-orang beliau kasihi, dan seluruh umat Islam yang ada, sebagaimana permintaan dan edukasi beliau kepada kita, agar selantiasa beradab kepada guru dan sosok yang telah memberikan ilmu kepada kita. Kita doakan kita berbuat baik kepada beliau, lalu orang tua.",
+      "avg_logprob": -0.08,
+      "no_speech_prob": 0.046,
+      "compression_ratio": 1.746,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=960"
+    },
+    {
+      "id": 32,
+      "start": 987.66,
+      "end": 1021.78,
+      "text": "dan kita doakan juga orang-orang yang beliau kasihi dan seluruh umat Islam. Hadirin ya Allah muliakan, berkata al-imam al-Nawawi rahimahullahu ta'ala. Hadits yang pertama,",
+      "avg_logprob": -0.182,
+      "no_speech_prob": 0.02,
+      "compression_ratio": 1.344,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=987"
+    },
+    {
+      "id": 33,
+      "start": 1024.91,
+      "end": 1043.82,
+      "text": "bin Razah, bin Ali, bin Ka'ab, bin Nu'ay, bin Ghalib, al-Qurashi, al-Adawi, radhiyallahu ta'ala anhu, qal. Qala sami'tu Rasulullahi, sallallahu alaihi wa sallam, yaqul, innamal a'malu bin niyat, wa innamalikul limri'in manawa.",
+      "avg_logprob": -0.249,
+      "no_speech_prob": 0.02,
+      "compression_ratio": 1.503,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=1024"
+    },
+    {
+      "id": 34,
+      "start": 1043.86,
+      "end": 1074.32,
+      "text": "fa man kanat hijratuhu ila Allahi wa Rasulihi, fa hijratuhu ila Allahi wa Rasulihi, wa man kanat hijratuhu li dunya yusibuha, awim ra'atin yanqihuha, fa hijratuhu ila ma hajara ilaih, muttafakun ala sihatih.",
+      "avg_logprob": -0.234,
+      "no_speech_prob": 0.01,
+      "compression_ratio": 1.793,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=1043"
+    },
+    {
+      "id": 35,
+      "start": 1075.76,
+      "end": 1112.53,
+      "text": "Beliau berkata, sami'itu rasulullahi shalallahu alaihi wa sallam, bahwa beliau bersabda, innam al-a'malu bin niyat. Sesungguhnya amal itu tergantung niyatnya. Sesungguhnya amal-amal itu tergantung niyatnya. Wa innama liku limri'in manawa. Dan setiap orang akan mendapatkan apa yang dia niatkan tersebut. Maka barang siapa yang hijrahnya untuk Allah dan Rasulnya, maka",
+      "avg_logprob": -0.194,
+      "no_speech_prob": 0.017,
+      "compression_ratio": 1.769,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=1075"
+    },
+    {
+      "id": 36,
+      "start": 1112.91,
+      "end": 1143.86,
+      "text": "Hijrahnya untuk Allah dan Rasul-Nya dan barang siapa yang hijrahnya untuk dunia yang ingin ia capai atau wanita yang ingin ia nikahi maka hijrahnya itu hanya untuk apa yang dia niatkan tersebut. Mutafakun ala sihatih. Hadits ini dikeluarkan Imam Bukhari dan Muslim. Saudaraku yang Allah muliakan, pada kesempatan kali ini kita akan berbicara sedikit tentang",
+      "avg_logprob": -0.169,
+      "no_speech_prob": 0.015,
+      "compression_ratio": 1.713,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=1112"
+    },
+    {
+      "id": 37,
+      "start": 1144.82,
+      "end": 1191.66,
+      "text": "sahabat yang meriwayatkan hadits di atas. Siapa lagi kalau bukan Umar bin al-Khattab bin Nufail radhiyallahu ta'ala anhu. Sosok yang begitu luar biasa. Sosok yang penuh dengan keindahan, penuh dengan mutiara-mutiara kehidupan. Sebelum beliau masuk Islam saja, beliau sudah menjadi daya tarik tersendiri.",
+      "avg_logprob": -0.092,
+      "no_speech_prob": 0.011,
+      "compression_ratio": 1.559,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=1144"
+    },
+    {
+      "id": 38,
+      "start": 1193.26,
+      "end": 1239.02,
+      "text": "sehingga Nabi kita shallallahu alaihi wa sallam ingin agar beliau masuk Islam secara khusus. Jadi beliau dengan segala daya tariknya, dengan segala kelebihan, betul beliau keras dengan umat Islam. Tapi di sisi lain, beliau adalah mutiara. Segala potensi, kebaikan itu dilihat oleh Rasul shallallahu alaihi wa sallam. Sehingga walaupun beliau keras kepada orang Islam, beliau keras kepada",
+      "avg_logprob": -0.107,
+      "no_speech_prob": 0.008,
+      "compression_ratio": 1.848,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=1193"
+    },
+    {
+      "id": 39,
+      "start": 1241.01,
+      "end": 1286.35,
+      "text": "Orang-orang beriman pada saat itu, Nabi SAW berdoa untuk beliau Allahumma a'izzan islama bi Umar bin al-Khattab bi khasah. Dalam hadith yang keluhkan al-imam Ibn Majah, Nabi SAW berdoa, Ya Allah, muliakan Islam dengan kehadiran Umar bin al-Khattab radhiyallahu ta'ala anhu secara khusus. Beliau masih kafir pada saat itu. Keras dengan orang-orang yang beriman dan terpandang.",
+      "avg_logprob": -0.15,
+      "no_speech_prob": 0.004,
+      "compression_ratio": 1.671,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=1241"
+    },
+    {
+      "id": 40,
+      "start": 1286.35,
+      "end": 1332.27,
+      "text": "kata parulah, lahu sifaro fihim. Beliau itu punya kedudukan, beliau pejabat. Kata parulah, pejabatan beliau, kalau diaktualisasikan pada hari ini, faqana yushbihu wazirul kharijiyah fi asrina. Kejabatan beliau pada saat itu, pada saat beliau di masa jahiliyah, itu seperti menteri luar negeri pada hari ini. Jadi beliau itu menteri, menteri luar negeri. Terpandang. Pali lagi, keras sama umat Islam.",
+      "avg_logprob": -0.206,
+      "no_speech_prob": 0.013,
+      "compression_ratio": 1.786,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=1286"
+    },
+    {
+      "id": 41,
+      "start": 1333.14,
+      "end": 1371.34,
+      "text": "Menteri keras sama orang beriman. Itu bukannya disumpahin sama Nabi SAW. Bukan dijatuhin sama Nabi SAW. Bukan didoakan keburukan sama Nabi SAW. Tapi Nabi SAW justru berdoa, Allahumma a'izzan islam bi Umar bin al-Khattab khasah. Ya Allah, muliakan Islam dengan Umar bin al-Khattab radhiyallahu ta'ala anhu secara khusus. Mana beliau atau Nabi kita akan melihat potensi Umar bin al-Khattab.",
+      "avg_logprob": -0.184,
+      "no_speech_prob": 0.035,
+      "compression_ratio": 1.801,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=1333"
+    },
+    {
+      "id": 42,
+      "start": 1373.04,
+      "end": 1427.6,
+      "text": "Kalau bahasa kita sekarang melihat bakat kebaikan Umar bin Khattab, ini sosok potensi besar walaupun belum beriman, walaupun keras sama orang-orang beriman. Dan dua itu diijabah sama Allah SWT. Umar pun masuk Islam. Umar pun masuk Islam. Dan bukan hanya masuk Islam, beliau memberikan perubahan besar dakwah umat Islam pada saat itu. Sampai-sampai sahabat mengatakan,",
+      "avg_logprob": -0.102,
+      "no_speech_prob": 0.006,
+      "compression_ratio": 1.68,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=1373"
+    },
+    {
+      "id": 43,
+      "start": 1430.74,
+      "end": 1471.22,
+      "text": "Seperti Abdullah bin Mas'ud, radhiyallahu ta'ala anhu, mazilna a'izzah mundhu aslama umar. Kita senantiasa mulia semenjak masuk Islamnya Umar bin Khattab, radhiyallahu ta'ala anhu. Maksudnya apa? Dijelaskan ikrimah. Kata ikrimah, lam yazalil islam fi ikhtifai hatta aslama umar. Orang-orang beriman pada saat itu, itu senantiasa menyembunyikan keislaman mereka.",
+      "avg_logprob": -0.125,
+      "no_speech_prob": 0.003,
+      "compression_ratio": 1.638,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=1430"
+    },
+    {
+      "id": 44,
+      "start": 1471.44,
+      "end": 1506.83,
+      "text": "Diam-diam, karena kalau itu disiksa, dipukul segala macam. Diam-diam. Sampai pada akhirnya Umar masuk Islam. Umat Islam menampilkan, memperlihatkan. Kata Abdul Masyarakat, Fassallal muslimun indal ka'bah wa alharu amrohum. Semenjak Umar masuk Islam, orang-orang beriman berani sholat di Ka'bah.",
+      "avg_logprob": -0.225,
+      "no_speech_prob": 0.01,
+      "compression_ratio": 1.513,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=1471"
+    },
+    {
+      "id": 45,
+      "start": 1509.52,
+      "end": 1538.58,
+      "text": "di masjidil haram, di sekitar Kaabah. Dan mereka menampakkan keimanan dan keislaman mereka. Kenapa? Karena umar sholat di sana. Begitu lihat umar sholat di sana, semua pada sholat di sana. Radhiyallahu ta'ala an. Radhiyallahu ta'ala an. Makanya saudaraku yang Allah muliakan, ini pelajaran bagi kita. Bagaimana kita jadi orang yang bermanfaat.",
+      "avg_logprob": -0.147,
+      "no_speech_prob": 0.01,
+      "compression_ratio": 1.737,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=1509"
+    },
+    {
+      "id": 46,
+      "start": 1540.3,
+      "end": 1582.99,
+      "text": "Umar bin al-Khattab menunjukkan kepada kita bahwa ketika beliau masuk Islam, beliau bukan saja membawa perubahan pada diri beliau sendiri, tapi bagi lingkungan, bagi satu kota, bagi sahabat-sahabat Nabi SAW, khususnya bagi orang-orang kecil, bagi orang-orang termarjinalkan. Bagaimana ketika kita masuk Islam? Atau kita dapat hidayah? Atau kita hijrah?",
+      "avg_logprob": -0.095,
+      "no_speech_prob": 0.01,
+      "compression_ratio": 1.681,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=1540"
+    },
+    {
+      "id": 47,
+      "start": 1584.88,
+      "end": 1623.31,
+      "text": "atau kita taubat dari dunia kita yang pekat dulu. Kita bukan hanya berubah secara personal, tapi juga bisa berubah secara lingkungan. Banyak orang yang mendapatkan kebaikan dari perubahan kita. Makanya tidak heran Nabi kita sallallahu alaihi wa sallam menyatakan, Kalau ada Nabi setelahku,",
+      "avg_logprob": -0.139,
+      "no_speech_prob": 0.006,
+      "compression_ratio": 1.629,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=1584"
+    },
+    {
+      "id": 48,
+      "start": 1623.73,
+      "end": 1672.43,
+      "text": "Umarlah orangnya. Subhanallah. Kalau ada nabi setelahku, maka umarlah orangnya. Tapi nggak ada nabi setelahku. Ini sahabat yang meriwayatkan hadits kita. Luar biasa, saudara. Luar biasa. Dan belulah khalifah kedua. Setelah Abu Bakar as-Siddiq, radhiyallahu taala'an. Beliau menjabat khilafah di tahun 13 Hijriyah.",
+      "avg_logprob": -0.155,
+      "no_speech_prob": 0.005,
+      "compression_ratio": 1.562,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=1623"
+    },
+    {
+      "id": 49,
+      "start": 1674.0,
+      "end": 1704.85,
+      "text": "Lalu beliau wafat di tahun 23 Hijriyah. Kurang lebih 10 tahun setengah beliau menjabat sebagai khalifah. Dan Abdullah bin Mas'ud menyatakan,",
+      "avg_logprob": -0.135,
+      "no_speech_prob": 0.022,
+      "compression_ratio": 1.205,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=1674"
+    },
+    {
+      "id": 50,
+      "start": 1705.3,
+      "end": 1746.42,
+      "text": "Riwayat ini dibawakan oleh al-imam Ibnu Sa'ad dalam Tabakatul Kubrah. Kata Abdullah bin Mas'ud, masuk Islamnya Umar itu pembukaan untuk berbagai macam kebaikan. Dan awal dari penaklukan-penaklukan. Jadi masuk Islam itu merubah peta, yang awalnya sembunyi-sembunyi, dihina, terpuruk, dikerdilkan, itu marwahnya naik.",
+      "avg_logprob": -0.169,
+      "no_speech_prob": 0.04,
+      "compression_ratio": 1.505,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=1705"
+    },
+    {
+      "id": 51,
+      "start": 1746.9,
+      "end": 1782.22,
+      "text": "Kana Islamu Umar Fathan, wakanat hijratuhu Nasra, dan hijrahnya Umar bin Khattab, radhiyallahu ta'alaan, adalah kemenangan. Begitu Umar hijrah, itu kemenangan buat kita semua. Wakanat imaratuhu Rahmah, dan ketika Umar memimpin, itu rahmat dan kasih sayang buat kita semua. Subhanallah, berbiasa ini. Masuk Islamnya adalah pembukaan dan penaklukan.",
+      "avg_logprob": -0.172,
+      "no_speech_prob": 0.013,
+      "compression_ratio": 1.665,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=1746"
+    },
+    {
+      "id": 52,
+      "start": 1787.66,
+      "end": 1831.25,
+      "text": "dari berbagai macam kebaikan dan kemenangan terhadap musuh-musuh Allah SWT dan hijrahnya adalah kemenangan dan kekuasaannya Umar adalah rahmat, kebaikan, kasih sayang untuk semuanya. Untuk semuanya. Dan ini luar biasa. Dan ini luar biasa. Butuh serial untuk membahas beliau. Bukan satu kajian, bukan dua kajian, bukan tiga kajian. Serial.",
+      "avg_logprob": -0.095,
+      "no_speech_prob": 0.01,
+      "compression_ratio": 1.813,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=1787"
+    },
+    {
+      "id": 53,
+      "start": 1833.9,
+      "end": 1878.8,
+      "text": "Tapi paling tidak kita tahu kita bersama dengan siapa. Umar bin Khattab radhiyallahu taalaan. Dan kuncinya dijelaskan Nabi SAW, kok bisa ada orang kayak begitu sih? Kok bisa luar biasa demikian? Kok bisa? Masuk Islam beliau perubahan drastis di tengah-tengah umat Islam. Dan ketika beliau memimpin itu rahmat bagi semuanya. Kata Nabi SAW,",
+      "avg_logprob": -0.148,
+      "no_speech_prob": 0.001,
+      "compression_ratio": 1.569,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=1833"
+    },
+    {
+      "id": 54,
+      "start": 1879.31,
+      "end": 1934.9,
+      "text": "Dalam hadits yang dikeluarkan al-imam al-Tirmidhi, dinyatakan sesungguhnya Allah menjadikan kebenaran pada lisannya Umar dan hatinya Umar dan lisan. Itu kunci. Ini kunci. Hadits yang dikeluarkan Imam al-Tirmidhi, ini kunci. Hati dan lisan. Hati dan lisan. Walaupun Umar itu keras, itu bukan karena hati beliau rusak, karena beliau belum mengerti.",
+      "avg_logprob": -0.111,
+      "no_speech_prob": 0.011,
+      "compression_ratio": 1.907,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=1879"
+    },
+    {
+      "id": 55,
+      "start": 1934.99,
+      "end": 1972.94,
+      "text": "Dan beliau membela akidah dan keyakinan beliau sebelumnya. Membela akidah dan keyakinan nenek moyang beliau. Beliau gak ngerti kebenaran. Pokoknya itu kan saya harus bela kebenaran versi beliau. Makanya keras. Saya begitu, oh ini yang benar. Terus belajar, belajar, belajar dengan Nabi. Jadi hadirin, hati dan lisan Umar begitu masuk Islam luar biasa.",
+      "avg_logprob": -0.106,
+      "no_speech_prob": 0.007,
+      "compression_ratio": 1.769,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=1934"
+    },
+    {
+      "id": 56,
+      "start": 1973.23,
+      "end": 2013.87,
+      "text": "Dan bakat itu sudah ada sebelumnya. Tambah luar biasa. Ini diajar langsung oleh Nabi SAW. DNA itu sudah ada. Potensi itu sudah ada. Itu yang dilihat oleh Rasul SAW. Ini punya potensi nih. Makanya Nabi berdoa. Padahal ada banyak tokoh pada saat itu. Dalam riwayatan yang Nabi minta siapa? Umar dan Abu Jahal. Tapi Allah belum memilih Umar bila khattab radiallahu ta'alaan. Dan benar. Saudaraku ya Allah muliakan.",
+      "avg_logprob": -0.174,
+      "no_speech_prob": 0.005,
+      "compression_ratio": 1.661,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=1973"
+    },
+    {
+      "id": 57,
+      "start": 2014.93,
+      "end": 2050.58,
+      "text": "Jadi ini kuncian. Kita ingin melakukan perubahan. Kondisi sulit seperti ini. Ingin tetap bertahan. Dan bukan hanya bertahan. Memberikan kebaikan. Hati lisan. Itu. Udah terbukti. Ini langsung hadis. Hadis Tirmidhi. Itu kuncinya Umar, hati lisan. Hati dijaga, lisan dijaga. Makanya kan Umar aja, radhiyallahu ta'ala anhu, itu ke...",
+      "avg_logprob": -0.177,
+      "no_speech_prob": 0.011,
+      "compression_ratio": 1.634,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=2014"
+    },
+    {
+      "id": 58,
+      "start": 2050.61,
+      "end": 2083.25,
+      "text": "Pernah mengatakan, A'taqa Sayyidina Abu Bakar Sayyidina Bilal Sayyid kami Abu Bakar, memerdekakan Sayyid kami Bilal. Bayangkan, Bilal dibilang Sayyid sama Umar. Sayyid itu tuan. Pak. Mister atau apalah. Pokoknya punya strata yang tinggi di masyarakat. Ini budak. Budak yang di memerdekakan oleh Abu Bakar asyidik radhiyallahu ta'ala. Budak.",
+      "avg_logprob": -0.206,
+      "no_speech_prob": 0.018,
+      "compression_ratio": 1.697,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=2050"
+    },
+    {
+      "id": 59,
+      "start": 2083.38,
+      "end": 2121.17,
+      "text": "Kita udah bahas tentang Bilal bin Robah. Beliau tuh gak ada harganya di masyarakat pada saat itu. Gak ada harganya. Tapi lihat bagaimana Umar memuliakan. Itu kalau orang gak punya hati yang bersih, gak mungkin bisa ngomong demikian. Dan hati yang bersih, lisan juga bagus. Seyiduna. Kalau Abu Bakar dibilang seyiduna wajar. Beliau memang tokoh besar. Tapi Bilal, subhanallah, lisannya enak lho. Bisanya santun.",
+      "avg_logprob": -0.17,
+      "no_speech_prob": 0.005,
+      "compression_ratio": 1.671,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=2083"
+    },
+    {
+      "id": 60,
+      "start": 2123.7,
+      "end": 2187.7,
+      "text": "Itu yang perlu kita camkan bersama-sama. Hadirin yang Allah muliakan. Dalam kesempatan yang lain, Anas r.a itu pernah bercerita kepada kita. Bahwa beliau sedang jalan dengan Umar bin Khattab r.a. Lalu ada momen beliau dengan Umar terpisah dengan tembok, dengan dinding. Itu Umar mengatakan, bicara kepada dirinya sendiri.",
+      "avg_logprob": -0.106,
+      "no_speech_prob": 0.027,
+      "compression_ratio": 1.602,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=2123"
+    },
+    {
+      "id": 61,
+      "start": 2195.34,
+      "end": 2233.39,
+      "text": "Kata Umar, wallahi, bunayyil khattab, demi Allah, wahai anaknya al-khattab, la tattaqiyanna Allah, au la yu'adhibannak, la tattaqiyanna Allah, wahai anaknya al-khattab, anaknya khattab. Pada saat itu Umar sudah jadi amirul mu'minin, sudah jadi khalifah. Bicara sama dia, wahai Umar al-khattab, anaknya khattab. Jadi dia gak angkat dirinya, dia jatuhkan, eh kamu tuh cuman anak, anaknya al-khattab.",
+      "avg_logprob": -0.195,
+      "no_speech_prob": 0.004,
+      "compression_ratio": 2.052,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=2195"
+    },
+    {
+      "id": 62,
+      "start": 2233.81,
+      "end": 2272.56,
+      "text": "Hendaknya engkau bertakwa kepada Allah, atau Allah akan mengadabmu, wahai anaknya khotob. Dan itu didengar oleh Anas bin Malik. Luar biasa. Bertakwa kepada Allah, atau Allah akan mengadabmu. Dan gak ada siapa-siapa ini. Wah, Anas juga gak sengaja dengar. Dan kita tahu ucapan beliau yang masyur. Kata beliau, ahabbun nasi ilaih man rafa'a ilaih yauyubih.",
+      "avg_logprob": -0.218,
+      "no_speech_prob": 0.004,
+      "compression_ratio": 1.74,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=2233"
+    },
+    {
+      "id": 63,
+      "start": 2272.72,
+      "end": 2306.93,
+      "text": "Orang yang paling aku cintai adalah orang yang menyampaikan aib-aibku. Beliau tuh senang. Kenapa? Dengan disebutkan aibnya beliau introspeksi. Beliau evaluasi. Itu menunjukkan beliau gak punya kepentingan. Beliau hanya cari kebenaran. Beliau hanya berusaha untuk menunaikan amanat. Tidak lebih, tidak kurang. Makanya begitu dikritik beliau senang. Itu kalau orang gak punya hati yang bersih. Gak bisa demikian. Itu susahnya minta ampun.",
+      "avg_logprob": -0.085,
+      "no_speech_prob": 0.009,
+      "compression_ratio": 1.769,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=2272"
+    },
+    {
+      "id": 64,
+      "start": 2307.89,
+      "end": 2344.72,
+      "text": "Oleh karena itu, saudaraku yang Allah muliakan, itulah Umar bin Khattab radhiyallahu ta'ala anhu, sahabat yang meriwayatkan hadits innamal a'malu bin niyat, yang insya Allah kita akan bahas haditsnya pada pertemuan yang akan datang insya Allah ta'ala. Dan benar lah apa yang dikatakan Abdullah bin Mas'ud, masuk Islamnya beliau adalah awal dari",
+      "avg_logprob": -0.179,
+      "no_speech_prob": 0.011,
+      "compression_ratio": 1.659,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=2307"
+    },
+    {
+      "id": 65,
+      "start": 2344.72,
+      "end": 2384.02,
+      "text": "pembukaan, pembukaan kebaikan dan penaklukan dan hijrahnya beliau adalah kemenangan dan pertolongan dan kepemimpinan beliau adalah kasih sayang bagi seluruh rakyatnya dan ini pelajaran bagi kita bagaimana kita harus memperbaiki dua hal besar di atas hati dan nulisan karena itulah kunci orang-orang besar",
+      "avg_logprob": -0.076,
+      "no_speech_prob": 0.011,
+      "compression_ratio": 1.763,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=2344"
+    },
+    {
+      "id": 66,
+      "start": 2385.39,
+      "end": 2420.24,
+      "text": "kunci orang-orang besar. Dan ini mengingat kita pada tiga ayat yang dibawakan Imam Nawawi rahimahullah sebelumnya. Walakin yana luhut taqwa minkum. Dalam surat Al-Hajj yang sampai kepada Allah adalah ketakwaan dan keikhlasan kalian. Hati. Hati yang baik itu akan memperbaiki semuanya. Semuanya. Dan saudaraku yang Allah muliakan.",
+      "avg_logprob": -0.171,
+      "no_speech_prob": 0.001,
+      "compression_ratio": 1.571,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=2385"
+    },
+    {
+      "id": 67,
+      "start": 2423.09,
+      "end": 2456.18,
+      "text": "Begitu juga dalam surat Ali Imran ayat 29 Qul intukhfu mafi sudurikum autu buduhu ya'lamhullah. Dan apabila kalian menyembunyikan sesuatu dalam hati kalian atau kalian tampilkan Allah maha tau, Allah maha tau. Oleh karena itu hadirin yang Allah muliakan dari surat Al-Hajj ayat 37 atau Ali Imran ayat 29 ditambah lagi tokoh besar kita yang satu ini semakin kuatlah kita",
+      "avg_logprob": -0.207,
+      "no_speech_prob": 0.004,
+      "compression_ratio": 1.667,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=2423"
+    },
+    {
+      "id": 68,
+      "start": 2457.65,
+      "end": 2488.4,
+      "text": "bahwa memang kuncinya itu. kuncinya itu. dan ini momentum. hari-hari ini momentum. untuk muhasabah. untuk introspeksi diri. untuk merenung. khususnya dua hal di atas. hati kita dan lisan kita. hati kita dan lisan kita. apakah selama ini lisan kita menyakiti orang? menjatuhkan orang? menjelek-jelekan orang?",
+      "avg_logprob": -0.12,
+      "no_speech_prob": 0.016,
+      "compression_ratio": 1.925,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=2457"
+    },
+    {
+      "id": 69,
+      "start": 2491.98,
+      "end": 2623.38,
+      "text": "Dan apabila itu yang terjadi, maka perbaiki hati kita, perbaiki lisan kita dan hati kita. Karena lisan ini ungkapan yang ada dalam hati. Dan itu kuncinya Umar bin Khattab, radhiyallahu ta'ala anhu. Saya rasa cukup sampai di sini. Semoga bermanfaat. Kita buka, kita berikan satu dua pertanyaan. Wassalamu'alaikum warahmatullahi wabarakatuh, walaikumussalam warahmatullahi wabarakatuh.",
+      "avg_logprob": -0.145,
+      "no_speech_prob": 0.006,
+      "compression_ratio": 1.73,
+      "flags": [
+        "TERLEWAT"
+      ],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=2491"
+    },
+    {
+      "id": 70,
+      "start": 2623.92,
+      "end": 2654.1,
+      "text": "Semoga ustadz dan keluarga serta tim yang telah membantu ustadz dan kaum muslimin yang ada dimanapun berada diberikan keselamatan dan ketakwaan oleh Allah SWT. Amin ya rabbal alamin. Affan ustadz, izin pertama, apa saja amalan yang harus kita lakukan di bulan Ramadan dengan kondisi wabah seperti ini? Barakallah fiqh, syukran, jazalah khairan. Ya, terima kasih atas pertanyaannya. Berkaitan dengan Ramadan, InsyaAllah kita akan bahas di sesi sore.",
+      "avg_logprob": -0.159,
+      "no_speech_prob": 0.024,
+      "compression_ratio": 1.665,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=2623",
+      "revisi": [
+        {
+          "lama": "ketakuan",
+          "baru": "ketakwaan",
+          "alasan": "Salah dengar kata ketakwaan"
+        }
+      ]
+    },
+    {
+      "id": 71,
+      "start": 2654.61,
+      "end": 2733.2,
+      "text": "dikajian sore insya'allah ta'ala. Jadi sekali lagi, yang berkaitan dengan Ramadan insya'allah kita akan bahas di sesi sore. Wallahu ta'ala alami shawab. Assalamualaikum warahmatullahi wabarakatuh. Waalaikumsalam warahmatullahi wabarakatuh. Pertanyaannya, bagaimana cara menjaga hati? Iya, terima kasih atas pertanyaannya. Jawaban simpelnya, ada di Riyadhush Shalihin.",
+      "avg_logprob": -0.175,
+      "no_speech_prob": 0.009,
+      "compression_ratio": 1.712,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=2654"
+    },
+    {
+      "id": 72,
+      "start": 2733.65,
+      "end": 2763.76,
+      "text": "Jadi kalau pertanyaan bagaimana cara menjaga hati, maka jawaban sederhananya salah satunya adalah ada dalam kitab Riyadhush Shalihin. Jadi dengan kita belajar kitab ini dengan sabar, dengan istiqomah, InsyaAllah akan memberikan perubahan besar di dalam perubahan hati kita. Dan ini terbukti dengan idin dan taufiq dari Allah. Bukan hanya satu dua orang buktinya, jutaan bahkan mungkin miliaran umat Islam mendapatkan",
+      "avg_logprob": -0.111,
+      "no_speech_prob": 0.021,
+      "compression_ratio": 1.695,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=2733"
+    },
+    {
+      "id": 73,
+      "start": 2763.76,
+      "end": 2797.38,
+      "text": "perubahan dalam ketika mempelajari Riyadhush Shalihin. Wallahu ta'ala alam bisawab. Makanya al-imam adz-Dzahabi mengatakan, la yustaqna'an, ini buku dibutuhkan oleh umat. Wallahu ta'ala alam bisawab. Assalamu'alaikum warahmatullahi wabarakatuh, wa'alaikumussalam warahmatullahi wabarakatuh. Semoga Allah memberikan kesempatan kepada saya untuk mendapatkan nasihat dari Ustadz. Semoga Ustadz dan tim senantiasa diberikan kesehatan. Amin ya rabbal alamin. Ustadz, dari kajian yang Ustadz sampaikan tadi pagi,",
+      "avg_logprob": -0.155,
+      "no_speech_prob": 0.03,
+      "compression_ratio": 1.843,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=2763",
+      "revisi": [
+        {
+          "lama": "al-Zahawi",
+          "baru": "adz-Dzahabi",
+          "alasan": "Ejaan nama adz-Dzahabi"
+        }
+      ]
+    },
+    {
+      "id": 74,
+      "start": 2797.38,
+      "end": 2829.23,
+      "text": "Ini kan masih pagi. Jangan-jangan di tempatnya udah siang nih. Bagaimana menyikapi perasaan was-was setelah menunaikan sholat? Was-was apakah sholat kita sudah benar dan diterima? Bolehkah bila mengulang sholat karena was-was? Ya, terima kasih atas pertanyaannya. Jawabannya tidak. Dan ini di was-was itu bukan di respon.",
+      "avg_logprob": -0.106,
+      "no_speech_prob": 0.032,
+      "compression_ratio": 1.578,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=2797"
+    },
+    {
+      "id": 75,
+      "start": 2829.33,
+      "end": 2858.03,
+      "text": "Waswas itu kata para ulama dilawan dan dicueki. Dan itulah yang dikatakan oleh Allah SWT sebagai senjatanya iblis. Dalam surat An-Nas kan Allah mengatakan, alladhi yuwaswisu fi sudurinnas. Salah satu tugas utama si iblis adalah memberikan waswas ke dalam hati manusia. Jadi waswas itu",
+      "avg_logprob": -0.168,
+      "no_speech_prob": 0.011,
+      "compression_ratio": 1.508,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=2829"
+    },
+    {
+      "id": 76,
+      "start": 2858.13,
+      "end": 2887.65,
+      "text": "Godaannya iblis. Serangan-serangannya iblis. Ketika diserang, maka jangan direspon. Jangan diturutin. Anda ini lagi diserang sama iblis. Lagi digoda sama syaitan. Makanya ulama mengatakan, acuhkan. Acuhkan. Dan kaedah fikir mengatakan, al-yakinla ya'zulu bi syak. Keyakinan itu tidak boleh berubah.",
+      "avg_logprob": -0.186,
+      "no_speech_prob": 0.008,
+      "compression_ratio": 1.67,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=2858"
+    },
+    {
+      "id": 77,
+      "start": 2887.65,
+      "end": 2912.56,
+      "text": "atau tergoyahkan karena keraguan-keraguan. Dan diantara keraguan-keraguan adalah was-was. Bahkan was-was seringkali dibawah dari syak. Jangan dibuka. Pintu itu jangan dibuka. Begitu kita buka was-was, itu sama saja kita serahkan diri kita diserang habis-habisan oleh syaitan.",
+      "avg_logprob": -0.101,
+      "no_speech_prob": 0.009,
+      "compression_ratio": 1.704,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=2887"
+    },
+    {
+      "id": 78,
+      "start": 2912.56,
+      "end": 2923.73,
+      "text": "Makanya ulama menyatakan, dijelaskan oleh banyak para ulama seperti al-imam Ibn al-Jawzi, al-imam al-Shafi'i rahimahumullah",
+      "avg_logprob": -0.224,
+      "no_speech_prob": 0.012,
+      "compression_ratio": 1.24,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=2912"
+    },
+    {
+      "id": 79,
+      "start": 2923.73,
+      "end": 2952.53,
+      "text": "Jangan dituruti. Dihilangkan. Dan kembali ke kondisi sebelum was-was. Itu kaedahnya. Kaedahnya adalah dalam ilmu usul fikih al-istishhab. Bakau makana ala makana alaih. Kembali ke kondisi sebelumnya. Sebagaimana dalam ilmu fikih al-yakin laizu, lebih syak. Keyakinan tidak boleh dihilangkan, dipindahkan karena keraguan-keraguan. Jadi sebelum was-was itu menyerang, kita dalam kondisi apa?",
+      "avg_logprob": -0.134,
+      "no_speech_prob": 0.009,
+      "compression_ratio": 1.797,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=2923"
+    },
+    {
+      "id": 80,
+      "start": 2952.53,
+      "end": 2960.37,
+      "text": "Komit disitu. Contoh, kita was-was. Wudhuku batal gak ya? Wudhuku batal ya? Hanya was-was.",
+      "avg_logprob": -0.215,
+      "no_speech_prob": 0.007,
+      "compression_ratio": 1.23,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=2952"
+    },
+    {
+      "id": 81,
+      "start": 2960.53,
+      "end": 2988.37,
+      "text": "Kayaknya, kayaknya, was-was. Maka kembali ke kondisi kita sedang atau kita punya wudhu. Udah ilangin. Jangan-jangan tadi batal. Jangan-jangan batal. Jangan-jangan tadi buang angin. Jangan-jangan tadi keluar, misalnya, air seni dan seterusnya. Ilangin itu, komit. Kecuali kalau beneran keluar. Makanya kan, saudaraku yang Allah muliakan dalam ilmu usul fikir.",
+      "avg_logprob": -0.146,
+      "no_speech_prob": 0.02,
+      "compression_ratio": 1.786,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=2960"
+    },
+    {
+      "id": 82,
+      "start": 2988.78,
+      "end": 3013.26,
+      "text": "Kita baru bisa merubah kondisi, merubah kebijakan jika yang pertama al-yakin dan yang kedua dhon ghalib atau gholabatul dhon. Al-yakin itu artinya data kita 100%. Simple aja ya, kita buat simple. Al-yakin itu kira-kira data kita 100%.",
+      "avg_logprob": -0.197,
+      "no_speech_prob": 0.032,
+      "compression_ratio": 1.577,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=2988"
+    },
+    {
+      "id": 83,
+      "start": 3013.36,
+      "end": 3046.42,
+      "text": "Don Golib, nggak sampai 100%, tapi punya dugaan kuat. Mungkin data kita 90%, 80%, 70%. Mungkin nggak ada bukti, tapi indikatornya banyak. Jadi membuat dugaan kuat kita ke sana. Dugaan kuat dengan data. Dugaan kuat saya ke sini, Pak. Emangnya kamu punya bukti jelas nyata? Oh enggak. Tapi indikatornya. Yang pertama, yang kedua, yang ketiga, yang keempat, yang kelima, yang keenam, yang ketujuh. Ya bener juga ya, nah itu.",
+      "avg_logprob": -0.139,
+      "no_speech_prob": 0.033,
+      "compression_ratio": 1.796,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=3013"
+    },
+    {
+      "id": 84,
+      "start": 3046.42,
+      "end": 3073.78,
+      "text": "Adapun fifty-fifty, was-was, nggak bisa. Atau sebaliknya, misalnya kita was-was, kayaknya aku udah wudhu apa belum ya? Kayaknya udah wudhu belum. Nah kembali, kondisi sebelumnya apa? Wudhu kita batal, yaudah wudhu lagi. Jadi kalau kondisi sebelumnya kita nggak punya wudhu, maka wudhu lagi. Kalau kondisi sebelumnya kita ada wudhu, jangan berpikir. Jangan berpikir macam-macam. Hilangkan.",
+      "avg_logprob": -0.127,
+      "no_speech_prob": 0.037,
+      "compression_ratio": 1.926,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=3046"
+    },
+    {
+      "id": 85,
+      "start": 3073.78,
+      "end": 3099.73,
+      "text": "Waswas itu dilawan, bukan diterima dengan lapang dada. Itu keedahnya. Kalau kita terima, bisa rusak hidup kita. Semuanya waswas nanti, sholat waswas, segala macem. Sampai nikah nanti waswas. Kemaren, eh, 15 tahun yang lalu, saya akad nikahnya bener gak ya? Aduh, aku saya waswas nih.",
+      "avg_logprob": -0.144,
+      "no_speech_prob": 0.012,
+      "compression_ratio": 1.552,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=3073"
+    },
+    {
+      "id": 86,
+      "start": 3100.85,
+      "end": 3123.15,
+      "text": "Alhamdulillah, 15 tahun yang lalu. Ini anak udah tujuh. Anda masih mikir was-was akad nikahnya bener apa enggak? Ya berantakan hidup Anda. Oleh karena itu, kalau was-was, jangan direspon. Itu nasihat dari al-imam al-Shafi'i rahimahullahu ta'ala. Ini yang bisa disampaikan. Semoga bermanfaat. Subhanakullahi wa barakatuh. Assalamualaikum warahmatullahi wabarakatuh.",
+      "avg_logprob": -0.229,
+      "no_speech_prob": 0.006,
+      "compression_ratio": 1.547,
+      "flags": [],
+      "link": "https://youtu.be/MVVXMQZDJuE?t=3100"
+    }
+  ],
+  "revisi_manual": {
+    "tanggal": "2026-10-17",
+    "jumlah_perubahan": 2
+  }
+}

@@ -1,0 +1,17 @@
+# bab: Niat
+# kitab: Riyadhussalihiin
+#
+# Satu URL per baris. Boleh URL video, youtu.be, atau playlist.
+# Baris yang diawali # adalah komentar.
+# Ganti URL di bawah dengan video kajian yang sebenarnya:
+https://www.youtube.com/watch?v=HBHPZ1sB8aQ
+https://www.youtube.com/watch?v=MVVXMQZDJuE
+https://www.youtube.com/watch?v=6JiZyrXs79w
+https://www.youtube.com/watch?v=EmG-YHEtHQg
+https://www.youtube.com/watch?v=705YnRkk4dY
+https://www.youtube.com/watch?v=hTvUNUHyR4g
+https://www.youtube.com/watch?v=7nrsPJQa0tk
+https://www.youtube.com/watch?v=yntLEAS9uuM
+https://www.youtube.com/watch?v=qkD2YvKebPw
+https://www.youtube.com/watch?v=iDIH15Z_sxw
+

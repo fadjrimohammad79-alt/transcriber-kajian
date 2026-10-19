@@ -1,0 +1,9 @@
+faster-whisper>=1.1.0
+# PyAV 19 menghapus parameter 'metadata_errors' yang masih dipakai faster-whisper
+av>=11,<19
+yt-dlp>=2025.1.0
+python-dotenv>=1.0.0
+tqdm>=4.60
+# DLL CUDA untuk GPU NVIDIA (dipakai otomatis oleh gpu_setup.py di Windows)
+nvidia-cublas-cu12
+nvidia-cudnn-cu12==9.*

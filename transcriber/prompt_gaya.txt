@@ -1,0 +1,3 @@
+# Contoh gaya penulisan bacaan Arab dalam huruf Latin (pembukaan kajian ustadz).
+# Model meniru ejaan di sini. Baris # = komentar. Jaga gabungan dengan glosarium ≤ 150 token.
+Alhamdulillah, hamdan katsiran thayyiban mubarakan fih, kama yuhibbu rabbuna wa yardha. Ash-shalatu wassalamu 'ala Muhammadin wa 'ala alihi wa shahbihi wa man sara 'ala nahjihi bi ihsanin ila yaumiddin. Amma ba'du.

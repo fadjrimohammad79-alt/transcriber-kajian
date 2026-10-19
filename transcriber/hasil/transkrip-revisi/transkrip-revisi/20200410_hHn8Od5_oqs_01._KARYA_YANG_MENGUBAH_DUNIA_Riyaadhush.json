@@ -1,0 +1,638 @@
+{
+  "video": {
+    "video_id": "hHn8Od5_oqs",
+    "judul": "01. KARYA YANG MENGUBAH DUNIA  | Riyaadhushshaalihiin",
+    "channel": "Muhammad Nuzul Dzikri",
+    "tanggal_upload": "20200410",
+    "durasi_detik": 2343,
+    "url": "https://youtu.be/hHn8Od5_oqs",
+    "bab": "Mukadimah",
+    "kitab": "Riyadhussalihiin"
+  },
+  "transkripsi": {
+    "durasi_audio": 2342.5,
+    "waktu_proses": 19.6,
+    "kecepatan_x_realtime": 119.6,
+    "model": "large-v3-turbo",
+    "device": "cuda",
+    "compute_type": "float16",
+    "prompt": "Alhamdulillah, hamdan katsiran thayyiban mubarakan fih, kama yuhibbu rabbuna wa yardha. Ash-shalatu wassalamu 'ala Muhammadin wa 'ala alihi wa shahbihi wa man sara 'ala nahjihi bi ihsanin ila yaumiddin. Amma ba'du. ustadz Muhammad Nuzul Dzikri, Riyadhush Shalihin, Imam Nawawi, shallallahu 'alaihi wa sallam, radhiyallahu 'anhu, hadits shahih, hadits dhaif, jumhur ulama",
+    "catatan": "Ditranskripsi dengan large-v3-turbo; ditambal manual (bukan transkripsi ulang)."
+  },
+  "kualitas": {
+    "status": "BAIK",
+    "total_segmen": 51,
+    "segmen_ditandai": 0,
+    "persen_ditandai": 0.0,
+    "per_tanda": {},
+    "durasi_detik": 2342.5
+  },
+  "diproses_pada": "2026-10-10T21:32:58",
+  "segments": [
+    {
+      "id": 0,
+      "start": 4.14,
+      "end": 34.67,
+      "text": "Assalamualaikum warahmatullahi wabarakatuh. Alhamdulillah, hamdan katsiran thayyiban mubarakan fih, kama yuhibbu rabbuna wa yardha. Wassalatu wassalamu ala nabina Muhammadin wa ala alihi wa sahbihi wa man sara ala nahjihi bi ihsanin ila yaumiddin wa ba'd. Sadaraku yang Allah muliakan, tidak ada kata yang pantas untuk kita ucapkan pada kesempatan pagi hari ini kecuali bersyukur kepada Allah SWT atas segala nikmatan karunia Allah berikan dan Allah limpahkan kepada kita.",
+      "avg_logprob": -0.103,
+      "no_speech_prob": 0.0,
+      "compression_ratio": 1.765,
+      "flags": [],
+      "link": "https://youtu.be/hHn8Od5_oqs?t=4"
+    },
+    {
+      "id": 1,
+      "start": 34.74,
+      "end": 64.69,
+      "text": "nikmat yang begitu banyak dan gak dan gak mungkin kita bisa hitung satu demi satu dan jika kalian ingin menghitung nikmat Allah maka kalian gak akan bisa menghitungnya mulai dari nikmat iman nikmat islam nikmat hidayah nikmat ilmu pada pagi hari ini dan nikmat-nikmat yang lain karena itu bersyukurlah dan terus bersyukurlah kepada Allah subhanahu wa ta'ala sebagaimana kita",
+      "avg_logprob": -0.11,
+      "no_speech_prob": 0.0,
+      "compression_ratio": 1.953,
+      "flags": [],
+      "link": "https://youtu.be/hHn8Od5_oqs?t=34"
+    },
+    {
+      "id": 2,
+      "start": 65.97,
+      "end": 92.14,
+      "text": "meminta kepada Allah subhanahu wa ta'ala agar kita diberikan taufik untuk bisa menghadapi apapun yang Allah tetapkan sebagai takdir kita dengan penuh ilmu, penuh kesabaran dan tetap berada di shiratal mustaqim dan semoga Allah subhanahu wa ta'ala mengangkat seluruh kesulitan, penyakit dan apapun musibah yang kita hadapi amin ya rabbal alamin",
+      "avg_logprob": -0.108,
+      "no_speech_prob": 0.0,
+      "compression_ratio": 1.773,
+      "flags": [],
+      "link": "https://youtu.be/hHn8Od5_oqs?t=65",
+      "revisi": [
+        {
+          "lama": "syaratul mustaqim",
+          "baru": "shiratal mustaqim",
+          "alasan": "Salah dengar shiratal mustaqim"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "start": 92.98,
+      "end": 131.82,
+      "text": "sebagaimana salawat dan salam semoga senantiasa tercurahkan kepada junjungan kita Nabi kita Muhammadin sallallahu alaihi wa sallam beserta para keluarga, para sahabat dan orang-orang yang istiqomah berjalan di bawah naungan sunnah beliau sampai hari kiamat kelak. Saudaraku ya Allah muliakan dalam kondisi yang dihimpit dengan kesulitan demi kesulitan seperti hari-hari ini tidak ada jalan lain",
+      "avg_logprob": -0.108,
+      "no_speech_prob": 0.0,
+      "compression_ratio": 1.703,
+      "flags": [],
+      "link": "https://youtu.be/hHn8Od5_oqs?t=92"
+    },
+    {
+      "id": 4,
+      "start": 132.21,
+      "end": 165.01,
+      "text": "kecuali kita hadapi dengan penuh ilmu. Tidak ada jalan lain kecuali kita hadapi dengan iman. Sebagaimana ayat yang selalu atau sering kita ulang, wa kaifa tasbiru ala ma'alam tuhit bihi khubra. Bagaimana anda bisa sabar sedangkan anda nggak tahu ilmu dari apa yang anda hadapi. Nggak akan mungkin bisa sabar. Nggak akan bisa bertahan.",
+      "avg_logprob": -0.14,
+      "no_speech_prob": 0.0,
+      "compression_ratio": 1.763,
+      "flags": [],
+      "link": "https://youtu.be/hHn8Od5_oqs?t=132"
+    },
+    {
+      "id": 5,
+      "start": 167.54,
+      "end": 197.36,
+      "text": "dan saudaraku yang Allah muliakan kondisi berputarnya kehidupan kita beberapa waktu yang lalu kita masih nyaman masih di atas masih tenang masih merasa aman lalu saat ini ada ketakutan dalam hati kita ada kesempitan ada kesulitan dan bahkan memang ada penyakit maka ini semua untuk menguji keimanan kita",
+      "avg_logprob": -0.068,
+      "no_speech_prob": 0.0,
+      "compression_ratio": 1.799,
+      "flags": [],
+      "link": "https://youtu.be/hHn8Od5_oqs?t=167"
+    },
+    {
+      "id": 6,
+      "start": 197.62,
+      "end": 230.06,
+      "text": "menguji optimisme kita dan seterusnya. Allah berfirman dalam surat Ali Imran S40 dan hari-hari itu kami putar di tengah-tengah manusia. Untuk apa? Untuk mengetahui siapa diantara mereka yang beriman kepada Allah s.w.t. untuk membuktikan bukti yang berkaitan dengan reward atau punishment setelah itu. Karena Allah maha tahu",
+      "avg_logprob": -0.141,
+      "no_speech_prob": 0.0,
+      "compression_ratio": 1.565,
+      "flags": [],
+      "link": "https://youtu.be/hHn8Od5_oqs?t=197"
+    },
+    {
+      "id": 7,
+      "start": 231.89,
+      "end": 267.44,
+      "text": "tapi sekali lagi harus dibuktikan di hadapan semuanya biar manusia pada hari kiamat tidak ada kelit, tidak ada alasan dan tidak ada justifikasi oleh karena itu saudara ku ya Allah muliakan padilah kita hadapi ini dengan meminta pertolongan kepada Allah SWT agar kita bisa melangkah dengan ilmu dan berpijak dengan keimanan nah saudara ku ya Allah muliakan jika kita bicara ilmu",
+      "avg_logprob": -0.113,
+      "no_speech_prob": 0.0,
+      "compression_ratio": 1.8,
+      "flags": [],
+      "link": "https://youtu.be/hHn8Od5_oqs?t=231"
+    },
+    {
+      "id": 8,
+      "start": 267.5,
+      "end": 312.34,
+      "text": "ketika kita berbicara tentang ilmu maka ilmu juga yang menuntun kita bahwa betapa banyak karya-karya yang mengubah dunia itu lahir dari kesulitan lahir dari ketidaknyamanan lahir dari tekanan lahir dari hidup yang sulit tidak usah jauh-jauh coba kita melihat perjalanan Nabi kita Muhammad SAW",
+      "avg_logprob": -0.057,
+      "no_speech_prob": 0.0,
+      "compression_ratio": 1.724,
+      "flags": [],
+      "link": "https://youtu.be/hHn8Od5_oqs?t=267"
+    },
+    {
+      "id": 9,
+      "start": 312.78,
+      "end": 357.2,
+      "text": "Bagaimana masa kecil beliau? Apakah beliau anak kecil yang penuh dengan kemewahan? Tubuh beliau diselimuti oleh brand-brand ternama. Beliau tinggal teriak, Ma, aku mau jajan. Bi, tolong buatin teh. Mbak, kok lama amat sih? Aku kan udah lapar. Dan kalimat-kalimat tersebut jawabannya tidak. Udah lahir dalam kondisi yatim. Lalu...",
+      "avg_logprob": -0.104,
+      "no_speech_prob": 0.0,
+      "compression_ratio": 1.542,
+      "flags": [],
+      "link": "https://youtu.be/hHn8Od5_oqs?t=312"
+    },
+    {
+      "id": 10,
+      "start": 357.26,
+      "end": 401.01,
+      "text": "dibawa oleh Halimah ke Bani Sa'at. Dan itu pun karena gak ada opsi lain. Bukan karena beliau jadi rebutan. Banyak bayi-bayi itu jadi rebutan. Udah anak lu buat gua aja deh. Anakmu kok lucu banget sih. Tinggal di rumahku aja ya. Anak lu tuh cocoknya di rumah gua. Udah lu gak usah khawatir. Gua bikin gemuk nih anak. Udah nanti anak lu gua bikin montok. Dan seterusnya. Apakah seperti itu? Enggak.",
+      "avg_logprob": -0.139,
+      "no_speech_prob": 0.0,
+      "compression_ratio": 1.682,
+      "flags": [],
+      "link": "https://youtu.be/hHn8Od5_oqs?t=357"
+    },
+    {
+      "id": 11,
+      "start": 403.22,
+      "end": 441.33,
+      "text": "opsi terakhir ketika seluruh anak sudah dipilih untuk disusui dibanding saat Nabi sallallahu wa sallam tidak ada yang memilih karena dianggap anak yatim tidak prospek dan seterusnya nggak punya uang maka diambillah atau dengan kejujuran dan ketulusan dan keikhlasan halimah dan suaminya dan juga kadang ada pilihan lain tapi ini semua takdir Allah s.w.t dan hikmah besar di bawah Nabi kita s.a.w.",
+      "avg_logprob": -0.119,
+      "no_speech_prob": 0.0,
+      "compression_ratio": 1.719,
+      "flags": [],
+      "link": "https://youtu.be/hHn8Od5_oqs?t=403"
+    },
+    {
+      "id": 12,
+      "start": 442.74,
+      "end": 478.35,
+      "text": "jauh dari hiruk pikuk kota besar yang bernama Mekah lalu terus kita tahu sejarah beliau alihi salatu wassalam beliau hidup dengan kesederhanaan dibanding saat lalu kembali lagi ke kota Mekah lalu ibu beliau meninggal Aminah lalu singkat cerita terus jadi pengembala kambing lalu bagaimana Nabi kita s.a.w. di awal-awal beliau dapat wahyu dicela dicaci dan dimaki",
+      "avg_logprob": -0.145,
+      "no_speech_prob": 0.0,
+      "compression_ratio": 1.688,
+      "flags": [],
+      "link": "https://youtu.be/hHn8Od5_oqs?t=442"
+    },
+    {
+      "id": 13,
+      "start": 478.35,
+      "end": 521.14,
+      "text": "dan akhirnya ajaran beliau merubah dunia sunnah beliau benar-benar merubah wajah dunia menjadi lebih humanis menjadi lebih bermatabat menjadi lebih baik menjadi lebih indah dan tinggi kualitasnya dan yang terpenting diliputi dengan iman ketakwaan tauhid sehingga orang-orang beribadah hanya kepada Allah subhanahu wa ta'ala",
+      "avg_logprob": -0.069,
+      "no_speech_prob": 0.0,
+      "compression_ratio": 1.8,
+      "flags": [],
+      "link": "https://youtu.be/hHn8Od5_oqs?t=478"
+    },
+    {
+      "id": 14,
+      "start": 522.64,
+      "end": 570.54,
+      "text": "itu sebagai contoh sederhana dan kita punya contoh itu komplit dalam diri Nabi SAW dan masih banyak lagi contoh-contoh seperti itu yang membuat kita optimis yakin dan berusaha bangkit dan tidak berpangku tangan dalam kondisi seperti ini dan harus terus belajar belajar belajar dan belajar belajar tentang ilmu akhirat lalu setelah itu belajar tentang ilmu dunia yang bisa menjadi jembatan kita menuju akhirat",
+      "avg_logprob": -0.072,
+      "no_speech_prob": 0.0,
+      "compression_ratio": 1.911,
+      "flags": [],
+      "link": "https://youtu.be/hHn8Od5_oqs?t=522"
+    },
+    {
+      "id": 15,
+      "start": 574.19,
+      "end": 613.68,
+      "text": "karena sekali lagi dengan perubahan drastis pada hari-hari ini ini menyadarkan kita bahwa dunia gak selama-lamanya dunia semu mayoritas kita gak berpikir kondisi kita bisa seperti ini di bulan April misalnya udah banyak yang di PHK dirumahkan ditutup sudah banyak yang gulung tikar siapa yang menduga ini di bulan Januari, Februari tersebut?",
+      "avg_logprob": -0.124,
+      "no_speech_prob": 0.0,
+      "compression_ratio": 1.66,
+      "flags": [],
+      "link": "https://youtu.be/hHn8Od5_oqs?t=574"
+    },
+    {
+      "id": 16,
+      "start": 618.51,
+      "end": 661.62,
+      "text": "kali karena itu saudaraku yang Allah muliakan karena kita harus belajar karena kita ingin kita banyak ibrah di masa-masa sulit seperti ini kita banyak dapat ilmu di masa-masa sulit seperti ini waktu kita yang kalau kondisi normal atau waktu saat kita masih bekerja itu sibuk dengan urusan duniawi duniawi duniawi duniawi duniawi sekarang kita bisa bernafas dalam tanda kutip lalu meluangkan waktu untuk belajar agama belajar belajar",
+      "avg_logprob": -0.094,
+      "no_speech_prob": 0.0,
+      "compression_ratio": 2.042,
+      "flags": [],
+      "link": "https://youtu.be/hHn8Od5_oqs?t=618"
+    },
+    {
+      "id": 17,
+      "start": 661.94,
+      "end": 707.76,
+      "text": "belajar ilmu agama, belajar iman kita, belajar ketakwaan kita. Lalu kita pelajari kita asas skill kita untuk hari esok yang lebih jauh. Insyaallah ta'ala jika Allah memberikan umur kepada kita. Karya kita, itu yang harus kita tanyakan pada diri ini. Sekali lagi banyak karya lahir dari kesulitan. Maka, kalaupun kita sulit pada hari-hari ini, itu bukan alasan. Itu bukan pembenaran. Ada banyak karya.",
+      "avg_logprob": -0.151,
+      "no_speech_prob": 0.0,
+      "compression_ratio": 1.823,
+      "flags": [],
+      "link": "https://youtu.be/hHn8Od5_oqs?t=661"
+    },
+    {
+      "id": 18,
+      "start": 708.05,
+      "end": 752.75,
+      "text": "master piece di dunia itu lahir dari kesulitan lahir dari ketidakcukupan lahir dari krisis sebagaimana contoh di atas dari sejarah Nabi kita sallallahu wa sallam diantara karya yang merubah dunia menjadi lebih baik dengan taufiq dan hidayah dari Allah menjadi lebih bermartabat",
+      "avg_logprob": -0.137,
+      "no_speech_prob": 0.0,
+      "compression_ratio": 1.685,
+      "flags": [],
+      "link": "https://youtu.be/hHn8Od5_oqs?t=708"
+    },
+    {
+      "id": 19,
+      "start": 753.33,
+      "end": 800.85,
+      "text": "menjadi lebih bertauhid dengan taufik dan hidayah dari Allah dan menariknya karya ini bukan hanya bisa kita kagumi bukan hanya bisa kita lihat dari jauh bukan hanya bisa kita jadikan obrolan di lisan-lisan kita tapi lebih dari itu karya ini bisa kita pelajari",
+      "avg_logprob": -0.066,
+      "no_speech_prob": 0.0,
+      "compression_ratio": 1.898,
+      "flags": [],
+      "link": "https://youtu.be/hHn8Od5_oqs?t=753"
+    },
+    {
+      "id": 20,
+      "start": 805.81,
+      "end": 853.52,
+      "text": "ya bisa kita pelajari sehingga keberkahannya sampai ke diri kita sehingga kita bisa mengupgrade diri kita karena karya ini sudah terbukti saya belum pernah mendengar satupun ulama yang menjatuhkan karya ini yang ada adalah memuji, memuji, memuji, memuji, memuji mengagumi, mengagumi, mengagumi, mengagumi saya belum pernah mendengar ada ulama mencelap buku ini karena karya itu adalah Riyadhush Shalihin",
+      "avg_logprob": -0.104,
+      "no_speech_prob": 0.0,
+      "compression_ratio": 2.172,
+      "flags": [],
+      "link": "https://youtu.be/hHn8Od5_oqs?t=805"
+    },
+    {
+      "id": 21,
+      "start": 858.48,
+      "end": 915.54,
+      "text": "yang ditulis oleh Al-Imam An-Nawawi. Al-Imam, salah satu ulama madzhab Syafi'i. Ini karya fenomenal. Kutiba lahul qabul fil ummah. Allah memberikan taufik diterima oleh umat Islam dan merubah peta dunia. Ini kan salah satu karya beliau yang membuat beliau dijuluki oleh banyak ulama dengan gelar Muhyiddin. Walaupun beliau nggak suka dengan gelar itu. Tapi banyak orang mengatakan Muhyiddin.",
+      "avg_logprob": -0.195,
+      "no_speech_prob": 0.0,
+      "compression_ratio": 1.681,
+      "flags": [],
+      "link": "https://youtu.be/hHn8Od5_oqs?t=858",
+      "revisi": [
+        {
+          "lama": "ulama Muhammadur Syafi'i",
+          "baru": "ulama madzhab Syafi'i",
+          "alasan": "Salah dengar madzhab Syafi'i"
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "start": 916.69,
+      "end": 985.71,
+      "text": "Apa artinya muhidin? Penghidup agama, bukan penghidup agama. Seakan-akan dengan agama ini mati suri lalu dihidupkan lagi oleh karya-karya beliau. Khususnya diantaranya Riyadhush Shalihin. Nah karya ini begitu luar biasa. Dengan izin Allah begitu spektakuler. Ini masterpiece dalam dunia ilmu. Ini lahir dari rahim kesulitan, rahim kefakiran.",
+      "avg_logprob": -0.151,
+      "no_speech_prob": 0.0,
+      "compression_ratio": 1.591,
+      "flags": [],
+      "link": "https://youtu.be/hHn8Od5_oqs?t=916"
+    },
+    {
+      "id": 23,
+      "start": 987.44,
+      "end": 1040.3,
+      "text": "karena beliau rahimahullah tidak kaya tidak berkecukupan hidupnya nanti kita akan berbicara tentang beliau rahimahullah bi'idhnillahi ta'ala insyaallah dan sekali lagi kalau banyak karya kita hanya bisa jadi penonton kita hanya bisa jadi konsumen kita hanya bisa menjadi penikmat kita nggak diizinkan untuk masuk ke dapur masuk ke pabriknya",
+      "avg_logprob": -0.106,
+      "no_speech_prob": 0.0,
+      "compression_ratio": 1.884,
+      "flags": [],
+      "link": "https://youtu.be/hHn8Od5_oqs?t=987"
+    },
+    {
+      "id": 24,
+      "start": 1040.5,
+      "end": 1094.05,
+      "text": "lalu melihat apa rahasia dari karya tersebut. Aku boleh masuk ke dapur kamu nggak? Aduh, rahasia. Kita nggak dikasih lihat bumbu-bumbu dapur rahasianya? Nggak boleh mah. Udah, kamu mau pesan apa? Aku buatin makanannya. Tapi nggak boleh masuk dapur. Tapi karya ini beda. Al-Imam An-Nawawi membuka. Bahkan mulai dari mukaddimah atau kata pengantarnya belum dijelaskan. Dan itu salah satu kuncian.",
+      "avg_logprob": -0.122,
+      "no_speech_prob": 0.0,
+      "compression_ratio": 1.646,
+      "flags": [],
+      "link": "https://youtu.be/hHn8Od5_oqs?t=1040"
+    },
+    {
+      "id": 25,
+      "start": 1094.05,
+      "end": 1129.2,
+      "text": "kenapa beliau bisa membuat karya yang begitu luar biasa ini. Saudaraku ya Allah muliakan, banyak para ulama menyatakan bahwa Riyadhush Shalihin atau buku Riyadhush Shalihin atau kitab Riyadhush Shalihin pakai bahasa Arab kitab Riyadhush Shalihin adalah buku atau kitab Riyadhush Shalihin adalah kitab yang menempati ranking kedua di dunia.",
+      "avg_logprob": -0.1,
+      "no_speech_prob": 0.0,
+      "compression_ratio": 2.012,
+      "flags": [],
+      "link": "https://youtu.be/hHn8Od5_oqs?t=1094"
+    },
+    {
+      "id": 26,
+      "start": 1130.13,
+      "end": 1158.9,
+      "text": "skalanya dunia, bukan regional, bukan Indonesia, bukan Jawa, bukan Timur Tengah, dunia. Kitab ranking dua di dunia dari sisi penyebaran dan pengkajian. Jadi kitab ini yang paling tersebar kedua sedunia, yang paling banyak dikaji oleh umat Islam kedua di dunia.",
+      "avg_logprob": -0.122,
+      "no_speech_prob": 0.0,
+      "compression_ratio": 1.652,
+      "flags": [],
+      "link": "https://youtu.be/hHn8Od5_oqs?t=1130"
+    },
+    {
+      "id": 27,
+      "start": 1165.52,
+      "end": 1206.13,
+      "text": "Kitab ini hanya kalah dari satu kitab yang menempati ranking pertama. Hanya kalah dari satu kitab yang menempati ranking pertama. Selain kitab itu, semua di bawah Riyadhush Shalihin. Penyebarannya dan pengkajiannya tidak semasif, tidak seluas Riyadhush Shalihin. Kitab Riyadhush Shalihin hanya kalah dari satu kitab yang ranking satu.",
+      "avg_logprob": -0.07,
+      "no_speech_prob": 0.0,
+      "compression_ratio": 2.175,
+      "flags": [],
+      "link": "https://youtu.be/hHn8Od5_oqs?t=1165"
+    },
+    {
+      "id": 28,
+      "start": 1206.26,
+      "end": 1247.3,
+      "text": "Kitab apa, saudaraku? Shahih Bukhari? Bukan. Shahih Muslim? Bukan. Kitabullah Al-Quranul Karim. Kitabullah Al-Quran. Kitab Riyadhush Shalihin hanya kalah dari Al-Quranul Karim. Allahu Akbar. Karena Al-Quran lah yang paling banyak dan paling luas penyebaran dan paling banyak dikaji oleh manusia.",
+      "avg_logprob": -0.169,
+      "no_speech_prob": 0.0,
+      "compression_ratio": 1.758,
+      "flags": [],
+      "link": "https://youtu.be/hHn8Od5_oqs?t=1206",
+      "revisi": [
+        {
+          "lama": "Soi Bukhari",
+          "baru": "Shahih Bukhari",
+          "alasan": "Ejaan judul kitab Shahih"
+        },
+        {
+          "lama": "Soi Muslim",
+          "baru": "Shahih Muslim",
+          "alasan": "Ejaan judul kitab Shahih"
+        }
+      ]
+    },
+    {
+      "id": 29,
+      "start": 1247.3,
+      "end": 1289.07,
+      "text": "Jelas, itu firman-firman Allah. Tidak ada yang lebih tinggi dari Al-Quranul Karim. Al-Quran yang paling luas penyebarannya dan paling banyak dikaji oleh manusia. Nah setelah Al-Quranul Karim, setelah kitabullah, kitabullah itu artinya Al-Quranul Karim. Kitab sucinya Allah itu maksudnya. Setelah itu Riyadhush Shalihin. Riyadhush Shalihin. Makanya kalau ada survei buku agama apa yang paling tersebar.",
+      "avg_logprob": -0.112,
+      "no_speech_prob": 0.0,
+      "compression_ratio": 1.853,
+      "flags": [],
+      "link": "https://youtu.be/hHn8Od5_oqs?t=1247"
+    },
+    {
+      "id": 30,
+      "start": 1291.34,
+      "end": 1336.91,
+      "text": "dan dimiliki oleh umat islam di rumah mereka baik yang punya perpustakaan baik yang enggak punya perpustakaan tapi punya satu dua buku agama deh maka surfe membuktikan setelah Al-Quran yang paling banyak tersebar di rumah-rumah umat islam Riyadhush Shalihin. Riyadhush Shalihin. Walaupun belum mengkaji, belum pernah ngaji Riyadhush Shalihin dan sebanyak yang udah ngaji tapi belum selesai, belum tamat",
+      "avg_logprob": -0.15,
+      "no_speech_prob": 0.0,
+      "compression_ratio": 1.919,
+      "flags": [],
+      "link": "https://youtu.be/hHn8Od5_oqs?t=1291"
+    },
+    {
+      "id": 31,
+      "start": 1336.94,
+      "end": 1386.48,
+      "text": "terus kajanya berhenti misalnya kendala di ustadznya atau misalnya ustadznya meninggal rahimahullah atau kita yang punya kendala kita harus pindah kota kita harus pergi ke tempat lain tapi paling nggak dia punya tuh Riyadhush Shalihin punya Riyadhush Shalihin dan buku ini terbukti sudah merubah wajah dunia dengan izin dan taufik dari Allah menjadi lebih bermartabat lebih berakhlak lebih beriman",
+      "avg_logprob": -0.1,
+      "no_speech_prob": 0.0,
+      "compression_ratio": 1.843,
+      "flags": [],
+      "link": "https://youtu.be/hHn8Od5_oqs?t=1336"
+    },
+    {
+      "id": 32,
+      "start": 1386.77,
+      "end": 1432.98,
+      "text": "dan bertakwa kepada Allah SWT. Harus menginspirasi kita, saudaraku, bahwa dengan izin Allah, dengan taufik dari Allah, apa yang tidak bisa tentu saja sesuai dengan syariat Allah SWT dan ketetapan kauniahnya, pola yang Allah SWT tetapkan di dunia yang fana ini. Selama masih sesuai dengan koren itu, apa yang sulit?",
+      "avg_logprob": -0.141,
+      "no_speech_prob": 0.0,
+      "compression_ratio": 1.667,
+      "flags": [],
+      "link": "https://youtu.be/hHn8Od5_oqs?t=1386"
+    },
+    {
+      "id": 33,
+      "start": 1441.33,
+      "end": 1494.94,
+      "text": "tinggal kita ikuti kunci orang-orang sukses sebelum kita dan kita pelajari salah satunya karya ini jangan tenggelam dalam keterpurukan di hari-hari ini kita harus bangkit dengan minta pertolongan kepada Allah dengan kembali kepada Allah dan salah satu cara bangkit belajar ambil ilmu sebanyak-banyaknya di hari-hari ini mungkin uang seret di hari-hari ini menipis",
+      "avg_logprob": -0.053,
+      "no_speech_prob": 0.0,
+      "compression_ratio": 1.896,
+      "flags": [],
+      "link": "https://youtu.be/hHn8Od5_oqs?t=1441"
+    },
+    {
+      "id": 34,
+      "start": 1494.94,
+      "end": 1540.5,
+      "text": "tapi ilmu tidak boleh menipis ada seribu satu alasan untuk mengatakan kita nggak punya uang di hari-hari ini uang kita menipis di hari-hari ini kita nggak mampu beli beras di hari-hari ini dan alasan kita akan diterima tapi tidak ada alasan yang bisa kita gunakan di hadapan Allah nanti hari kiamat kalau ilmu kita nggak bertambah di hari-hari ini",
+      "avg_logprob": -0.052,
+      "no_speech_prob": 0.0,
+      "compression_ratio": 1.966,
+      "flags": [],
+      "link": "https://youtu.be/hHn8Od5_oqs?t=1494"
+    },
+    {
+      "id": 35,
+      "start": 1540.98,
+      "end": 1604.88,
+      "text": "iman kita tidak menguat di hari-hari ini. Allah sulitkan rizki yang berupa uang, harta, makanan, kerjaan, orderan di hari-hari ini. Rizki yang berupa ilmu, iman, pengalaman, dan lain sebagainya. Fa innama al usri yusra. Sesungguhnya dalam satu kesulitan ada banyak kemudahan. Banyak kemudahan. Kalian akan belajar.",
+      "avg_logprob": -0.139,
+      "no_speech_prob": 0.0,
+      "compression_ratio": 1.676,
+      "flags": [],
+      "link": "https://youtu.be/hHn8Od5_oqs?t=1540"
+    },
+    {
+      "id": 36,
+      "start": 1611.25,
+      "end": 1654.96,
+      "text": "karena itu dengan meminta pertolongan kepada Allah dan dengan segala keterbatasan kita pagi ini dan pagi di hari esok lusa dan seterusnya InsyaAllahu ta'ala kita akan mempelajari Riyadhush Shalihin dengan segala keterbatasan dan segala kekurangan kita dan hanya Allah yang memberikan taufik dan pertolongan untuk hal ini.",
+      "avg_logprob": -0.106,
+      "no_speech_prob": 0.0,
+      "compression_ratio": 1.84,
+      "flags": [],
+      "link": "https://youtu.be/hHn8Od5_oqs?t=1611"
+    },
+    {
+      "id": 37,
+      "start": 1654.96,
+      "end": 1714.45,
+      "text": "dan ini jika Allah memberikan umur bagi kita dan kesempatan bagi kita dan ini salah satu hikmah juga di hari-hari ini karena kondisi seperti ini membuka kelas atau majlis Riyadhush Shalihin di waktu pagi insya'allahu ta'ala kalau gak ada kondisi gini gak kepikiran atau gak punya waktu kita oleh karena itu ini yang perlu kita camkat ada banyak tanggung jawab yang mungkin gak bisa yang membuat kita gak bisa belajar ini",
+      "avg_logprob": -0.114,
+      "no_speech_prob": 0.0,
+      "compression_ratio": 1.784,
+      "flags": [],
+      "link": "https://youtu.be/hHn8Od5_oqs?t=1654"
+    },
+    {
+      "id": 38,
+      "start": 1716.18,
+      "end": 1770.19,
+      "text": "atau banyak kesibukan yang membuat kita nggak bisa belajar ini. Tapi dengan kondisi gini Allah kasih kemudahan. Dan bukankah kita yakin ilmu di atas harta? Ilmu di atas harta. Hidayah di atas harta. Itu yang kita yakini. Maka ini penting. Ini harus ditekankan.",
+      "avg_logprob": -0.151,
+      "no_speech_prob": 0.0,
+      "compression_ratio": 1.582,
+      "flags": [],
+      "link": "https://youtu.be/hHn8Od5_oqs?t=1716"
+    },
+    {
+      "id": 39,
+      "start": 1773.97,
+      "end": 1811.5,
+      "text": "ayat dalam surat Yunus ini. Qul bifadlillah, katakan wa Muhammad kepada mereka, hendaknya mereka bergembira dengan karunia dan rahmat dari Allah subhanahu wa ta'ala. Disuruh gembira. Kenapa? Karena dapat karunia dan dapat rahmat Allah subhanahu wa ta'ala. Apa tafsir karunia dan rahmat? Uang? Bukan. Harta? Bukan. Pekerjaan? Bukan. Silahkan cek buku-buku tafsir klasik. Yang dimaksud adalah iman.",
+      "avg_logprob": -0.105,
+      "no_speech_prob": 0.0,
+      "compression_ratio": 1.726,
+      "flags": [],
+      "link": "https://youtu.be/hHn8Od5_oqs?t=1773"
+    },
+    {
+      "id": 40,
+      "start": 1812.05,
+      "end": 1865.42,
+      "text": "dan Al-Quranul Karim. Hendaknya kalian bergembira ketika mendapatkan iman dan Al-Quran. Kenapa? Karena iman dan Al-Quran itu lebih baik, lebih mahal, lebih tinggi daripada harta dunia yang mereka kumpulkan. Harta dunia mereka kumpulkan. Surat Yunus ayat 58. Hadirin yang Allah muliakan. Mintalah pertolongan kepada Allah SWT.",
+      "avg_logprob": -0.088,
+      "no_speech_prob": 0.0,
+      "compression_ratio": 1.655,
+      "flags": [],
+      "link": "https://youtu.be/hHn8Od5_oqs?t=1812"
+    },
+    {
+      "id": 41,
+      "start": 1869.07,
+      "end": 1913.39,
+      "text": "agar kita bisa belajar langsung dengan karya al-imam al-Nawawi ini. Ini karya fenomenal hadirin. Dengan itu kita mengikuti jalannya para ulama, karena kita bukan siapa-siapa. Ulama dari zaman ke zaman, saat mereka mendidik umat, mendidik masyarakat, salah satu senjata mereka untuk mendidik masyarakat adalah kitab Riyadhush Shalihin.",
+      "avg_logprob": -0.119,
+      "no_speech_prob": 0.0,
+      "compression_ratio": 1.642,
+      "flags": [],
+      "link": "https://youtu.be/hHn8Od5_oqs?t=1869"
+    },
+    {
+      "id": 42,
+      "start": 1916.37,
+      "end": 1967.18,
+      "text": "Kitab Riyadhush Shalihin. Dan dengan izin Allah, kitab ini merubah dunia. Banyak orang dapat hidayah dari kitab ini. Bukan puluhan, bukan ratusan, bukan jutaan orang. Jutaan orang. Mungkin miliaran kalau dari zaman Imam Nawawi. Angka yang gak aneh kalau sampai tembus miliaran orang. Tepatkan hidayah irsyad dari buku ini. Lalu dengannya Allah kasih taufik kepada dia. Dan ini dikaji ulama-ulama yang ilmunya",
+      "avg_logprob": -0.138,
+      "no_speech_prob": 0.0,
+      "compression_ratio": 1.697,
+      "flags": [],
+      "link": "https://youtu.be/hHn8Od5_oqs?t=1916"
+    },
+    {
+      "id": 43,
+      "start": 1968.3,
+      "end": 2011.95,
+      "text": "berkali-kali lipat dari kita. Jadi dengan kita belajar buku ini, kita mengikuti kurikulum ulama. Gimana perasaan kita? Kalau kita belajar bisnis, kurikulumnya Harvard University. Oh kita akan senang. Ini kurikulum langsung dibuatin Profesor Harvard atau Profesor Stanford. Oh kita yakin. Oh ini oke insyaallah. Belajar bisnis. Lebih tinggi dari itu saudaraku. Muhyiddin gelarnya. Dan terbukti.",
+      "avg_logprob": -0.122,
+      "no_speech_prob": 0.0,
+      "compression_ratio": 1.669,
+      "flags": [],
+      "link": "https://youtu.be/hHn8Od5_oqs?t=1968"
+    },
+    {
+      "id": 44,
+      "start": 2012.85,
+      "end": 2058.48,
+      "text": "dari waktu ke waktu dari generasi ke generasi ini karya fenomenal dengan izin Allah subhanahu wa ta'ala dan sudah digunakan para ulama-ulama ini karya dengan izin Allah menguatkan kita di hari-hari ini insya Allah mensupport kita dalam bertahan di hari-hari ini insya Allah memberikan kita keberkahan hanya Allah memberikan kita keberkahan dengan kita belajar",
+      "avg_logprob": -0.082,
+      "no_speech_prob": 0.0,
+      "compression_ratio": 2.13,
+      "flags": [],
+      "link": "https://youtu.be/hHn8Od5_oqs?t=2012"
+    },
+    {
+      "id": 45,
+      "start": 2058.8,
+      "end": 2137.33,
+      "text": "ayat-ayat dan hadits-hadits yang ada di buku ini Allah akan kasih kita keberkahan dan bukan hanya bertahan tapi Allah akan kasih kita kekuatan untuk bisa keluar dan bukan hanya bisa keluar membangun kehidupan yang lebih baik lagi membangun kehidupan yang lebih baik lagi yang lebih berkah, yang lebih soleh yang lebih bertakwa dan semuanya berkat pertolongan Allah SWT karena itu kita akan pelajari pelan-pelan",
+      "avg_logprob": -0.08,
+      "no_speech_prob": 0.0,
+      "compression_ratio": 2.119,
+      "flags": [],
+      "link": "https://youtu.be/hHn8Od5_oqs?t=2058"
+    },
+    {
+      "id": 46,
+      "start": 2141.71,
+      "end": 2188.75,
+      "text": "dengan meminta pertolongan dan taufiq dari Allah SWT dan semoga dengan volume yang sering seperti ini karena sebagian orang mengatakan tapi aku belajar, Riyadhush Shalihin gak tamat-tamat ternyata ketika dicek sebulan sekali belajarnya bagus, tapi sebulan sekali ya kapan selesai walaupun yang sedikit itu kita syukuri dan semoga dengan kondisi seperti ini kita bisa belajar dan menyelami karya Al-Imam Nawawi",
+      "avg_logprob": -0.119,
+      "no_speech_prob": 0.0,
+      "compression_ratio": 1.752,
+      "flags": [],
+      "link": "https://youtu.be/hHn8Od5_oqs?t=2141"
+    },
+    {
+      "id": 47,
+      "start": 2190.77,
+      "end": 2224.62,
+      "text": "setiap pagi insya'allahu ta'ala kecuali mungkin satu dua hari kalau kita merasa perlu mengangkat satu tema lain atau khusus tapi secara umum kita akan mempelajari setiap pagi dengan taufik dari Allah SWT dan semoga ini adalah bentuk ikhtiar kita selain jaga jarak fisik, jaga jarak sosial, physical distancing atau social distancing",
+      "avg_logprob": -0.111,
+      "no_speech_prob": 0.0,
+      "compression_ratio": 1.673,
+      "flags": [],
+      "link": "https://youtu.be/hHn8Od5_oqs?t=2190"
+    },
+    {
+      "id": 48,
+      "start": 2224.66,
+      "end": 2269.87,
+      "text": "di samping mengisolasi diri di samping learn from home atau work from home dan lain-lain ini ikhtiar agar Allah berikan keberkahan dan ini bukan tentang pandemi saja tapi masa depan ke depan ini untuk akhirat kita untuk akhirat kita dan ini penting saudaraku kita langsung berinteraksi dengan karya yang lahir dari kesulitan",
+      "avg_logprob": -0.079,
+      "no_speech_prob": 0.0,
+      "compression_ratio": 1.747,
+      "flags": [],
+      "link": "https://youtu.be/hHn8Od5_oqs?t=2224"
+    },
+    {
+      "id": 49,
+      "start": 2270.96,
+      "end": 2320.21,
+      "text": "dan dengan izin Allah mampu merubah wajah dunia. Nawawi sampaikan dan berikan di kitab ini semoga kita bisa belajar resep-resep itu oleh memberikan taufik dan ilmu yang bermanfaat dan semoga kita bisa amalkan ini yang bisa disampaikan terima kasih banyak insya Allah kita bertemu nanti sore insya Allah tapi khusus Riyadhush Shalihin ini akan menjadi menu pagi kita jadi semoga",
+      "avg_logprob": -0.123,
+      "no_speech_prob": 0.0,
+      "compression_ratio": 1.761,
+      "flags": [],
+      "link": "https://youtu.be/hHn8Od5_oqs?t=2270",
+      "revisi": [
+        {
+          "lama": "Radhus Shalihin",
+          "baru": "Riyadhush Shalihin",
+          "alasan": "Salah dengar judul kitab"
+        }
+      ]
+    },
+    {
+      "id": 50,
+      "start": 2321.01,
+      "end": 2338.48,
+      "text": "kalau menu pagi kita Riyadhush Shalihin, Allah memberikan taufik dan pertolongan di hari-hari tersebut. Semoga bermanfaat.",
+      "avg_logprob": -0.203,
+      "no_speech_prob": 0.0,
+      "compression_ratio": 1.182,
+      "flags": [],
+      "link": "https://youtu.be/hHn8Od5_oqs?t=2321",
+      "revisi": [
+        {
+          "lama": "redo solehin",
+          "baru": "Riyadhush Shalihin",
+          "alasan": "Salah dengar judul kitab"
+        }
+      ]
+    }
+  ],
+  "revisi_manual": {
+    "tanggal": "2026-10-17",
+    "jumlah_perubahan": 6
+  }
+}
