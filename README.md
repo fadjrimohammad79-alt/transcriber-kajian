@@ -182,8 +182,8 @@ Pengaturan lain (ambang QC, VAD, nama penceramah) ada di `.env`; daftar lengkapn
 Hasil per video ada di `hasil\<Bab>\`.
 
 > **Isi `hasil\Niat\` adalah contoh hasil.** File `.json` / `.srt` / `.txt` di folder itu adalah keluaran
-> nyata untuk bab Niat (Riyadhush Shalihin), disertakan supaya bentuk hasilnya bisa dilihat tanpa menjalankan
-> apa pun. Isinya akan berubah bila video yang sama diproses ulang (`--force`); hapus atau abaikan bila tidak
+> nyata dua video pertama bab Niat (Riyadhush Shalihin), diproses lewat backend Groq, disertakan supaya bentuk
+> hasilnya bisa dilihat tanpa menjalankan apa pun. Isinya akan berubah bila video yang sama diproses ulang (`--force`); hapus atau abaikan bila tidak
 > diperlukan. Hasil QC manual (Claude Desktop) atas video yang sama tidak disimpan di repo.
 
 Tiga jenis berkas:

@@ -1,26 +1,12 @@
 {
-  "705YnRkk4dY": {
-    "bab": "Niat",
-    "kitab": "Riyadhussalihiin",
-    "diproses_pada": "2026-10-17T09:54:23",
-    "status": "selesai",
-    "judul": "15. KITA AKAN DIBANGKITKAN BERDASARKAN NIAT KITA",
-    "model": "large-v3",
-    "kualitas": "BAIK",
-    "file": {
-      "json": "Niat/20200426_705YnRkk4dY_15. KITA AKAN DIBANGKITKAN BERDASARKAN N.json",
-      "srt": "Niat/20200426_705YnRkk4dY_15. KITA AKAN DIBANGKITKAN BERDASARKAN N.srt",
-      "txt": "Niat/20200426_705YnRkk4dY_15. KITA AKAN DIBANGKITKAN BERDASARKAN N.txt"
-    }
-  },
   "hHn8Od5_oqs": {
     "bab": "Niat",
     "kitab": "Riyadhussalihiin",
-    "diproses_pada": "2026-10-10T21:32:38",
+    "diproses_pada": "2026-10-19T16:41:18",
     "status": "selesai",
     "judul": "01. KARYA YANG MENGUBAH DUNIA  | Riyaadhushshaalihiin",
-    "model": "large-v3-turbo",
-    "kualitas": "BAIK",
+    "model": "groq/whisper-large-v3",
+    "kualitas": "PERLU_CEK",
     "file": {
       "json": "Niat/20200410_hHn8Od5_oqs_01. KARYA YANG MENGUBAH DUNIA Riyaadhush.json",
       "srt": "Niat/20200410_hHn8Od5_oqs_01. KARYA YANG MENGUBAH DUNIA Riyaadhush.srt",
@@ -30,253 +16,15 @@
   "4AdGaNVQt0c": {
     "bab": "Niat",
     "kitab": "Riyadhussalihiin",
-    "diproses_pada": "2026-10-11T11:06:20",
+    "diproses_pada": "2026-10-19T16:42:09",
     "status": "selesai",
     "judul": "02. BERAWAL DARI KEBERKAHAN  | Riyaadhushshaalihiin",
-    "model": "large-v3",
+    "model": "groq/whisper-large-v3",
     "kualitas": "BAIK",
     "file": {
       "json": "Niat/20200411_4AdGaNVQt0c_02. BERAWAL DARI KEBERKAHAN Riyaadhushsh.json",
       "srt": "Niat/20200411_4AdGaNVQt0c_02. BERAWAL DARI KEBERKAHAN Riyaadhushsh.srt",
       "txt": "Niat/20200411_4AdGaNVQt0c_02. BERAWAL DARI KEBERKAHAN Riyaadhushsh.txt"
-    }
-  },
-  "OD60VoQuueY": {
-    "bab": "Niat",
-    "kitab": "Riyadhussalihiin",
-    "diproses_pada": "2026-10-11T11:16:58",
-    "status": "selesai",
-    "judul": "03. KUNCI-KUNCI KEBERKAHAN #1  | Riyaadhushshaalihiin",
-    "model": "large-v3",
-    "kualitas": "PERLU_CEK",
-    "file": {
-      "json": "Niat/20200412_OD60VoQuueY_03. KUNCI-KUNCI KEBERKAHAN #1 Riyaadhush.json",
-      "srt": "Niat/20200412_OD60VoQuueY_03. KUNCI-KUNCI KEBERKAHAN #1 Riyaadhush.srt",
-      "txt": "Niat/20200412_OD60VoQuueY_03. KUNCI-KUNCI KEBERKAHAN #1 Riyaadhush.txt"
-    }
-  },
-  "ub79GhZ01NM": {
-    "bab": "Niat",
-    "kitab": "Riyadhussalihiin",
-    "diproses_pada": "2026-10-11T11:34:47",
-    "status": "selesai",
-    "judul": "04. KUNCI-KUNCI KEBERKAHAN #2  | Riyaadhushshaalihiin",
-    "model": "large-v3",
-    "kualitas": "BAIK",
-    "file": {
-      "json": "Niat/20200413_ub79GhZ01NM_04. KUNCI-KUNCI KEBERKAHAN #2 Riyaadhush.json",
-      "srt": "Niat/20200413_ub79GhZ01NM_04. KUNCI-KUNCI KEBERKAHAN #2 Riyaadhush.srt",
-      "txt": "Niat/20200413_ub79GhZ01NM_04. KUNCI-KUNCI KEBERKAHAN #2 Riyaadhush.txt"
-    }
-  },
-  "VqGFjLFYfX4": {
-    "bab": "Niat",
-    "kitab": "Riyadhussalihiin",
-    "diproses_pada": "2026-10-11T13:31:10",
-    "status": "selesai",
-    "judul": "05. KUNCI-KUNCI KEBERKAHAN #3  | Riyaadhushshaalihiin",
-    "model": "large-v3",
-    "kualitas": "PERLU_CEK",
-    "file": {
-      "json": "Niat/20200414_VqGFjLFYfX4_05. KUNCI-KUNCI KEBERKAHAN #3 Riyaadhush.json",
-      "srt": "Niat/20200414_VqGFjLFYfX4_05. KUNCI-KUNCI KEBERKAHAN #3 Riyaadhush.srt",
-      "txt": "Niat/20200414_VqGFjLFYfX4_05. KUNCI-KUNCI KEBERKAHAN #3 Riyaadhush.txt"
-    }
-  },
-  "Q9J5u9KUiUo": {
-    "bab": "Niat",
-    "kitab": "Riyadhussalihiin",
-    "diproses_pada": "2026-10-11T11:53:02",
-    "status": "selesai",
-    "judul": "06. KUNCI-KUNCI KEBERKAHAN #4  | Riyaadhushshaalihiin",
-    "model": "large-v3",
-    "kualitas": "BAIK",
-    "file": {
-      "json": "Niat/20200415_Q9J5u9KUiUo_06. KUNCI-KUNCI KEBERKAHAN #4 Riyaadhush.json",
-      "srt": "Niat/20200415_Q9J5u9KUiUo_06. KUNCI-KUNCI KEBERKAHAN #4 Riyaadhush.srt",
-      "txt": "Niat/20200415_Q9J5u9KUiUo_06. KUNCI-KUNCI KEBERKAHAN #4 Riyaadhush.txt"
-    }
-  },
-  "qxvTRoXoMqI": {
-    "bab": "Niat",
-    "kitab": "Riyadhussalihiin",
-    "diproses_pada": "2026-10-11T12:17:11",
-    "status": "selesai",
-    "judul": "07. Tujuan-Nya menciptakanmu  | Riyaadhushshaalihiin",
-    "model": "large-v3",
-    "kualitas": "PERLU_CEK",
-    "file": {
-      "json": "Niat/20200416_qxvTRoXoMqI_07. Tujuan-Nya menciptakanmu Riyaadhushs.json",
-      "srt": "Niat/20200416_qxvTRoXoMqI_07. Tujuan-Nya menciptakanmu Riyaadhushs.srt",
-      "txt": "Niat/20200416_qxvTRoXoMqI_07. Tujuan-Nya menciptakanmu Riyaadhushs.txt"
-    }
-  },
-  "VaVL6Op8uUc": {
-    "bab": "Niat",
-    "kitab": "Riyadhussalihiin",
-    "diproses_pada": "2026-10-11T12:33:43",
-    "status": "selesai",
-    "judul": "08. CARA MENGGAPAI TUJUAN  | Riyaadhushshaalihiin",
-    "model": "large-v3",
-    "kualitas": "PERLU_CEK",
-    "file": {
-      "json": "Niat/20200417_VaVL6Op8uUc_08. CARA MENGGAPAI TUJUAN Riyaadhushshaa.json",
-      "srt": "Niat/20200417_VaVL6Op8uUc_08. CARA MENGGAPAI TUJUAN Riyaadhushshaa.srt",
-      "txt": "Niat/20200417_VaVL6Op8uUc_08. CARA MENGGAPAI TUJUAN Riyaadhushshaa.txt"
-    }
-  },
-  "P_ijHXF0nok": {
-    "bab": "Niat",
-    "kitab": "Riyadhussalihiin",
-    "diproses_pada": "2026-10-11T12:57:32",
-    "status": "selesai",
-    "judul": "09. SEBUAH PERINTAH UNTUK KITA  | Riyaadhushshaalihiin",
-    "model": "large-v3",
-    "kualitas": "BAIK",
-    "file": {
-      "json": "Niat/20200418_P_ijHXF0nok_09. SEBUAH PERINTAH UNTUK KITA Riyaadhus.json",
-      "srt": "Niat/20200418_P_ijHXF0nok_09. SEBUAH PERINTAH UNTUK KITA Riyaadhus.srt",
-      "txt": "Niat/20200418_P_ijHXF0nok_09. SEBUAH PERINTAH UNTUK KITA Riyaadhus.txt"
-    }
-  },
-  "aAQvOysGV4M": {
-    "bab": "Niat",
-    "kitab": "Riyadhussalihiin",
-    "diproses_pada": "2026-10-11T13:12:01",
-    "status": "selesai",
-    "judul": "10. YANG DITERIMA OLEH ALLAH SUBHAANAHU WA TA’ALA | Riyaadhushshaalihiin",
-    "model": "large-v3",
-    "kualitas": "PERLU_CEK",
-    "file": {
-      "json": "Niat/20200419_aAQvOysGV4M_10. YANG DITERIMA OLEH ALLAH SUBHAANAHU.json",
-      "srt": "Niat/20200419_aAQvOysGV4M_10. YANG DITERIMA OLEH ALLAH SUBHAANAHU.srt",
-      "txt": "Niat/20200419_aAQvOysGV4M_10. YANG DITERIMA OLEH ALLAH SUBHAANAHU.txt"
-    }
-  },
-  "HBHPZ1sB8aQ": {
-    "bab": "Niat",
-    "kitab": "Riyadhussalihiin",
-    "diproses_pada": "2026-10-17T08:57:56",
-    "status": "selesai",
-    "judul": "11. TERSEMBUNYI & TERLIHAT, SAMA SAJA | Riyaadhushshaalihiin",
-    "model": "large-v3",
-    "kualitas": "BAIK",
-    "file": {
-      "json": "Niat/20200420_HBHPZ1sB8aQ_11. TERSEMBUNYI & TERLIHAT, SAMA SAJA Ri.json",
-      "srt": "Niat/20200420_HBHPZ1sB8aQ_11. TERSEMBUNYI & TERLIHAT, SAMA SAJA Ri.srt",
-      "txt": "Niat/20200420_HBHPZ1sB8aQ_11. TERSEMBUNYI & TERLIHAT, SAMA SAJA Ri.txt"
-    }
-  },
-  "MVVXMQZDJuE": {
-    "bab": "Niat",
-    "kitab": "Riyadhussalihiin",
-    "diproses_pada": "2026-10-17T09:10:01",
-    "status": "selesai",
-    "judul": "12. NERACA AMALAN HATI | Riyaadhushshaalihiin",
-    "model": "large-v3",
-    "kualitas": "PERLU_CEK",
-    "file": {
-      "json": "Niat/20200421_MVVXMQZDJuE_12. NERACA AMALAN HATI Riyaadhushshaalih.json",
-      "srt": "Niat/20200421_MVVXMQZDJuE_12. NERACA AMALAN HATI Riyaadhushshaalih.srt",
-      "txt": "Niat/20200421_MVVXMQZDJuE_12. NERACA AMALAN HATI Riyaadhushshaalih.txt"
-    }
-  },
-  "6JiZyrXs79w": {
-    "bab": "Niat",
-    "kitab": "Riyadhussalihiin",
-    "diproses_pada": "2026-10-17T09:24:08",
-    "status": "selesai",
-    "judul": "13. BELAJAR TENTANG NIAT | Riyaadhushshaalihiin",
-    "model": "large-v3",
-    "kualitas": "BAIK",
-    "file": {
-      "json": "Niat/20200422_6JiZyrXs79w_13. BELAJAR TENTANG NIAT Riyaadhushshaal.json",
-      "srt": "Niat/20200422_6JiZyrXs79w_13. BELAJAR TENTANG NIAT Riyaadhushshaal.srt",
-      "txt": "Niat/20200422_6JiZyrXs79w_13. BELAJAR TENTANG NIAT Riyaadhushshaal.txt"
-    }
-  },
-  "EmG-YHEtHQg": {
-    "bab": "Niat",
-    "kitab": "Riyadhussalihiin",
-    "diproses_pada": "2026-10-17T09:40:07",
-    "status": "selesai",
-    "judul": "14. BENTUK & JENIS NIAT | Riyaadhushshaalihiin",
-    "model": "large-v3",
-    "kualitas": "PERLU_CEK",
-    "file": {
-      "json": "Niat/20200830_EmG-YHEtHQg_14. BENTUK & JENIS NIAT Riyaadhushshaali.json",
-      "srt": "Niat/20200830_EmG-YHEtHQg_14. BENTUK & JENIS NIAT Riyaadhushshaali.srt",
-      "txt": "Niat/20200830_EmG-YHEtHQg_14. BENTUK & JENIS NIAT Riyaadhushshaali.txt"
-    }
-  },
-  "hTvUNUHyR4g": {
-    "bab": "Niat",
-    "kitab": "Riyadhussalihiin",
-    "diproses_pada": "2026-10-17T10:07:40",
-    "status": "selesai",
-    "judul": "16. TERNYATA “HIJRAH” SUDAH TIDAK ADA | Riyaadhushshaalihiin",
-    "model": "large-v3",
-    "kualitas": "PERLU_CEK",
-    "file": {
-      "json": "Niat/20200425_hTvUNUHyR4g_16. TERNYATA “HIJRAH” SUDAH TIDAK ADA Ri.json",
-      "srt": "Niat/20200425_hTvUNUHyR4g_16. TERNYATA “HIJRAH” SUDAH TIDAK ADA Ri.srt",
-      "txt": "Niat/20200425_hTvUNUHyR4g_16. TERNYATA “HIJRAH” SUDAH TIDAK ADA Ri.txt"
-    }
-  },
-  "7nrsPJQa0tk": {
-    "bab": "Niat",
-    "kitab": "Riyadhussalihiin",
-    "diproses_pada": "2026-10-17T11:26:54",
-    "status": "selesai",
-    "judul": "17. AIR MATA YANG MELAHIRKAN PAHALA | Riyaadhushshaalihiin",
-    "model": "large-v3",
-    "kualitas": "PERLU_CEK",
-    "file": {
-      "json": "Niat/20200426_7nrsPJQa0tk_17. AIR MATA YANG MELAHIRKAN PAHALA Riya.json",
-      "srt": "Niat/20200426_7nrsPJQa0tk_17. AIR MATA YANG MELAHIRKAN PAHALA Riya.srt",
-      "txt": "Niat/20200426_7nrsPJQa0tk_17. AIR MATA YANG MELAHIRKAN PAHALA Riya.txt"
-    }
-  },
-  "yntLEAS9uuM": {
-    "bab": "Niat",
-    "kitab": "Riyadhussalihiin",
-    "diproses_pada": "2026-10-17T11:43:15",
-    "status": "selesai",
-    "judul": "18. SALAH ALAMAT | Riyaadhushshaalihiin",
-    "model": "large-v3",
-    "kualitas": "BAIK",
-    "file": {
-      "json": "Niat/20200427_yntLEAS9uuM_18. SALAH ALAMAT Riyaadhushshaalihiin.json",
-      "srt": "Niat/20200427_yntLEAS9uuM_18. SALAH ALAMAT Riyaadhushshaalihiin.srt",
-      "txt": "Niat/20200427_yntLEAS9uuM_18. SALAH ALAMAT Riyaadhushshaalihiin.txt"
-    }
-  },
-  "qkD2YvKebPw": {
-    "bab": "Niat",
-    "kitab": "Riyadhussalihiin",
-    "diproses_pada": "2026-10-17T11:56:46",
-    "status": "selesai",
-    "judul": "19. PANEN PAHALA DARI AKTIVITAS SEHARI-HARI | Riyaadhushshaalihiin",
-    "model": "large-v3",
-    "kualitas": "BAIK",
-    "file": {
-      "json": "Niat/20200427_qkD2YvKebPw_19. PANEN PAHALA DARI AKTIVITAS SEHARI-H.json",
-      "srt": "Niat/20200427_qkD2YvKebPw_19. PANEN PAHALA DARI AKTIVITAS SEHARI-H.srt",
-      "txt": "Niat/20200427_qkD2YvKebPw_19. PANEN PAHALA DARI AKTIVITAS SEHARI-H.txt"
-    }
-  },
-  "iDIH15Z_sxw": {
-    "bab": "Niat",
-    "kitab": "Riyadhussalihiin",
-    "diproses_pada": "2026-10-17T12:12:06",
-    "status": "selesai",
-    "judul": "20. PANEN PAHALA DARI AKTIVITAS SEHARI-HARI #2 | Riyaadhushshaalihiin",
-    "model": "large-v3",
-    "kualitas": "BAIK",
-    "file": {
-      "json": "Niat/20200428_iDIH15Z_sxw_20. PANEN PAHALA DARI AKTIVITAS SEHARI-H.json",
-      "srt": "Niat/20200428_iDIH15Z_sxw_20. PANEN PAHALA DARI AKTIVITAS SEHARI-H.srt",
-      "txt": "Niat/20200428_iDIH15Z_sxw_20. PANEN PAHALA DARI AKTIVITAS SEHARI-H.txt"
     }
   }
 }
