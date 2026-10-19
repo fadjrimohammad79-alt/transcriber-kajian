@@ -72,7 +72,8 @@ def load_koreksi(path: Path = config.FILE_KOREKSI) -> list[Aturan]:
 def terapkan(segments: list[dict], aturan: list[Aturan]) -> int:
     """Ganti teks segmen sesuai kamus, catat di s['revisi']. Return jumlah penggantian.
     Satu kali lewat pada teks asli: hasil sebuah aturan tidak diproses lagi oleh aturan lain
-    (A => B dan B => C tidak berantai, catatan 'revisi' tidak memuat teks perantara)."""
+    (A => B dan B => C tidak berantai, catatan 'revisi' tidak memuat teks perantara).
+    Aturan berhuruf kecil yang cocok dengan teks berawalan kapital menghasilkan pengganti berawalan kapital."""
     if not aturan:
         return 0
     # urutan aturan = prioritas pada posisi yang sama (kamus sudah terurut frasa terpanjang lebih dulu)
@@ -84,8 +85,12 @@ def terapkan(segments: list[dict], aturan: list[Aturan]) -> int:
 
         def ganti(m, catatan=catatan):
             a = aturan[int(m.lastgroup[1:])]
-            catatan.append({"lama": m.group(0), "baru": a.baru, "alasan": a.alasan, "oleh": "koreksi.txt"})
-            return a.baru
+            baru = a.baru
+            # aturan ditulis huruf kecil + teks aslinya berawalan kapital (awal kalimat): kapital dipertahankan
+            if m.group(0)[:1].isupper() and a.lama[:1].islower() and baru[:1].islower():
+                baru = baru[:1].upper() + baru[1:]
+            catatan.append({"lama": m.group(0), "baru": baru, "alasan": a.alasan, "oleh": "koreksi.txt"})
+            return baru
 
         baru = gabung.sub(ganti, teks)
         if catatan:

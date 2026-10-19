@@ -4,7 +4,7 @@
 # Isi HANYA kesalahan yang selalu salah di mana pun muncul (tidak butuh konteks).
 # JANGAN masukkan nama penceramah yang bocor: penggantinya tergantung siapa yang dikutip
 # (ditandai NAMA_BOCOR untuk dicek manual).
-# Sumber awal: hasil\transkrip-revisi\transkrip-revisi\LAPORAN_REVISI.md (revisi 2026-10-17).
+# Sumber awal: laporan QC manual bab Niat (revisi 2026-10-17; tidak disimpan di repo).
 
 # ── Nama ulama ──
 al-Dhahabi => adz-Dzahabi  # Ejaan nama adz-Dzahabi
@@ -49,3 +49,86 @@ At-Torik => Ath-Thariq  # Ejaan nama surat
 ketakuan => ketakwaan  # Salah dengar kata ketakwaan
 syaratul mustaqim => shiratal mustaqim  # Salah dengar shiratal mustaqim
 Allah dan Nuzulnya => Allah dan Rasulnya  # Lafaz hadits niat: Rasul, bukan Nuzul
+
+# ── Tambahan dari QC video 21 "Yang Dilihat Allah Darimu" (keluaran Groq, revisi 2026-10-19) ──
+# ── Nama ulama & sahabat ──
+al-Nawawi => an-Nawawi  # Ejaan nama an-Nawawi
+Qurtubi => Qurthubi  # Ejaan nama al-Qurthubi
+Sa'ad bin Abi Waqas => Sa'ad bin Abi Waqqash  # Ejaan nama sahabat
+Sufyan al-Thawri => Sufyan ats-Tsauri  # Ejaan nama ulama
+Sufyan Athawri => Sufyan ats-Tsauri  # Ejaan nama ulama
+Abu Musa al-Ash'ari => Abu Musa al-Asy'ari  # Ejaan nama sahabat
+Abu Ubaidah minil jarrah => Abu Ubaidah bin al-Jarrah  # Salah dengar nama sahabat
+Yusuf bin As'bat => Yusuf bin Asbath  # Ejaan nama ulama
+Muhammad bin Munqadir => Muhammad bin al-Munkadir  # Ejaan nama ulama
+Abu Hurra => Abu Hurairah  # Nama sahabat terpotong
+Khoybar => Khaibar  # Ejaan nama tempat
+kitab Helya => kitab Hilyatul Auliya'  # Salah dengar judul kitab
+
+# ── Ejaan & salah dengar ──
+merewatkan => meriwayatkan  # Salah dengar kata meriwayatkan
+kolbu => qalbu  # Ejaan qalbu
+fastabilul khairat => fastabiqul khairat  # Ejaan lafaz ayat
+istiqomah => istiqamah  # Ejaan baku
+gibah => ghibah  # Ejaan baku
+saudara ku => saudaraku  # Ejaan baku
+rekord => rekor  # Ejaan baku
+simstalabim => sim salabim  # Ejaan baku
+masa lemak => massa lemak  # Ejaan baku
+takarub => taqarrub  # Ejaan baku
+Ketauhilah => Ketahuilah  # Ejaan baku
+Saudaraku ya Allah muliakan => Saudaraku yang Allah muliakan  # Salah dengar 'yang'
+Hadirin ya Allah muliakan => Hadirin yang Allah muliakan  # Salah dengar 'yang'
+jaman sekalian => jamaah sekalian  # Salah dengar 'jamaah'
+
+# ── Tambahan dari QC video 22-29 bab Niat (keluaran Groq, revisi 2026-10-19) ──
+# ── Nama ulama, sahabat & tempat ──
+Uthman => Utsman  # Ejaan nama khalifah Utsman
+Khaybar => Khaibar  # Ejaan nama tempat
+Sharaf bin Murri => Syaraf bin Murri  # Ejaan nasab an-Nawawi
+bin Hussein => bin Husain  # Ejaan nasab
+Abu Zakariyah => Abu Zakariya  # Ejaan kunyah an-Nawawi
+Harith => Harits  # Ejaan nama al-Harits
+Abdul Bin Abbas => Abdullah bin Abbas  # Ejaan nama sahabat
+Muttalib => Muthalib  # Ejaan nama Abdul Muthalib
+Mutalib => Muthalib  # Ejaan nama Abdul Muthalib
+Ibnul Rajab => Ibnu Rajab  # Ejaan nama ulama
+Ash'ari => Asy'ari  # Ejaan nama al-Asy'ari
+al-Ash'ari => al-Asy'ari  # Ejaan nama al-Asy'ari
+Daru Qutni => ad-Daruquthni  # Ejaan nama ulama
+Daru Qudni => ad-Daruquthni  # Ejaan nama ulama
+Abu Bakar al-Siddiq => Abu Bakar ash-Shiddiq  # Ejaan nama sahabat
+Abi Talib => Abi Thalib  # Ejaan nama sahabat
+Hasan al-Basri => Hasan al-Bashri  # Ejaan nama ulama
+al-Adqolani => al-Asqalani  # Ejaan nama Ibnu Hajar
+al-Athqolani => al-Asqalani  # Ejaan nama Ibnu Hajar
+Yarmouk => Yarmuk  # Ejaan nama perang
+Hudaybiyah => Hudaibiyah  # Ejaan nama perjanjian
+
+# ── Ejaan & salah dengar ──
+kadunia => karunia  # Salah dengar kata karunia
+khusul khatimah => husnul khatimah  # Ejaan husnul khatimah
+niyat => niat  # Ejaan baku
+niyatnya => niatnya  # Ejaan baku
+niyatkan => niatkan  # Ejaan baku
+masalahat => maslahat  # Ejaan maslahat
+kemahkuasaan => kemahakuasaan  # Ejaan baku
+salawat => shalawat  # Ejaan seragam
+hadit => hadith  # Ejaan seragam
+murakabatullah => muraqabatullah  # Ejaan muraqabatullah
+saudara-ku => saudaraku  # Ejaan baku
+Hadirin, ya Allah muliakan => Hadirin yang Allah muliakan  # Salah dengar 'yang'
+masha'Allah => masya Allah  # Ejaan seragam
+mashaAllah => masya Allah  # Ejaan seragam
+
+# ── Lafaz shalawat & radhiyallahu (apostrof 'ain; kapital awal dipertahankan) ──
+radhiyallahu ta'ala anhu => radhiyallahu ta'ala 'anhu  # Lafaz doa untuk sahabat
+radhiyallahu ta'ala anhuma => radhiyallahu ta'ala 'anhuma  # Lafaz doa untuk dua sahabat
+radhiyallahu ta'ala anhumah => radhiyallahu ta'ala 'anhuma  # Salah dengar lafaz
+radhiyallahu ta'ala anhum => radhiyallahu ta'ala 'anhum  # Lafaz doa untuk para sahabat
+radhiyallahu ta'ala anha => radhiyallahu ta'ala 'anha  # Lafaz doa untuk sahabiyah
+sallallahu alaihi wa sallam => shallallahu 'alaihi wa sallam  # Ejaan shalawat
+shalallahu alaihi wa sallam => shallallahu 'alaihi wa sallam  # Ejaan shalawat
+shallallahu alaihi wa sallam => shallallahu 'alaihi wa sallam  # Ejaan shalawat
+sallallahu alaihi wasallam => shallallahu 'alaihi wa sallam  # Ejaan shalawat
+shallallahu alaihi wasallam => shallallahu 'alaihi wa sallam  # Ejaan shalawat

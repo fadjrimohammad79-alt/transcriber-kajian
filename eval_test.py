@@ -880,6 +880,7 @@ def t_flag_nama_bocor():
         "udah main Nuzul,": True,
         "Syaikh Muhammad bin Shalih al-Utsaimin menjelaskan": False,
         "Para ulama menyebutkan asbabun nuzul ayat ini": False,
+        "fas'alu ahladz dzikri in kuntum la ta'lamun": False,
         "Perbanyak dzikir pagi dan petang": False,
         "wa birrihim wa dzikri maathirihim wa thanai": False,   # video 05 seg 23: bacaan Arab
         "aqimish shalata li dzikri": False,
@@ -1453,6 +1454,35 @@ def t_koreksi_kamus_asli():
     assert koreksi.load_koreksi(TMP / "tidak_ada.txt") == []
     return f"koreksi.txt: {len(a)} aturan valid, tanpa rantai penggantian"
 
+def t_koreksi_video21():
+    with mock.patch("sys.stdout", io.StringIO()):
+        a = koreksi.load_koreksi()
+    segs = [{"text": "Saudara ku, kolbu itu berbolak-balik; al-Nawawi merewatkan hadith di Khoybar, Abu Hurra istiqomah."},
+            {"text": "Hadirin ya Allah muliakan, gibah itu rekord masa lemak. Abu Hurairah dan istiqamah sudah benar."},
+            {"text": "Ya Allah muliakan kami dan jangan hajar kolbunya."}]
+    n = koreksi.terapkan(segs, a)
+    assert segs[0]["text"] == "Saudaraku, qalbu itu berbolak-balik; an-Nawawi meriwayatkan hadith di Khaibar, Abu Hurairah istiqamah.", segs[0]["text"]
+    assert segs[1]["text"] == "Hadirin yang Allah muliakan, ghibah itu rekor massa lemak. Abu Hurairah dan istiqamah sudah benar.", segs[1]["text"]
+    assert segs[2]["text"] == "Ya Allah muliakan kami dan jangan hajar kolbunya.", "doa 'Ya Allah muliakan' & kata lain tidak disentuh"
+    assert n == 11 and koreksi.terapkan(segs, a) == 0, n
+    return f"aturan tambahan video 21 bekerja ({n} penggantian), doa 'Ya Allah muliakan' aman, idempoten"
+
+def t_koreksi_video22_29():
+    with mock.patch("sys.stdout", io.StringIO()) as out:
+        a = koreksi.load_koreksi()
+    assert "diabaikan" not in out.getvalue(), out.getvalue()
+    segs = [{"text": "Niyat itu penting, kadunia Uthman bin Affan radhiyallahu ta'ala anhu dan Abu Musa al-Ash'ari radhiyallahu ta'ala anhumah."},
+            {"text": "Nabi Sallallahu alaihi wa sallam bersabda; shallallahu alaihi wa sallam, sebagaimana salawat dan hadit masha'Allah."},
+            {"text": "Hadirin, ya Allah muliakan, Sharaf bin Murri bin Hasan bin Hussein; Abdul Bin Abbas bin Abdul Muttalib."},
+            {"text": "Radhiyallahu ta'ala 'anhu dan shallallahu 'alaihi wa sallam sudah benar; niat, shalawat, Utsman."}]
+    n = koreksi.terapkan(segs, a)
+    assert segs[0]["text"] == "Niat itu penting, karunia Utsman bin Affan radhiyallahu ta'ala 'anhu dan Abu Musa al-Asy'ari radhiyallahu ta'ala 'anhuma.", segs[0]["text"]
+    assert segs[1]["text"] == "Nabi Shallallahu 'alaihi wa sallam bersabda; shallallahu 'alaihi wa sallam, sebagaimana shalawat dan hadith masya Allah.", segs[1]["text"]
+    assert segs[2]["text"] == "Hadirin yang Allah muliakan, Syaraf bin Murri bin Hasan bin Husain; Abdullah bin Abbas bin Abdul Muthalib.", segs[2]["text"]
+    assert "revisi" not in segs[3] and segs[3]["text"].endswith("Utsman."), "teks yang sudah benar tidak berubah"
+    assert koreksi.terapkan(segs, a) == 0, "idempoten"
+    return f"{len(a)} aturan; aturan video 22-29 bekerja ({n} penggantian), kapital awal terjaga, teks benar tidak disentuh"
+
 def t_koreksi_di_process():
     d = TMP / "kr"
     class Salah(StubTranscriber):
@@ -1500,6 +1530,8 @@ test("Koreksi: baca kamus & validasi", t_koreksi_parse)
 test("Koreksi: terapkan ke segmen", t_koreksi_terapkan)
 test("Koreksi: kamus koreksi.txt asli valid", t_koreksi_kamus_asli)
 test("Koreksi: aturan tidak berantai", t_koreksi_tidak_berantai)
+test("Koreksi: aturan tambahan video 21", t_koreksi_video21)
+test("Koreksi: aturan tambahan video 22-29", t_koreksi_video22_29)
 
 def t_koreksi_varian_groq():
     a = koreksi.load_koreksi()

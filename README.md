@@ -245,6 +245,7 @@ baris `salah => benar  # alasan` diterapkan ke teks (kata/frasa utuh, huruf besa
 perubahan dicatat di segmen JSON: `"revisi": [{"lama", "baru", "alasan", "oleh": "koreksi.txt"}]`, dan
 jumlahnya di `transkripsi.koreksi_otomatis`.
 
+- Aturan yang ditulis huruf kecil boleh dipakai di awal kalimat: kapital awal dipertahankan (`Saudara ku` → `Saudaraku`).
 - Isi hanya kesalahan yang **selalu** salah (mis. `al-Dhahabi => adz-Dzahabi`, `ketakuan => ketakwaan`).
   Nama penceramah yang bocor **jangan** dimasukkan: penggantinya tergantung siapa yang dikutip (`NAMA_BOCOR`).
 - Setelah QC manual menemukan salah eja baru, tambahkan barisnya supaya video berikutnya langsung benar.

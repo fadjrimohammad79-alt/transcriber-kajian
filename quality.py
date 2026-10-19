@@ -81,8 +81,9 @@ _NAMA_UMUM = {
     "yayasan", "pondok", "pesantren", "indonesia", "dzikir", "quran", "alquran", "tafsir",
 }
 # Kata sebelum token yang membuatnya istilah/bacaan Arab biasa, bukan nama
-# (mis. "asbabun nuzul", "wa dzikri maatsirihim", "li dzikri").
-_NAMA_KECUALI_SEBELUM = {"asbabun", "asbab", "sabab", "sababun", "wa", "li", "bi", "fi"}
+# (mis. "asbabun nuzul", "wa dzikri maatsirihim", "li dzikri", "ahladz dzikri" = QS. An-Nahl: 43).
+_NAMA_KECUALI_SEBELUM = {"asbabun", "asbab", "sabab", "sababun", "wa", "li", "bi", "fi",
+                          "ahladz", "ahlidz", "ahlu", "ahla"}
 
 
 def nama_tokens(nama: list[str] | tuple[str, ...] | str) -> set[str]:
