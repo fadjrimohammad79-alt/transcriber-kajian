@@ -18,6 +18,7 @@ from pathlib import Path
 
 import config
 from antrian import Antrian, parse_file
+from koreksi import load_koreksi, terapkan as terapkan_koreksi
 from output import load_riwayat, save_result, save_riwayat
 from quality import flag_segments, summarize
 
@@ -70,8 +71,11 @@ class ModelGagalDimuat(RuntimeError):
 
 def _hint_model_error(e: Exception) -> str:
     msg = str(e).lower()
+    if "groq" in msg:
+        return "Perbaiki pengaturan Groq di .env, atau pakai --backend lokal / --backend cpu"
     if any(k in msg for k in ("cublas", "cudnn", "cuda", "dll", "libcu")):
-        return "Masalah GPU/CUDA → jalankan: python check_gpu.py  (atau sementara pakai --cpu)"
+        return ("Masalah GPU/CUDA → jalankan: python check_gpu.py  "
+                "(atau sementara pakai --backend groq / --backend cpu)")
     if "dilanjutkan" in msg or "tidak dikenal" in msg:
         return "Lihat pesan di atas; jalankan ulang untuk melanjutkan unduhan model"
     if any(k in msg for k in ("connection", "resolve", "timeout", "huggingface", "proxy", "ssl")):
@@ -79,6 +83,35 @@ def _hint_model_error(e: Exception) -> str:
     if any(k in msg for k in ("not found", "invalid", "repository", "404")):
         return "Nama model tidak dikenal → pakai large-v3, large-v3-turbo, atau nama repo HF yang benar"
     return "Jalankan python check_gpu.py untuk diagnosis"
+
+
+BACKENDS = ("auto", "lokal", "groq", "cpu")
+
+
+def cuda_available() -> bool:
+    """True bila CTranslate2 melihat GPU NVIDIA (CUDA)."""
+    try:
+        import gpu_setup  # noqa: F401  (daftarkan DLL CUDA di Windows sebelum ctranslate2)
+        import ctranslate2
+        return ctranslate2.get_cuda_device_count() > 0
+    except Exception:  # noqa: BLE001
+        return False
+
+
+def resolve_backend(choice: str, cuda_check=cuda_available, api_key: str | None = None) -> tuple[str, str]:
+    """Pilih backend transkripsi. Return (backend, alasan). ValueError bila pilihan tidak bisa dipakai."""
+    api_key = config.GROQ_API_KEY if api_key is None else api_key
+    if choice not in BACKENDS:
+        raise ValueError(f"Backend '{choice}' tidak dikenal → pilih salah satu: {', '.join(BACKENDS)}")
+    if choice == "groq" and not api_key:
+        raise ValueError("--backend groq butuh GROQ_API_KEY di .env (buat key di https://console.groq.com/keys)")
+    if choice != "auto":
+        return choice, "dipilih"
+    if cuda_check():
+        return "lokal", "GPU NVIDIA terdeteksi"
+    if api_key:
+        return "groq", "GPU NVIDIA tidak ditemukan, GROQ_API_KEY ada"
+    return "cpu", "GPU NVIDIA tidak ditemukan dan GROQ_API_KEY kosong (CPU lambat; isi GROQ_API_KEY untuk Groq)"
 
 
 def _cleanup_old_files(old_entry: dict, new_paths: dict) -> None:
@@ -92,8 +125,12 @@ def _cleanup_old_files(old_entry: dict, new_paths: dict) -> None:
 
 def process(items, transcriber_factory, download_fn, riwayat_path: Path, hasil_dir: Path,
             audio_dir: Path, hotwords: str = "", force: bool = False,
-            word_timestamps: bool = False, hapus_audio: bool = False) -> list[dict]:
-    """Proses daftar video. Satu video gagal tidak menghentikan yang lain."""
+            word_timestamps: bool = False, hapus_audio: bool = False,
+            aturan_koreksi: list | None = None) -> list[dict]:
+    """Proses daftar video. Satu video gagal tidak menghentikan yang lain.
+    aturan_koreksi: kamus koreksi (None = muat koreksi.txt)."""
+    if aturan_koreksi is None:
+        aturan_koreksi = load_koreksi()
     riwayat = load_riwayat(riwayat_path)
     todo = [it for it in items if force or riwayat.get(it["vid"], {}).get("status") != "selesai"]
     skipped = len(items) - len(todo)
@@ -120,6 +157,9 @@ def process(items, transcriber_factory, download_fn, riwayat_path: Path, hasil_d
 
             result = transcriber.transcribe(audio_path, hotwords=hotwords, word_timestamps=word_timestamps)
             result["prompt"] = hotwords   # tercatat di JSON: transkrip bisa ditelusuri ulang
+            result["koreksi_otomatis"] = terapkan_koreksi(result["segments"], aturan_koreksi)
+            if result["koreksi_otomatis"]:
+                print(f"   🩹 Koreksi kamus: {result['koreksi_otomatis']} perubahan (field 'revisi')")
             # QC_NAMA_PEMBICARA menimpa nama channel (channel lembaga bukan nama penceramah)
             nama = config.QC_NAMA_PEMBICARA or [meta.get("channel") or ""]
             segs = flag_segments(result["segments"], hotwords, nama)
@@ -174,7 +214,9 @@ def main(argv=None) -> int:
     p.add_argument("--kitab", help="Nama kitab")
     p.add_argument("--model", default=config.MODEL_NAME, help="large-v3 (default) | large-v3-turbo | repo HF")
     p.add_argument("--batch", type=int, default=config.BATCH_SIZE, help="Ukuran batch GPU (default 8; turunkan jika VRAM habis)")
-    p.add_argument("--cpu", action="store_true", help="Paksa CPU (int8), untuk uji tanpa GPU")
+    p.add_argument("--backend", default=config.BACKEND, choices=BACKENDS,
+                   help="auto (default): GPU NVIDIA → Groq API → CPU | lokal | groq | cpu")
+    p.add_argument("--cpu", action="store_true", help="Sama dengan --backend cpu (int8, lambat)")
     p.add_argument("--words", action="store_true", help="Simpan timestamp per kata")
     p.add_argument("--force", action="store_true", help="Ulang video yang sudah selesai")
     p.add_argument("--hapus-audio", action="store_true", help="Hapus audio setelah ditranskripsi")
@@ -201,10 +243,19 @@ def main(argv=None) -> int:
     if not items:
         return 1
 
-    device = "cpu" if args.cpu else config.DEVICE
-    compute = "int8" if args.cpu else config.COMPUTE_TYPE
+    try:
+        backend, alasan = resolve_backend("cpu" if args.cpu else args.backend)
+    except ValueError as e:
+        print(f"❌ {e}")
+        return 1
+    print(f"⚙️  Backend: {backend} ({alasan}).")
+    device = "cpu" if backend == "cpu" else config.DEVICE
+    compute = "int8" if backend == "cpu" else config.COMPUTE_TYPE
 
     def factory():
+        if backend == "groq":
+            from groq_transcriber import GroqTranscriber
+            return GroqTranscriber(args.model)
         from transcriber import Transcriber
         return Transcriber(args.model, device, compute, args.batch)
 

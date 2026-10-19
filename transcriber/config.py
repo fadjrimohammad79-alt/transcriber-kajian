@@ -21,6 +21,7 @@ DIR_HASIL   = BASE_DIR / "hasil"        # transkrip JSON / SRT / TXT
 FILE_RIWAYAT = BASE_DIR / "riwayat.json"
 FILE_GLOSARIUM = BASE_DIR / "glosarium.txt"
 FILE_PROMPT_GAYA = BASE_DIR / "prompt_gaya.txt"
+FILE_KOREKSI = BASE_DIR / "koreksi.txt"            # kamus koreksi otomatis (salah => benar)
 
 # ── Model ────────────────────────────────────────────────────────────
 # large-v3        : paling akurat (default)
@@ -32,6 +33,12 @@ COMPUTE_TYPE = os.getenv("WHISPER_COMPUTE", "float16")      # float16 (GPU) | in
 BATCH_SIZE   = int(os.getenv("WHISPER_BATCH", "8"))         # 8 aman untuk RTX 4060 8 GB
 BEAM_SIZE    = int(os.getenv("WHISPER_BEAM", "5"))
 LANGUAGE     = os.getenv("WHISPER_LANG", "id")              # dikunci Bahasa Indonesia
+
+# ── Backend transkripsi ──────────────────────────────────────────────
+# auto  : GPU NVIDIA lokal bila ada → Groq API bila GROQ_API_KEY diisi → CPU lokal
+# lokal : paksa GPU NVIDIA | groq : paksa Groq API | cpu : paksa CPU lokal (lambat)
+BACKEND      = os.getenv("WHISPER_BACKEND", "auto").strip().lower() or "auto"
+GROQ_API_KEY = os.getenv("GROQ_API_KEY", "").strip()
 
 # ── Cek kualitas ─────────────────────────────────────────────────────
 QC_LOW_LOGPROB      = float(os.getenv("QC_LOW_LOGPROB", "-1.0"))   # di bawah ini = model ragu

@@ -280,7 +280,8 @@ def t_gpu_setup_windows():
          mock.patch.dict(os.environ, {"PATH": ""}):
         added = gpu_setup.register_cuda_dlls()
     assert len(added) == 2 and len(added_calls) == 2, added
-    assert gpu_setup.register_cuda_dlls() == []   # di Linux: no-op
+    with mock.patch.object(gpu_setup.sys, "platform", "linux"):
+        assert gpu_setup.register_cuda_dlls() == []   # di Linux: no-op
     return "DLL cublas+cudnn didaftarkan di Windows, no-op di Linux"
 
 def t_progress_hook():
@@ -359,6 +360,173 @@ test("gpu_setup: daftar DLL CUDA di Windows", t_gpu_setup_windows)
 
 
 # ═════════════════════════════════════════════════════════════════════
+group("4b. BACKEND & GROQ API (HTTP di-mock)")
+import io
+import urllib.error
+import config
+import groq_transcriber as gt
+from quality import flag_segments
+
+def _sine_audio(path, detik):
+    import av, numpy as np
+    with av.open(str(path), "w", format="wav") as out:
+        st = out.add_stream("pcm_s16le", rate=16000, layout="mono")
+        t = np.arange(int(16000 * detik)) / 16000
+        pcm = (np.sin(2 * np.pi * 440 * t) * 8000).astype(np.int16).reshape(1, -1)
+        frame = av.AudioFrame.from_ndarray(pcm, format="s16", layout="mono")
+        frame.sample_rate = 16000
+        for pkt in st.encode(frame):
+            out.mux(pkt)
+        for pkt in st.encode(None):
+            out.mux(pkt)
+
+def t_resolve_backend():
+    import run as _run
+    rb = _run.resolve_backend
+    assert rb("auto", lambda: True, "") == ("lokal", "GPU NVIDIA terdeteksi")
+    assert rb("auto", lambda: False, "gsk_x")[0] == "groq"
+    assert rb("auto", lambda: False, "")[0] == "cpu"
+    assert rb("cpu", lambda: True, "gsk_x")[0] == "cpu" and rb("lokal", lambda: False, "")[0] == "lokal"
+    for bad in (("groq", ""), ("gpu", "gsk_x")):
+        try:
+            rb(bad[0], lambda: False, bad[1]); raise AssertionError(bad)
+        except ValueError:
+            pass
+    return "auto: GPU → Groq (ada key) → CPU; groq tanpa key & nama salah ditolak"
+
+def t_groq_encode_chunks():
+    import av
+    src = TMP / "sine.wav"; _sine_audio(src, 25)
+    d = TMP / "enc"; d.mkdir()
+    ch = gt.encode_chunks(src, d, 10)
+    assert [round(o) for _, o in ch] == [0, 10, 20], ch
+    dur = 0.0
+    for p, _ in ch:
+        with av.open(str(p)) as c:
+            assert c.streams.audio[0].codec_context.name == "opus"
+            dur += float(c.duration) / 1e6
+    assert abs(dur - 25) < 0.3, dur
+    one = gt.encode_chunks(src, d, 3600)
+    assert len(one) == 1 and one[0][0].stat().st_size < src.stat().st_size / 5
+    return f"wav 25 dtk → 3 potongan Opus (offset 0/10/20), total {dur:.1f} dtk; ≥5x lebih kecil"
+
+class _Resp:
+    def __init__(self, data): self.data = json.dumps(data).encode()
+    def read(self): return self.data
+    def __enter__(self): return self
+    def __exit__(self, *a): return False
+
+def _seg_api(i, start, end, text):
+    return {"id": i, "seek": 0, "start": start, "end": end, "text": f" {text}", "tokens": [1],
+            "temperature": 0, "avg_logprob": -0.2, "compression_ratio": 1.5, "no_speech_prob": 0.01}
+
+def t_groq_transcribe():
+    calls = []
+    replies = [
+        {"duration": 600.0, "segments": [_seg_api(0, 0.0, 4.0, "Bab niat."), _seg_api(1, 4.0, 9.0, "Innamal a'malu")],
+         "words": [{"word": "Bab", "start": 0.0, "end": 0.4}, {"word": "Innamal", "start": 4.1, "end": 4.6}]},
+        {"duration": 300.0, "segments": [_seg_api(0, 1.0, 5.0, "bin niyyat.")], "words": []},
+    ]
+    def fake_urlopen(req, timeout):
+        calls.append(req)
+        return _Resp(replies[len(calls) - 1])
+    chunks = [(TMP / "c0.ogg", 0.0), (TMP / "c1.ogg", 600.0)]
+    for p, _ in chunks:
+        p.write_bytes(b"OggS")
+    with mock.patch.object(gt, "encode_chunks", lambda *a: chunks), \
+         mock.patch.object(gt.urllib.request, "urlopen", fake_urlopen), mock.patch("sys.stdout", io.StringIO()):
+        t = gt.GroqTranscriber("large-v3", api_key="gsk_RAHASIA")
+        r = t.transcribe(Path("x.m4a"), hotwords="Amma ba'du. thaharah", word_timestamps=True)
+    body = calls[0].data.decode("latin-1")
+    for frag in ('name="model"\r\n\r\nwhisper-large-v3', 'name="language"\r\n\r\nid',
+                 'name="response_format"\r\n\r\nverbose_json', "Amma ba'du. thaharah",
+                 'name="timestamp_granularities[]"\r\n\r\nword'):
+        assert frag in body, frag
+    assert calls[0].get_header("Authorization") == "Bearer gsk_RAHASIA"
+    segs = r["segments"]
+    assert [s["id"] for s in segs] == [0, 1, 2] and segs[2]["start"] == 601.0 and segs[2]["end"] == 605.0
+    assert segs[0] == {"id": 0, "start": 0.0, "end": 4.0, "text": "Bab niat.", "avg_logprob": -0.2,
+                       "no_speech_prob": 0.01, "compression_ratio": 1.5,
+                       "words": [{"start": 0.0, "end": 0.4, "word": "Bab", "prob": None}]}
+    assert "words" not in segs[2]
+    assert r["durasi_audio"] == 900.0 and r["model"] == "groq/whisper-large-v3" and r["device"] == "groq"
+    assert flag_segments(segs) and all(s["flags"] == [] for s in segs), "QC jalan di hasil Groq"
+    # respons tanpa 'duration' → durasi dari akhir segmen terakhir
+    replies[:] = [{"segments": [_seg_api(0, 0.0, 4.0, "a")]}, {"segments": [_seg_api(0, 1.0, 5.0, "b")]}]
+    calls.clear()
+    with mock.patch.object(gt, "encode_chunks", lambda *a: chunks),          mock.patch.object(gt.urllib.request, "urlopen", fake_urlopen), mock.patch("sys.stdout", io.StringIO()):
+        assert t.transcribe(Path("x.m4a"))["durasi_audio"] == 605.0
+    return "2 potongan digabung (timestamp +600 dtk), field QC lengkap, prompt & bahasa terkirim"
+
+def _http_error(code, msg, retry_after=None):
+    import email.message
+    h = email.message.Message()
+    if retry_after:
+        h["retry-after"] = retry_after
+    return urllib.error.HTTPError(gt.API_URL, code, "err", h, io.BytesIO(json.dumps({"error": {"message": msg}}).encode()))
+
+def t_groq_retry_dan_error():
+    p = TMP / "c.ogg"; p.write_bytes(b"OggS")
+    seq = [_http_error(429, "Rate limit reached", "7"), _Resp({"duration": 3.0, "segments": [_seg_api(0, 0, 3, "ok")]})]
+    sleeps = []
+    def fake(req, timeout):
+        x = seq.pop(0)
+        if isinstance(x, Exception):
+            raise x
+        return x
+    with mock.patch.object(gt.urllib.request, "urlopen", fake), mock.patch("sys.stdout", io.StringIO()):
+        t = gt.GroqTranscriber("large-v3-turbo", api_key="gsk_RAHASIA", sleep=sleeps.append)
+        assert t.model_name == "whisper-large-v3-turbo"
+        assert t._post(p, "", False)["segments"][0]["text"] == " ok"
+        assert sleeps == [7.0], sleeps
+        with mock.patch.object(gt.urllib.request, "urlopen", lambda r, timeout: (_ for _ in ()).throw(
+                _http_error(401, "Invalid API Key"))):
+            try:
+                t._post(p, "", False); raise AssertionError("harusnya error")
+            except gt.GroqError as e:
+                assert "401" in str(e) and "GROQ_API_KEY" in str(e) and "gsk_RAHASIA" not in str(e)
+    try:
+        with mock.patch("sys.stdout", io.StringIO()):
+            gt.GroqTranscriber("large-v3", api_key=""); raise AssertionError("harusnya error")
+    except gt.GroqError:
+        pass
+    with mock.patch("sys.stdout", io.StringIO()):
+        assert gt.GroqTranscriber("Systran/faster-whisper-large-v3", api_key="k").model_name == "whisper-large-v3"
+        assert gt.GroqTranscriber("deepdml/faster-whisper-large-v3-turbo-ct2", api_key="k").model_name             == "whisper-large-v3-turbo"
+    # timeout/koneksi putus saat membaca respons (OSError, bukan URLError) juga dicoba ulang
+    seq2 = [TimeoutError("timed out"), ConnectionResetError("reset"),
+            _Resp({"duration": 3.0, "segments": [_seg_api(0, 0, 3, "ok")]})]
+    def fake2(req, timeout):
+        x = seq2.pop(0)
+        if isinstance(x, Exception):
+            raise x
+        return x
+    with mock.patch.object(gt.urllib.request, "urlopen", fake2), mock.patch("sys.stdout", io.StringIO()):
+        t2 = gt.GroqTranscriber("large-v3", api_key="k", sleep=lambda s: None)
+        assert t2._post(p, "", False)["segments"][0]["text"] == " ok" and not seq2
+    with mock.patch.object(gt.urllib.request, "urlopen", lambda r, timeout: (_ for _ in ()).throw(TimeoutError("x"))),          mock.patch("sys.stdout", io.StringIO()):
+        try:
+            t2._post(p, "", False); raise AssertionError("harusnya error")
+        except gt.GroqError as e:
+            assert "menghubungi Groq" in str(e)
+    return ("429 → tunggu retry-after; timeout/putus koneksi dicoba ulang; 401 jelas tanpa membocorkan key; "
+            "model repo HF → whisper-large-v3")
+
+def t_cli_backend_groq_tanpa_key():
+    import run as _run
+    with mock.patch.object(config, "GROQ_API_KEY", ""), mock.patch("sys.stdout", io.StringIO()) as out:
+        assert _run.main(["https://youtu.be/AAAAAAAAAAA", "--backend", "groq"]) == 1
+    assert "GROQ_API_KEY" in out.getvalue()
+    return "--backend groq tanpa key → pesan jelas, exit 1"
+
+test("Pilih backend (auto/lokal/groq/cpu)", t_resolve_backend)
+test("Groq: kompres & potong audio (Opus 16 kHz)", t_groq_encode_chunks)
+test("Groq: request & gabung hasil per potongan", t_groq_transcribe)
+test("Groq: retry 429, error 401, validasi", t_groq_retry_dan_error)
+test("CLI: --backend groq tanpa key", t_cli_backend_groq_tanpa_key)
+
+
+# ═════════════════════════════════════════════════════════════════════
 group("5. CEK KUALITAS")
 import config
 from quality import flag_segments, summarize
@@ -411,7 +579,10 @@ def t_flag_terlewat():
     return "kasus nyata [0:04] (30 dtk, 42 huruf) ditandai; ucapan normal/pendek/noise tidak"
 
 def t_flag_mirip_prompt():
-    P = config.build_prompt(config.load_prompt_gaya(), config.load_glosarium())
+    # Gaya & glosarium tetap (bukan prompt_gaya.txt/glosarium.txt yang isinya berubah tiap revisi)
+    P = config.build_prompt("Alhamdulillah, hamdan katsiran thayyiban mubarakan fih. "
+                            "Ash-shalatu wassalamu 'ala Rasulillah. Amma ba'du.",
+                            "thaharah, hadats, istiqamah, jumhur ulama")
     teks = {
         "Alhamdulillah, hamdan katsiran thayyiban mubarakan fih. Ash-shalatu wassalamu ala Rasulillah.": True,
         "thaharah, hadats, istiqamah, jumhur ulama": True,
@@ -649,13 +820,119 @@ test("build_items: gabung URL & file", t_build_items_merge)
 
 
 # ═════════════════════════════════════════════════════════════════════
+group("7b. KOREKSI KAMUS (koreksi.txt)")
+import koreksi
+
+KAMUS_UJI = """# komentar
+al-Zahabi => adz-Dzahabi  # Ejaan nama adz-Dzahabi
+Zahabi => adz-Dzahabi  # Ejaan nama adz-Dzahabi
+Soi   Bukhari => Shahih Bukhari
+ketakuan => ketakwaan  # Salah dengar
+format salah tanpa panah
+Rajab => Ibnu Rajab  # berulang: harus ditolak
+ketakuan => takwa  # duplikat: harus ditolak
+"""
+
+def t_koreksi_parse():
+    with mock.patch("sys.stdout", io.StringIO()) as out:
+        a = koreksi.parse_koreksi(KAMUS_UJI)
+    assert [x.lama for x in a] == ["Soi   Bukhari", "al-Zahabi", "ketakuan", "Zahabi"], [x.lama for x in a]
+    assert a[0].alasan == "koreksi kamus" and a[2].alasan == "Salah dengar"
+    assert out.getvalue().count("diabaikan") == 3, out.getvalue()
+    return "frasa terpanjang dulu; format salah, entri berulang & duplikat ditolak dengan peringatan"
+
+def t_koreksi_terapkan():
+    with mock.patch("sys.stdout", io.StringIO()):
+        a = koreksi.parse_koreksi(KAMUS_UJI)
+    segs = [{"text": "Kata al-Zahabi dan Imam ZAHABI, lihat soi  bukhari."},
+            {"text": "adz-Dzahabi sudah benar; ketakutan bukan ketakuan."},
+            {"text": "Zahabiyah dan Al-Zahabiyyah tidak diubah."}]
+    n = koreksi.terapkan(segs, a)
+    assert segs[0]["text"] == "Kata adz-Dzahabi dan Imam adz-Dzahabi, lihat Shahih Bukhari.", segs[0]["text"]
+    assert segs[1]["text"] == "adz-Dzahabi sudah benar; ketakutan bukan ketakwaan."
+    assert "revisi" not in segs[2] and n == 4
+    assert segs[0]["revisi"][1] == {"lama": "al-Zahabi", "baru": "adz-Dzahabi", "alasan": "Ejaan nama adz-Dzahabi",
+                                    "oleh": "koreksi.txt"}, segs[0]["revisi"]
+    assert {r["lama"] for r in segs[0]["revisi"]} == {"soi  bukhari", "al-Zahabi", "ZAHABI"}
+    assert koreksi.terapkan(segs, a) == 0, "diterapkan dua kali tidak boleh berubah lagi"
+    with mock.patch("sys.stdout", io.StringIO()):
+        b = koreksi.parse_koreksi("Muhammadur Syafi'i => madzhab Syafi'i  # x")
+    s2 = [{"text": "ulama Muhammadur Syafi’i berkata"}, {"text": "Muhammadur Syafi'iyah"}]
+    assert koreksi.terapkan(s2, b) == 1 and s2[0]["text"] == "ulama madzhab Syafi'i berkata", s2
+    return "kata utuh, abaikan kapital/spasi ganda/jenis apostrof, tidak masuk ke kata lain, idempoten"
+
+def t_koreksi_kamus_asli():
+    with mock.patch("sys.stdout", io.StringIO()) as out:
+        a = koreksi.load_koreksi()
+    assert a and "diabaikan" not in out.getvalue(), out.getvalue()
+    segs = [{"text": x.lama} for x in a]
+    koreksi.terapkan(segs, a)
+    assert koreksi.terapkan(segs, a) == 0, "hasil satu aturan tidak boleh dicocokkan aturan lain"
+    assert koreksi.load_koreksi(TMP / "tidak_ada.txt") == []
+    return f"koreksi.txt: {len(a)} aturan valid, tanpa rantai penggantian"
+
+def t_koreksi_di_process():
+    d = TMP / "kr"
+    class Salah(StubTranscriber):
+        def transcribe(self, audio_path, hotwords="", word_timestamps=False):
+            r = super().transcribe(audio_path, hotwords, word_timestamps)
+            r["segments"][0]["text"] = "Imam al-Dhahabi tentang ketakuan"
+            return r
+    with mock.patch("sys.stdout", io.StringIO()):
+        run.process(ITEMS[:1], Salah, stub_download, d / "riwayat.json", d / "hasil", d / "audio")
+    doc = json.loads(next((d / "hasil").rglob("*.json")).read_text(encoding="utf-8"))
+    s = doc["segments"][0]
+    assert s["text"] == "Imam adz-Dzahabi tentang ketakwaan", s
+    assert [r["lama"] for r in s["revisi"]] == ["al-Dhahabi", "ketakuan"] and doc["transkripsi"]["koreksi_otomatis"] == 2
+    assert "adz-Dzahabi" in next((d / "hasil").rglob("*.txt")).read_text(encoding="utf-8")
+    return "koreksi.txt diterapkan sebelum disimpan; JSON/TXT memakai teks benar + jejak 'revisi'"
+
+def t_koreksi_folder_cli():
+    src = TMP / "kr" / "hasil" / "Thaharah"
+    f = next(src.glob("*.json"))
+    doc = json.loads(f.read_text(encoding="utf-8"))
+    doc["segments"][0]["text"] = "lihat Soi Muslim"
+    f.write_text(json.dumps(doc), encoding="utf-8")
+    (src / "rusak.json").write_text("{bukan json", encoding="utf-8")
+    (src / "lain.json").write_text("[1, 2]", encoding="utf-8")
+    with mock.patch("sys.stdout", io.StringIO()) as out_log:
+        assert koreksi.main([str(src)]) == 0
+    assert "rusak.json dilewati" in out_log.getvalue()
+    with mock.patch("sys.stdout", io.StringIO()):
+        old_cwd = os.getcwd(); os.chdir(src)
+        try:
+            assert koreksi.main(["."]) == 0, "folder '.' harus bisa"
+        finally:
+            os.chdir(old_cwd)
+    with mock.patch("sys.stdout", io.StringIO()):
+        assert koreksi.main([str(src), "--out", str(src)]) == 1, "folder asli tidak boleh ditimpa"
+        assert koreksi.main([str(TMP / "tidak_ada")]) == 1
+    out = src.with_name("Thaharah_koreksi")
+    new = json.loads((out / f.name).read_text(encoding="utf-8"))
+    assert new["segments"][0]["text"] == "lihat Shahih Muslim" and new["transkripsi"]["koreksi_otomatis"] == 3
+    assert json.loads(f.read_text(encoding="utf-8"))["segments"][0]["text"] == "lihat Soi Muslim", "asli tetap"
+    assert (out / f.with_suffix(".srt").name).exists() and (out / f.with_suffix(".txt").name).exists()
+    return "python koreksi.py <folder> → <folder>_koreksi (JSON+SRT+TXT), file asli tidak diubah"
+
+test("Koreksi: baca kamus & validasi", t_koreksi_parse)
+test("Koreksi: terapkan ke segmen", t_koreksi_terapkan)
+test("Koreksi: kamus koreksi.txt asli valid", t_koreksi_kamus_asli)
+test("Koreksi: otomatis di run.process", t_koreksi_di_process)
+test("Koreksi: CLI untuk hasil lama", t_koreksi_folder_cli)
+
+
+# ═════════════════════════════════════════════════════════════════════
 group("8. CONFIG & GLOSARIUM")
 import config
 
 def t_glosarium():
-    g = config.load_glosarium()
-    assert "thaharah" in g and "#" not in g
+    # Isi glosarium.txt berubah tiap revisi: uji parsing dengan file sendiri, file asli cukup valid.
+    f = TMP / "glos.txt"
+    f.write_bytes("﻿# komentar\r\nthaharah\r\n\r\n  hadats  \r\n# shiratal mustaqim\r\n".encode("utf-8"))
+    assert config.load_glosarium(f) == "thaharah, hadats"
     assert config.load_glosarium(TMP / "tidak_ada.txt") == ""
+    g = config.load_glosarium()
+    assert g and "#" not in g
     n = len(g.split(", "))
     return f"{n} istilah dimuat, komentar diabaikan"
 

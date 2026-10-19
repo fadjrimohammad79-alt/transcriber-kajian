@@ -1,0 +1,45 @@
+# Kamus koreksi otomatis — diterapkan ke setiap transkrip setelah Whisper selesai.
+# Format:  salah => benar  # alasan
+# Cocok per kata/frasa utuh, huruf besar-kecil diabaikan. Frasa terpanjang diterapkan lebih dulu.
+# Isi HANYA kesalahan yang selalu salah di mana pun muncul (tidak butuh konteks).
+# JANGAN masukkan nama penceramah yang bocor: penggantinya tergantung siapa yang dikutip
+# (ditandai NAMA_BOCOR untuk dicek manual).
+# Sumber awal: hasil\transkrip-revisi\transkrip-revisi\LAPORAN_REVISI.md (revisi 2026-10-17).
+
+# ── Nama ulama ──
+al-Dhahabi => adz-Dzahabi  # Ejaan nama adz-Dzahabi
+al-Zahabi => adz-Dzahabi  # Ejaan nama adz-Dzahabi
+al-Zahawi => adz-Dzahabi  # Ejaan nama adz-Dzahabi
+al-Dhabi => adz-Dzahabi  # Ejaan nama adz-Dzahabi
+Dhahabi => adz-Dzahabi  # Ejaan nama adz-Dzahabi
+Zahabi => adz-Dzahabi  # Ejaan nama adz-Dzahabi
+Halim Ad-Dhabi => al-imam adz-Dzahabi  # Salah dengar nama ulama
+al-imam Muhammad bin Soley Uthaymeen => Syaikh Muhammad bin Shalih al-Utsaimin  # Ejaan nama al-Utsaimin
+al-imam Muhammad bin Soley Uthaymin => Syaikh Muhammad bin Shalih al-Utsaimin  # Ejaan nama al-Utsaimin
+al-imam Muhammad bin Salih Uthaymin => Syaikh Muhammad bin Shalih al-Utsaimin  # Ejaan nama al-Utsaimin
+al-imam Muhammad bin Shalih al-Uthaymin => Syaikh Muhammad bin Shalih al-Utsaimin  # Ejaan nama al-Utsaimin
+al-imam Mu'adh bin Sul Uthaymeen => Syaikh Muhammad bin Shalih al-Utsaimin  # Salah dengar nama al-Utsaimin
+Muhammad bin Soley Uthaymeen => Muhammad bin Shalih al-Utsaimin  # Ejaan nama al-Utsaimin
+Muhammad bin Soley Uthaymin => Muhammad bin Shalih al-Utsaimin  # Ejaan nama al-Utsaimin
+Muhammad bin Salih Uthaymin => Muhammad bin Shalih al-Utsaimin  # Ejaan nama al-Utsaimin
+Muhammad bin Shalih al-Uthaymin => Muhammad bin Shalih al-Utsaimin  # Ejaan nama al-Utsaimin
+Sheikh Soley Usseimi => Syaikh Shalih al-'Ushaimi  # Ejaan nama Syaikh al-Ushaimi
+Nur Rajab => Ibnu Rajab  # Salah dengar nama Ibnu Rajab
+syukur Islam => Syaikhul Islam  # Salah dengar gelar Syaikhul Islam
+Muhammadur Syafi'i => madzhab Syafi'i  # Salah dengar madzhab Syafi'i
+
+# ── Kitab ──
+Soi Bukhari => Shahih Bukhari  # Ejaan judul kitab Shahih
+Soi Muslim => Shahih Muslim  # Ejaan judul kitab Shahih
+suai muslim => Shahih Muslim  # Salah dengar judul kitab
+Radhus Shalihin => Riyadhush Shalihin  # Salah dengar judul kitab
+redo solehin => Riyadhush Shalihin  # Salah dengar judul kitab
+
+# ── Surat ──
+At-Tagawbun => At-Taghabun  # Ejaan nama surat
+At-Torik => Ath-Thariq  # Ejaan nama surat
+
+# ── Istilah & lafaz ──
+ketakuan => ketakwaan  # Salah dengar kata ketakwaan
+syaratul mustaqim => shiratal mustaqim  # Salah dengar shiratal mustaqim
+Allah dan Nuzulnya => Allah dan Rasulnya  # Lafaz hadits niat: Rasul, bukan Nuzul

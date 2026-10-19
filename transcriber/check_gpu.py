@@ -72,6 +72,8 @@ def main() -> int:
 
     print("═" * 55)
     print("🎉 GPU siap!" if ok else "⚠️  Perbaiki item ❌ di atas, lalu jalankan ulang.")
+    if not ok:
+        print("   Tanpa GPU NVIDIA: isi GROQ_API_KEY di .env lalu pakai --backend groq (lihat README).")
     return 0 if ok else 1
 
 

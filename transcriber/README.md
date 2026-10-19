@@ -68,7 +68,26 @@ python run.py "https://youtube.com/playlist?list=XXXX" --bab "Shalat"
 | `--words` | Simpan timestamp per kata |
 | `--force` | Ulang video yang sudah selesai (mis. setelah ganti model) |
 | `--hapus-audio` | Hapus audio setelah selesai (hemat disk) |
-| `--cpu` | Uji tanpa GPU (lambat) |
+| `--backend auto` | Default: GPU NVIDIA lokal → Groq API (bila `GROQ_API_KEY` diisi) → CPU |
+| `--backend groq` | Paksa Groq API (tanpa GPU; perlu internet & `GROQ_API_KEY`) |
+| `--cpu` | Sama dengan `--backend cpu`: uji tanpa GPU (lambat) |
+
+## Tanpa GPU NVIDIA: Groq API
+
+Di PC/laptop/VPS tanpa GPU NVIDIA, transkripsi bisa dikirim ke **Groq** (model `whisper-large-v3`
+yang sama, dijalankan di server Groq). Biaya ±$0.11 per jam audio (±$0.07 per episode 40 menit);
+`--model large-v3-turbo` ±$0.04 per jam.
+
+1. Buat API key di https://console.groq.com/keys
+2. Isi di `.env`: `GROQ_API_KEY=gsk_...` (file `.env` tidak ikut di-commit)
+3. Jalankan seperti biasa: `.\run.bat --file antrian\niat.txt`. Backend `auto` memilih Groq
+   bila GPU NVIDIA tidak ditemukan (baris `⚙️ Backend:` di awal menunjukkan pilihannya).
+
+Audio dikompres dulu ke Opus mono 16 kHz (±11 MB per jam) supaya muat batas upload 25 MB tier gratis;
+audio yang lebih panjang dipotong otomatis. Cek kualitas tetap jalan. Perbedaan dengan lokal:
+contoh gaya/glosarium dikirim sebagai `prompt` API (maks 224 token) dan pengaruhnya pada audio panjang
+bisa lebih lemah daripada lokal (lokal: diberikan di setiap potongan ±30 detik); VAD lokal tidak dipakai;
+`--words` tidak punya nilai `prob` per kata. Bandingkan beberapa hasil dengan versi lokal sebelum dipakai massal.
 
 ## Contoh gaya & glosarium
 
@@ -83,6 +102,23 @@ Dua file ini digabung dan diberikan ke model di **setiap potongan audio ±30 det
 ±448 token dengan teks yang ditulis model per potongan; prompt yang terlalu panjang membuat
 akhir potongan yang padat ucapan terpotong. Isi glosarium hanya dengan istilah yang memang
 terbukti salah eja di hasil, bukan semua istilah yang mungkin muncul.
+
+## Koreksi otomatis (`koreksi.txt`)
+
+Glosarium *mencegah* salah eja; `koreksi.txt` *memperbaiki* yang tetap lolos. Setelah transkripsi,
+setiap baris `salah => benar  # alasan` diterapkan ke teks (kata/frasa utuh, huruf besar-kecil diabaikan).
+Setiap perubahan dicatat di segmen JSON: `"revisi": [{"lama", "baru", "alasan", "oleh": "koreksi.txt"}]`,
+dan jumlahnya di `transkripsi.koreksi_otomatis`.
+
+- Isi hanya kesalahan yang **selalu** salah (mis. `al-Dhahabi => adz-Dzahabi`, `ketakuan => ketakwaan`).
+  Nama penceramah yang bocor **jangan** dimasukkan: penggantinya tergantung siapa yang dikutip (`NAMA_BOCOR`).
+- Setelah QC manual menemukan salah eja baru, tambahkan barisnya supaya video berikutnya langsung benar.
+- Terapkan ke hasil lama tanpa transkripsi ulang (file asli tidak diubah):
+  ```
+  .venv\Scripts\python.exe koreksi.py hasil\Niat          → hasil\Niat_koreksi\
+  ```
+  Kamus bawaan (dari `LAPORAN_REVISI.md`) menghasilkan 47 dari 55 revisi manual bab Niat persis sama,
+  tanpa salah koreksi; 8 sisanya nama penceramah bocor yang ditandai `NAMA_BOCOR`.
 
 ## Membaca hasil
 
