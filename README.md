@@ -19,7 +19,7 @@ URL / playlist / file antrian per bab
    → transkripsi Whisper large-v3 (bahasa dikunci "id", contoh gaya + glosarium istilah)
         backend auto: GPU NVIDIA lokal → Groq API (bila GROQ_API_KEY ada) → CPU lokal
    → koreksi otomatis dari koreksi.txt (salah eja yang sudah diketahui, tercatat di field "revisi")
-   → cek kualitas otomatis (RAGU / NOISE / BERULANG / HALUSINASI / TERLEWAT / MIRIP_PROMPT / NAMA_BOCOR)
+   → cek kualitas otomatis (RAGU / NOISE / BERULANG / HALUSINASI / TERLEWAT / CELAH / MIRIP_PROMPT / NAMA_BOCOR)
    → hasil\<Bab>\  : .json (untuk pipeline) + .srt (cek di pemutar) + .txt (baca cepat)
    → riwayat.json  : video yang sudah selesai otomatis dilewati
 ```
@@ -59,6 +59,7 @@ Semua perintah dijalankan di terminal (PowerShell atau CMD) dari folder utama re
    Arti setiap tanda: [Membaca hasil](#membaca-hasil). Yang paling penting:
    - `NAMA_BOCOR` → ganti nama penceramah dengan ulama yang benar-benar dikutip.
    - `TERLEWAT` → ada bacaan yang tidak tertulis; tulis manual bila perlu.
+   - `CELAH` → ada jeda ≥8 detik tanpa teks sebelum baris ini; dengarkan, ucapan bisa hilang.
    - `FRASA_CURIGA` / `HALUSINASI` → biasanya karangan model saat hening; hapus.
 
 **6. Perbaiki sumber kesalahan supaya video berikutnya lebih baik**
@@ -237,6 +238,7 @@ dan jumlahnya di `transkripsi.koreksi_otomatis`.
   `RAGU` (model tidak yakin), `NOISE` (mungkin bukan ucapan), `BERULANG`, `HALUSINASI`
   (kalimat sama ≥3x berturut), `FRASA_CURIGA` (mis. "terima kasih telah menonton", khas halusinasi Whisper),
   `TERLEWAT` (potongan panjang tapi teksnya sangat sedikit: kemungkinan ada bacaan yang tidak tertulis),
+  `CELAH` (jeda ≥8 detik tanpa segmen sebelum baris ini: ucapan di jeda itu hilang tanpa jejak),
   `MIRIP_PROMPT` (teks hampir sama persis dengan `prompt_gaya.txt`/glosarium: pastikan memang diucapkan
   ustadz, bukan "bocoran" contoh yang dikarang model saat hening; jika bocoran, hapus barisnya),
   `NAMA_BOCOR` (nama penceramah muncul di teks: Whisper sering menempelkannya ke kutipan ulama lain,
@@ -245,7 +247,7 @@ dan jumlahnya di `transkripsi.koreksi_otomatis`.
 - **`.json`**: setiap segmen punya `link` YouTube yang langsung lompat ke detiknya,
   untuk sitasi jawaban bot nanti.
 - **Status kualitas per video**: BAIK (≤5% ditandai) · PERLU_CEK (≤20%) · BURUK (>20%).
-  Ada satu saja `TERLEWAT` atau `NAMA_BOCOR` → minimal PERLU_CEK, karena isi kajian bisa hilang
+  Ada satu saja `TERLEWAT`, `CELAH`, atau `NAMA_BOCOR` → minimal PERLU_CEK, karena isi kajian bisa hilang
   atau atribusi kutipan salah.
 - Prompt yang dipakai tersimpan di `.json` (`transkripsi.prompt`), supaya hasil bisa ditelusuri setelah prompt diubah.
 

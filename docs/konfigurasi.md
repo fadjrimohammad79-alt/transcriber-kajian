@@ -32,6 +32,7 @@ Nilai ya/tidak diterima dalam bentuk `1/0`, `true/false`, `on/off`, `ya/tidak`.
 | `QC_REPEAT_MIN` | `3` | >= 2 | Kalimat sama berturut-turut sebanyak ini = `HALUSINASI` |
 | `QC_MIN_DUR_TERLEWAT` | `10` | >= 0,1 | Durasi minimum (detik) segmen yang dicek `TERLEWAT` |
 | `QC_MIN_CHARS_PER_SEC` | `4` | >= 0 | Huruf per detik di bawah ini = `TERLEWAT` |
+| `QC_MIN_GAP_CELAH` | `8` | >= 0,1 | Jeda (detik) antar segmen berurutan yang ditandai `CELAH` |
 | `QC_NAMA_PEMBICARA` | kosong | - | Nama penceramah (pisah koma) untuk `NAMA_BOCOR`. Kosong = pakai nama channel YouTube; bila diisi, **menimpa** nama channel |
 
 ### Lain-lain
@@ -97,5 +98,6 @@ Perintah lain:
 
 **Anggaran token prompt:** `prompt_gaya.txt` + `glosarium.txt` dikirim ke model di setiap potongan. Jaga
 gabungannya **<= ±150 token** (program menampilkan perkiraan). Batas keras: 223 token (faster-whisper) dan
-224 token (Groq); di atasnya ujung glosarium terpotong. Perkiraan program (`huruf / 2,5`) diukur dengan
+224 token (Groq); di atasnya ujung glosarium terpotong (faster-whisper) atau Groq menolak dengan HTTP 400,
+sehingga program memendekkan prompt sendiri untuk Groq (ujung glosarium dibuang). Perkiraan program (`huruf / 2,5`) diukur dengan
 tokenizer Whisper asli dan meleset kurang dari 3% untuk prompt saat ini.

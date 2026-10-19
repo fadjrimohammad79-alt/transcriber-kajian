@@ -11,13 +11,15 @@ Tanda:
                 (mis. "terima kasih telah menonton", "subtitle oleh ...")
   TERLEWAT    : potongan panjang tapi teksnya sangat sedikit — kemungkinan ada ucapan yang
                 tidak tertulis (mis. bacaan Arab yang dilewati model). Dengarkan bagian ini.
+  CELAH       : jeda waktu panjang di antara segmen sebelumnya dan segmen ini, tanpa teks sama sekali.
+                Ucapan di celah itu hilang tanpa jejak (TERLEWAT tidak melihatnya karena tidak ada segmen).
   MIRIP_PROMPT: teks segmen hampir sama dengan contoh gaya / glosarium. Bisa memang diucapkan
                 (pembukaan khutbah), bisa juga "bocoran" prompt yang dikarang model saat hening.
   NAMA_BOCOR  : nama penceramah muncul di teks. Whisper sering menempelkannya ke kutipan ulama lain
                 (mis. "al-imam Muhammad Nuzul Uthaymeen" padahal yang dikutip al-Utsaimin).
                 Bisa juga memang diucapkan (perkenalan MC): dengarkan bagian ini.
 
-Status video minimal PERLU_CEK bila ada TERLEWAT (ada ucapan yang mungkin hilang dari transkrip)
+Status video minimal PERLU_CEK bila ada TERLEWAT atau CELAH (ada ucapan yang mungkin hilang dari transkrip)
 atau NAMA_BOCOR (atribusi kutipan bisa salah).
 """
 
@@ -42,6 +44,15 @@ def _angka(v, default: float = 0.0) -> float:
     except (TypeError, ValueError):
         return default
     return x if math.isfinite(x) else default
+
+
+def _waktu_ada(v) -> float | None:
+    """Waktu berhingga, atau None bila hilang/null/teks/nan (celah tidak dinilai dari data rusak)."""
+    try:
+        x = float(v)
+    except (TypeError, ValueError):
+        return None
+    return x if math.isfinite(x) else None
 
 
 def _norm(text: str) -> str:
@@ -121,6 +132,16 @@ def flag_segments(segments: list[dict], prompt: str = "",
         s["flags"] = flags
         normed.append(_norm(teks))
 
+    # Celah: ucapan yang hilang tanpa segmen. Ditandai pada segmen SESUDAH celah.
+    akhir = None   # akhir terjauh sejauh ini, supaya segmen yang saling tumpang tindih tidak membuat celah palsu
+    for s in segments:
+        mulai = _waktu_ada(s.get("start"))
+        if akhir is not None and mulai is not None and mulai - akhir >= config.QC_MIN_GAP_CELAH:
+            s["flags"].append("CELAH")
+        selesai = _waktu_ada(s.get("end"))
+        if selesai is not None and (akhir is None or selesai > akhir):
+            akhir = selesai
+
     # Halusinasi: teks identik berturut-turut ≥ QC_REPEAT_MIN
     i = 0
     while i < len(segments):
@@ -155,7 +176,7 @@ def summarize(segments: list[dict], durasi_detik: float = 0) -> dict:
         status = "PERLU_CEK"
     else:
         status = "BURUK"
-    if status == "BAIK" and (per_flag.get("TERLEWAT") or per_flag.get("NAMA_BOCOR")):
+    if status == "BAIK" and (per_flag.get("TERLEWAT") or per_flag.get("CELAH") or per_flag.get("NAMA_BOCOR")):
         status = "PERLU_CEK"   # sedikit segmen, tapi isi/atribusi kutipan bisa salah: wajib didengar
 
     return {

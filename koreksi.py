@@ -70,19 +70,28 @@ def load_koreksi(path: Path = config.FILE_KOREKSI) -> list[Aturan]:
 
 
 def terapkan(segments: list[dict], aturan: list[Aturan]) -> int:
-    """Ganti teks segmen sesuai kamus, catat di s['revisi']. Return jumlah penggantian."""
+    """Ganti teks segmen sesuai kamus, catat di s['revisi']. Return jumlah penggantian.
+    Satu kali lewat pada teks asli: hasil sebuah aturan tidak diproses lagi oleh aturan lain
+    (A => B dan B => C tidak berantai, catatan 'revisi' tidak memuat teks perantara)."""
+    if not aturan:
+        return 0
+    # urutan aturan = prioritas pada posisi yang sama (kamus sudah terurut frasa terpanjang lebih dulu)
+    gabung = re.compile("|".join(f"(?P<r{n}>{a.pola.pattern})" for n, a in enumerate(aturan)), re.IGNORECASE)
     total = 0
     for s in segments:
         teks = s.get("text") or ""
-        for a in aturan:
-            hits = [m.group(0) for m in a.pola.finditer(teks)]
-            if not hits:
-                continue
-            teks = a.pola.sub(lambda _m, baru=a.baru: baru, teks)   # lambda: 'baru' dipakai literal (tanpa \1)
-            s.setdefault("revisi", []).extend(
-                {"lama": h, "baru": a.baru, "alasan": a.alasan, "oleh": "koreksi.txt"} for h in hits)
-            total += len(hits)
-        s["text"] = teks
+        catatan = []
+
+        def ganti(m, catatan=catatan):
+            a = aturan[int(m.lastgroup[1:])]
+            catatan.append({"lama": m.group(0), "baru": a.baru, "alasan": a.alasan, "oleh": "koreksi.txt"})
+            return a.baru
+
+        baru = gabung.sub(ganti, teks)
+        if catatan:
+            s.setdefault("revisi", []).extend(catatan)
+            total += len(catatan)
+        s["text"] = baru
     return total
 
 

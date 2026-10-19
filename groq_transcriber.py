@@ -110,6 +110,18 @@ def _error_message(e: urllib.error.HTTPError) -> str:
         return e.reason or ""
 
 
+def potong_prompt(prompt: str, batas: int = config.HOTWORDS_MAX_TOKENS) -> str:
+    """Pendekkan prompt agar di bawah batas token Groq (di atasnya Groq menjawab HTTP 400).
+    Yang dibuang adalah ujung (glosarium); dipotong pada batas kata/koma."""
+    if config.estimate_tokens(prompt) < batas:
+        return prompt
+    maks = int((batas - 2) * 2.5)
+    potong = prompt[:maks]
+    if len(prompt) > maks and not prompt[maks].isspace() and potong[-1:] not in " ,":
+        potong = potong.rsplit(" ", 1)[0] if " " in potong else potong
+    return potong.rstrip(" ,")
+
+
 class GroqTranscriber:
     def __init__(self, model_name: str = config.MODEL_NAME, api_key: str = config.GROQ_API_KEY,
                  max_upload_bytes: int = MAX_UPLOAD_BYTES, sleep=time.sleep):
@@ -164,6 +176,11 @@ class GroqTranscriber:
                    show_progress: bool = True) -> dict:
         """Transkripsi satu file audio. Return dict berisi segmen + info (format sama dengan Transcriber)."""
         t0 = time.time()
+        asli = hotwords
+        hotwords = potong_prompt(hotwords)
+        if hotwords != asli and show_progress:
+            print(f"   ✂️  Prompt dipendekkan untuk Groq ({len(asli)} → {len(hotwords)} huruf); "
+                  "ujung glosarium dibuang.")
         # Potongan per jam audio (±11 MB); diperkecil bila hasil encode masih melebihi batas upload.
         chunk_sec = 3600.0
         with tempfile.TemporaryDirectory(prefix="groq_") as tmp:

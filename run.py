@@ -89,6 +89,9 @@ def _hint_model_error(e: Exception) -> str:
 
 BACKENDS = ("auto", "lokal", "groq", "cpu")
 
+# Kode keluar (didokumentasikan di README/konfigurasi.md; test membaca konstanta ini).
+EXIT_OK, EXIT_INPUT, EXIT_SEBAGIAN_GAGAL, EXIT_MODEL, EXIT_LOCK, EXIT_RIWAYAT, EXIT_DIHENTIKAN = 0, 1, 2, 3, 4, 5, 130
+
 
 def cuda_available() -> bool:
     """True bila CTranslate2 melihat GPU NVIDIA (CUDA)."""
@@ -288,7 +291,7 @@ def print_summary(report: list[dict]) -> None:
         print("\n  Jalankan ulang perintah yang sama untuk mencoba video yang gagal.")
 
 
-def main(argv=None) -> int:
+def _main(argv=None) -> int:
     p = argparse.ArgumentParser(description="Transcriber kajian YouTube (Whisper: GPU NVIDIA / Groq / CPU)")
     p.add_argument("urls", nargs="*", help="URL video atau playlist YouTube")
     p.add_argument("--file", action="append", help="File antrian (boleh diulang: --file a.txt --file b.txt)")
@@ -310,27 +313,28 @@ def main(argv=None) -> int:
         p.error("--batch minimal 1")
     if not args.urls and not args.file:
         p.print_help()
-        return 1
+        return EXIT_INPUT
 
-    lock = acquire_lock(config.BASE_DIR / ".run.lock")
+    global _kunci_aktif
+    lock = _kunci_aktif = acquire_lock(config.BASE_DIR / ".run.lock")
     if lock is None:
         print("❌ run.py lain sedang berjalan di folder ini. Tunggu selesai, atau tutup jendela terminal lainnya.")
-        return 4
+        return EXIT_LOCK
 
     try:
         items = build_items(args)
     except FileNotFoundError as e:
         print(f"❌ {e}")
-        return 1
+        return EXIT_INPUT
     print(f"📋 {len(items)} video dalam antrian.")
     if not items:
-        return 1
+        return EXIT_INPUT
 
     try:
         backend, alasan = resolve_backend("cpu" if args.cpu else args.backend)
     except ValueError as e:
         print(f"❌ {e}")
-        return 1
+        return EXIT_INPUT
     print(f"⚙️  Backend: {backend} ({alasan}).")
     if backend == "groq" and not config.VAD:
         print("   ℹ️  WHISPER_VAD=0 tidak berlaku di backend groq (Groq tidak memakai VAD lokal).")
@@ -355,8 +359,12 @@ def main(argv=None) -> int:
         print(f"📖 Prompt: contoh gaya {'ada' if gaya else 'tidak ada'}, glosarium {n_istilah} istilah "
               f"(~{est} token, disarankan ≤ {config.PROMPT_RECOMMENDED_TOKENS}).")
         if est >= config.HOTWORDS_MAX_TOKENS:
-            print(f"   ⚠️  Terlalu panjang (batas ~{config.HOTWORDS_MAX_TOKENS} token): ujung glosarium akan terpotong, "
-                  "dan teks di akhir potongan audio bisa hilang. Ringkas glosarium.txt.")
+            if backend == "groq":
+                print(f"   ⚠️  Terlalu panjang (batas ~{config.HOTWORDS_MAX_TOKENS} token): untuk Groq prompt "
+                      "dipendekkan otomatis (ujung glosarium dibuang). Ringkas glosarium.txt.")
+            else:
+                print(f"   ⚠️  Terlalu panjang (batas ~{config.HOTWORDS_MAX_TOKENS} token): ujung glosarium akan "
+                      "terpotong, dan teks di akhir potongan audio bisa hilang. Ringkas glosarium.txt.")
         elif est > config.PROMPT_RECOMMENDED_TOKENS:
             print("   ⚠️  Agak panjang: prompt memakan ruang tulis model, akhir potongan yang padat ucapan bisa "
                   "terpotong. Sebaiknya ringkas glosarium.txt.")
@@ -365,16 +373,30 @@ def main(argv=None) -> int:
                          config.DIR_AUDIO, hotwords, args.force, args.words, args.hapus_audio)
     except ModelGagalDimuat as e:
         print(f"\n❌ Model gagal dimuat: {e}")
-        return 3
+        return EXIT_MODEL
     except RiwayatError as e:
         print(f"\n❌ {e}")
-        return 5
+        return EXIT_RIWAYAT
     except KeyboardInterrupt:
         print("\n⏹️  Dihentikan. Video yang sudah selesai tersimpan; jalankan ulang untuk melanjutkan.")
-        return 130
+        return EXIT_DIHENTIKAN
     print_summary(report)
     print(f"\n⏱️  Total waktu: {(time.time() - t0)/60:.1f} menit")
-    return 0 if all(r["status"] == "selesai" for r in report) else 2
+    return EXIT_OK if all(r["status"] == "selesai" for r in report) else EXIT_SEBAGIAN_GAGAL
+
+
+_kunci_aktif = None
+
+
+def main(argv=None) -> int:
+    """Jalankan CLI; kunci .run.lock selalu dilepas di akhir (tidak menunggu GC, juga bila ada exception)."""
+    global _kunci_aktif
+    try:
+        return _main(argv)
+    finally:
+        if _kunci_aktif is not None:
+            _kunci_aktif.close()
+            _kunci_aktif = None
 
 
 if __name__ == "__main__":

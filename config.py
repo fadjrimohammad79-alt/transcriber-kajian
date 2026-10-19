@@ -91,6 +91,9 @@ QC_REPEAT_MIN       = _env_num("QC_REPEAT_MIN", 3, int, minimum=2)        # kali
 # Ucapan normal ±12–16 huruf/detik. Potongan ≥10 detik dengan < 4 huruf/detik → kemungkinan ada yang terlewat.
 QC_MIN_DUR_TERLEWAT  = _env_num("QC_MIN_DUR_TERLEWAT", 10, float, minimum=0.1)
 QC_MIN_CHARS_PER_SEC = _env_num("QC_MIN_CHARS_PER_SEC", 4, float, minimum=0)
+# Celah waktu antar segmen berurutan >= ini = kemungkinan ucapan hilang tanpa jejak (tanda CELAH).
+# Transkrip lokal rata-rata 2 celah >= 5 detik per video (jeda wajar); 8 detik jarang tercapai jeda biasa.
+QC_MIN_GAP_CELAH     = _env_num("QC_MIN_GAP_CELAH", 8, float, minimum=0.1)
 # Nama penceramah untuk tanda NAMA_BOCOR, dipisah koma. Kosong = pakai nama channel YouTube.
 # Bila diisi, menimpa nama channel (mis. channel lembaga, atau nama yang mirip nama sahabat/ulama).
 QC_NAMA_PEMBICARA = [n.strip() for n in os.getenv("QC_NAMA_PEMBICARA", "").split(",") if n.strip()]

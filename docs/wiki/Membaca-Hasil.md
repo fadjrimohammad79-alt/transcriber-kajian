@@ -17,7 +17,7 @@ Format JSON lengkap: [Arsitektur](../arsitektur.md).
 | Status | Arti |
 |---|---|
 | `BAIK` | <= 5% segmen ditandai |
-| `PERLU_CEK` | <= 20% ditandai, atau ada satu saja `TERLEWAT` / `NAMA_BOCOR` |
+| `PERLU_CEK` | <= 20% ditandai, atau ada satu saja `TERLEWAT` / `CELAH` / `NAMA_BOCOR` |
 | `BURUK` | > 20% ditandai |
 
 ## Tanda pada segmen
@@ -30,6 +30,7 @@ Format JSON lengkap: [Arsitektur](../arsitektur.md).
 | `HALUSINASI` | Kalimat sama >= 3x berturut-turut | Biasanya karangan di bagian hening; hapus |
 | `FRASA_CURIGA` | Frasa khas halusinasi ("terima kasih telah menonton") | Hapus bila bukan ucapan |
 | `TERLEWAT` | Segmen panjang tapi sedikit teks: kemungkinan ada bacaan yang tidak tertulis | Dengarkan; tulis manual |
+| `CELAH` | Jeda >= 8 detik tanpa segmen sebelum baris ini: ucapan di jeda itu hilang tanpa jejak | Dengarkan jeda itu; tulis manual |
 | `MIRIP_PROMPT` | Teks hampir sama dengan contoh gaya/glosarium | Pastikan memang diucapkan (pembukaan khutbah), bukan bocoran prompt |
 | `NAMA_BOCOR` | Nama penceramah muncul di teks (sering menempel pada kutipan ulama lain) | Ganti dengan nama ulama yang benar-benar dikutip |
 

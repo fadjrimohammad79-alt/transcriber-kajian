@@ -16,6 +16,7 @@ Tujuan: tim QC cukup mendengarkan bagian yang **ditandai**, bukan seluruh kajian
 | `HALUSINASI` | Teks identik >= 3 segmen berturut-turut | Biasanya karangan model di bagian hening; hapus |
 | `FRASA_CURIGA` | Memuat frasa khas halusinasi ("terima kasih telah menonton", "subtitle oleh", ...) | Hapus bila bukan ucapan |
 | `TERLEWAT` | Durasi >= 10 detik, bukan `NOISE`, dan < 4 huruf/detik | Kemungkinan ada ucapan yang tidak tertulis (mis. bacaan Arab); dengarkan |
+| `CELAH` | Jeda >= 8 detik antara akhir segmen sebelumnya dan awal segmen ini (ditandai pada segmen sesudah jeda) | Ucapan di jeda itu hilang tanpa jejak (`TERLEWAT` tidak melihatnya karena tidak ada segmen); dengarkan |
 | `MIRIP_PROMPT` | >= 5 kata, >= 70% urut sama dengan prompt, atau >= 90% katanya kata prompt | Pastikan memang diucapkan (pembukaan khutbah) dan bukan "bocoran" prompt |
 | `NAMA_BOCOR` | Memuat token khas nama penceramah | Ganti dengan nama ulama yang benar-benar dikutip |
 
@@ -39,11 +40,11 @@ Whisper sering menempelkan nama penceramah (dari glosarium/konteks) ke kutipan u
 | Status | Syarat |
 |---|---|
 | `BAIK` | <= 5% segmen ditandai |
-| `PERLU_CEK` | <= 20% ditandai, **atau** ada satu saja `TERLEWAT` / `NAMA_BOCOR` |
+| `PERLU_CEK` | <= 20% ditandai, **atau** ada satu saja `TERLEWAT` / `CELAH` / `NAMA_BOCOR` |
 | `BURUK` | > 20% ditandai |
 | `KOSONG` | Tidak ada segmen |
 
-`TERLEWAT` dan `NAMA_BOCOR` menaikkan status ke minimal `PERLU_CEK` karena isi kajian bisa hilang atau
+`TERLEWAT`, `CELAH`, dan `NAMA_BOCOR` menaikkan status ke minimal `PERLU_CEK` karena isi kajian bisa hilang atau
 atribusi kutipan salah.
 
 ## Kamus koreksi (`koreksi.txt`)
@@ -95,6 +96,6 @@ adalah nama penceramah bocor yang ditandai `NAMA_BOCOR`.
 ## Batasan yang diketahui
 
 - Bacaan Arab yang **tidak tertranskripsi sama sekali** tidak bisa dideteksi dari teks; hanya `TERLEWAT`
-  (segmen panjang tapi sedikit teks) yang memberi petunjuk. Satu-satunya kepastian adalah mendengarkan.
+  (segmen panjang tapi sedikit teks) dan `CELAH` (jeda tanpa segmen) yang memberi petunjuk. Satu-satunya kepastian adalah mendengarkan.
 - `MIRIP_PROMPT` menandai pembukaan khutbah yang memang diucapkan (false positive pada backend Groq).
 - `--words`: timestamp per kata tidak ikut dikoreksi kamus (hanya teks segmen).

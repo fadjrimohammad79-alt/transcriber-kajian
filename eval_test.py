@@ -30,7 +30,7 @@ os.environ.update({
     "WHISPER_BACKEND": "auto", "WHISPER_BATCH": "", "WHISPER_BEAM": "", "WHISPER_VAD": "", "GROQ_API_KEY": "",
     "QC_NAMA_PEMBICARA": "", "YTDLP_COOKIES_BROWSER": "",
     **dict.fromkeys(("QC_LOW_LOGPROB", "QC_HIGH_NO_SPEECH", "QC_HIGH_COMPRESSION", "QC_REPEAT_MIN",
-                     "QC_MIN_DUR_TERLEWAT", "QC_MIN_CHARS_PER_SEC"), ""),
+                     "QC_MIN_DUR_TERLEWAT", "QC_MIN_CHARS_PER_SEC", "QC_MIN_GAP_CELAH"), ""),
 })
 import config as _config
 
@@ -177,7 +177,8 @@ def t_docs_sinkron():
     var = set(re.findall(r'(?:getenv|_env_num|_env_bool)\(\s*"([A-Z_]+)"', cfg))
     opsi = set(re.findall(r'add_argument\(\s*"(--[a-z-]+)"', jalan))
     tanda = set(re.findall(r'append\("([A-Z_]+)"\)', kualitas))
-    kode = {int(x) for x in re.findall(r"return (\d+)\b|else (\d+)\b", jalan) for x in x if x} | {130}
+    import run as _run
+    kode = {v for k, v in vars(_run).items() if k.startswith("EXIT_")}
     assert len(var) >= 15 and len(opsi) >= 9 and len(tanda) >= 8 and kode >= {0, 1, 2, 3, 4, 5, 130}, (var, opsi, tanda, kode)
     temuan = [f"konfigurasi.md tanpa `{v}`" for v in sorted(var) if f"`{v}`" not in konf]
     temuan += [f".env.example tanpa {v}" for v in sorted(var) if not v.startswith("QC_") and v not in envex]
@@ -677,7 +678,8 @@ def t_groq_transcribe():
                        "words": [{"start": 0.0, "end": 0.4, "word": "Bab", "prob": None}]}
     assert "words" not in segs[2]
     assert r["durasi_audio"] == 900.0 and r["model"] == "groq/whisper-large-v3" and r["device"] == "groq"
-    assert flag_segments(segs) and all(s["flags"] == [] for s in segs), "QC jalan di hasil Groq"
+    flag_segments(segs)
+    assert [s["flags"] for s in segs] == [[], [], ["CELAH"]], "QC jalan di hasil Groq (jeda 592 dtk antar potongan = CELAH)"
     # respons tanpa 'duration' → durasi dari akhir segmen terakhir
     replies[:] = [{"segments": [_seg_api(0, 0.0, 4.0, "a")]}, {"segments": [_seg_api(0, 1.0, 5.0, "b")]}]
     calls.clear()
@@ -837,6 +839,33 @@ def t_summarize_terlewat_floor():
     assert q["persen_ditandai"] == 1.0 and q["status"] == "PERLU_CEK", q
     return "1% saja tapi ada TERLEWAT → PERLU_CEK (bukan BAIK)"
 
+def t_flag_celah():
+    def seg(a, b):
+        return dict(_s(f"kalimat nomor {int(a)}"), start=a, end=b)
+    segs = flag_segments([seg(0, 5), seg(13, 18), seg(24, 30), seg(30, 36)])
+    assert "CELAH" in segs[1]["flags"], "jeda tepat 8 dtk ditandai pada segmen sesudahnya"
+    assert "CELAH" not in segs[0]["flags"] and "CELAH" not in segs[2]["flags"], "jeda 6 dtk = wajar"
+    assert "CELAH" not in segs[3]["flags"], "segmen menempel"
+    tumpang = flag_segments([seg(0, 40), seg(5, 12), seg(45, 50)])
+    assert all("CELAH" not in s["flags"] for s in tumpang), "segmen tumpang tindih: celah dihitung dari akhir terjauh"
+    rusak = flag_segments([dict(_s("a"), start=0.0, end=None), dict(_s("b"), start=float("nan"), end=3),
+                           dict(_s("c"), start=4.0, end=5)])
+    assert all("CELAH" not in s["flags"] for s in rusak), "data waktu rusak tidak dinilai"
+    q = summarize(flag_segments([seg(i * 6, i * 6 + 5) for i in range(40)] + [seg(250, 255)]))
+    assert q["per_tanda"] == {"CELAH": 1} and q["status"] == "PERLU_CEK", q
+    return "CELAH >= 8 dtk ditandai (segmen sesudah jeda); jeda wajar/data rusak tidak; status minimal PERLU_CEK"
+
+def t_groq_potong_prompt():
+    from groq_transcriber import potong_prompt
+    pendek = "Gaya singkat. a, b, c"
+    assert potong_prompt(pendek) == pendek
+    panjang = "Gaya. " + ", ".join(f"istilah{i}" for i in range(300))
+    out = potong_prompt(panjang)
+    assert config.estimate_tokens(out) < config.HOTWORDS_MAX_TOKENS, config.estimate_tokens(out)
+    assert out.startswith("Gaya. istilah0") and panjang.startswith(out) and not out.endswith((",", " "))
+    assert out.split(", ")[-1] in panjang.split(", "), "tidak memotong di tengah istilah"
+    return f"prompt {len(panjang)} huruf → {len(out)} huruf, di bawah batas Groq, potong di batas istilah"
+
 def t_flag_nama_bocor():
     from quality import nama_tokens
     assert nama_tokens("Muhammad Nuzul Dzikri") == {"nuzul", "dzikri"}
@@ -869,6 +898,8 @@ test("Tanda NAMA_BOCOR (nama penceramah bocor ke kutipan)", t_flag_nama_bocor)
 test("Tanda TERLEWAT (bacaan Arab dilewati)", t_flag_terlewat)
 test("Tanda MIRIP_PROMPT (prompt bocor ke transkrip)", t_flag_mirip_prompt)
 test("Status minimal PERLU_CEK bila ada TERLEWAT", t_summarize_terlewat_floor)
+test("Tanda CELAH (ucapan hilang di antara segmen)", t_flag_celah)
+test("Groq: prompt terlalu panjang dipendekkan", t_groq_potong_prompt)
 test("Tanda RAGU, NOISE, BERULANG", t_flags_basic)
 test("Deteksi halusinasi berulang", t_flags_hallucination)
 test("Tidak ada false positive", t_flags_no_false_positive)
@@ -1391,7 +1422,7 @@ def t_koreksi_terapkan():
     assert segs[0]["text"] == "Kata adz-Dzahabi dan Imam adz-Dzahabi, lihat Shahih Bukhari.", segs[0]["text"]
     assert segs[1]["text"] == "adz-Dzahabi sudah benar; ketakutan bukan ketakwaan."
     assert "revisi" not in segs[2] and n == 4
-    assert segs[0]["revisi"][1] == {"lama": "al-Zahabi", "baru": "adz-Dzahabi", "alasan": "Ejaan nama adz-Dzahabi",
+    assert segs[0]["revisi"][0] == {"lama": "al-Zahabi", "baru": "adz-Dzahabi", "alasan": "Ejaan nama adz-Dzahabi",
                                     "oleh": "koreksi.txt"}, segs[0]["revisi"]
     assert {r["lama"] for r in segs[0]["revisi"]} == {"soi  bukhari", "al-Zahabi", "ZAHABI"}
     assert koreksi.terapkan(segs, a) == 0, "diterapkan dua kali tidak boleh berubah lagi"
@@ -1400,6 +1431,17 @@ def t_koreksi_terapkan():
     s2 = [{"text": "ulama Muhammadur Syafi’i berkata"}, {"text": "Muhammadur Syafi'iyah"}]
     assert koreksi.terapkan(s2, b) == 1 and s2[0]["text"] == "ulama madzhab Syafi'i berkata", s2
     return "kata utuh, abaikan kapital/spasi ganda/jenis apostrof, tidak masuk ke kata lain, idempoten"
+
+def t_koreksi_tidak_berantai():
+    aturan = koreksi.parse_koreksi(
+        "alif => ba  # 1\nba => ta  # 2\nsuhaim muslim => Shahih Muslim\nmuslim => Islam")
+    segs = [{"text": "alif ba, Suhaim Muslim dan muslim"}]
+    n = koreksi.terapkan(segs, aturan)
+    assert segs[0]["text"] == "ba ta, Shahih Muslim dan Islam", segs[0]["text"]
+    assert n == 4 and [r["lama"] for r in segs[0]["revisi"]] == ["alif", "ba", "Suhaim Muslim", "muslim"]
+    assert [r["baru"] for r in segs[0]["revisi"]] == ["ba", "ta", "Shahih Muslim", "Islam"], "tanpa teks perantara"
+    assert koreksi.terapkan(segs, []) == 0
+    return "A=>B dan B=>C tidak berantai; frasa panjang menang atas kata pendek; revisi tanpa teks perantara"
 
 def t_koreksi_kamus_asli():
     with mock.patch("sys.stdout", io.StringIO()) as out:
@@ -1457,6 +1499,7 @@ def t_koreksi_folder_cli():
 test("Koreksi: baca kamus & validasi", t_koreksi_parse)
 test("Koreksi: terapkan ke segmen", t_koreksi_terapkan)
 test("Koreksi: kamus koreksi.txt asli valid", t_koreksi_kamus_asli)
+test("Koreksi: aturan tidak berantai", t_koreksi_tidak_berantai)
 
 def t_koreksi_varian_groq():
     a = koreksi.load_koreksi()
