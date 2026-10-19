@@ -72,4 +72,6 @@ Lihat [Arsitektur](arsitektur.md) untuk peran modul. Prinsip yang dipegang:
   (sudah di `.gitignore`).
 - Sebelum commit: `ruff check .` bersih dan `eval_test.py` lulus.
 - `riwayat.json` dan `hasil\` ikut ter-track; bila dua PC memprosesnya bergantian, konflik merge mungkin terjadi
-  (lihat Issues).
+  (lihat [issue #10](https://github.com/fadjrimohammad79-alt/transcriber-kajian/issues/10)).
+- Batasan kecil yang sudah diketahui dikumpulkan di
+  [issue #12](https://github.com/fadjrimohammad79-alt/transcriber-kajian/issues/12).

@@ -86,5 +86,10 @@ memang diucapkan. **Status QC tidak sebanding antar backend.**
 
 ## Pekerjaan lanjutan
 
-Dilacak di Issues: uji `WHISPER_VAD=0` di PC GPU, ukur WER dengan kunci jawaban manual (model dan prompt sama),
-investigasi segmen Indonesia yang hilang di Groq, dan penyetelan `TERLEWAT` / `MIRIP_PROMPT` untuk segmen halus.
+Dilacak di Issues:
+
+- [#1](https://github.com/fadjrimohammad79-alt/transcriber-kajian/issues/1) uji `WHISPER_VAD=0` di PC GPU
+- [#2](https://github.com/fadjrimohammad79-alt/transcriber-kajian/issues/2) ukur WER dengan kunci jawaban manual (model dan prompt sama)
+- [#3](https://github.com/fadjrimohammad79-alt/transcriber-kajian/issues/3) segmen Indonesia yang hilang di Groq
+- [#4](https://github.com/fadjrimohammad79-alt/transcriber-kajian/issues/4) dan [#5](https://github.com/fadjrimohammad79-alt/transcriber-kajian/issues/5)
+  penyetelan `TERLEWAT` / `MIRIP_PROMPT` untuk segmen halus

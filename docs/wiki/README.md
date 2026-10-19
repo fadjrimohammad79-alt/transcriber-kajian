@@ -7,6 +7,7 @@ tanda hubung). Semuanya bisa dibaca langsung di sini; tautan antar-halaman memak
 
 GitHub **tidak menyediakan wiki untuk repo private di paket Free**. Pada 19 Oktober 2026 repo ini private,
 `has_wiki` tetap `false` walau diaktifkan lewat API, dan repo `transcriber-kajian.wiki.git` tidak terbentuk.
+Keputusan dilacak di [issue #13](https://github.com/fadjrimohammad79-alt/transcriber-kajian/issues/13).
 Pilihan (keputusan pemilik repo):
 
 1. Tetap memakai folder ini sebagai wiki (tanpa biaya, ikut riwayat git, bisa ditinjau lewat pull request).

@@ -37,7 +37,8 @@ Skrip ini membuat `.venv`, memasang library, menyalin `.env.example` menjadi `.e
 - **Tanpa GPU NVIDIA:** `check_gpu` melaporkan GPU belum siap; lanjut ke [Tanpa GPU dan Groq](Tanpa-GPU-dan-Groq.md).
 - **`.venv` rusak** (disalin dari PC lain): setup mendeteksi dan membuatnya ulang.
 
-> Setup memasang ±1,5 GB library CUDA walau tidak ada GPU NVIDIA. Pemisahan opsionalnya dilacak di Issues.
+> Setup memasang ±1,5 GB library CUDA walau tidak ada GPU NVIDIA. Pemisahan opsionalnya dilacak di
+> [issue #6](https://github.com/fadjrimohammad79-alt/transcriber-kajian/issues/6).
 
 ## 4. Coba
 
@@ -74,4 +75,5 @@ cp .env.example .env     # isi WHISPER_BACKEND / GROQ_API_KEY sesuai kebutuhan
 ```
 
 YouTube sering memblokir IP datacenter ("Sign in to confirm you're not a bot"). Solusi sementara: unduh
-audio di PC lalu salin `audio/<id>.m4a` dan `audio/<id>.info.json` ke VPS. Dukungan resmi dilacak di Issues.
+audio di PC lalu salin `audio/<id>.m4a` dan `audio/<id>.info.json` ke VPS. Dukungan resmi dilacak di
+[issue #7](https://github.com/fadjrimohammad79-alt/transcriber-kajian/issues/7).
