@@ -9,12 +9,12 @@ __pycache__/
 *.pyc
 
 # Cache audio (besar, bisa diunduh ulang)
-transcriber/audio/
+audio/
 
 # File sementara / backup
-transcriber/.run.lock
-transcriber/.run.bat*
-transcriber/Niat_back/
+.run.lock
+.run.bat*
+Niat_back/
 *.zip
 
 # Output graphify (lokal)
