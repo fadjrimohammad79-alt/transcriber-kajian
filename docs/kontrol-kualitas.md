@@ -91,7 +91,7 @@ adalah nama penceramah bocor yang ditandai `NAMA_BOCOR`.
 3. Perbaiki teks. Bila salah eja itu **selalu** salah, tambahkan ke `koreksi.txt` agar video berikutnya benar.
 4. Bila sebuah istilah sering salah dengar sejak awal, pertimbangkan `glosarium.txt` (jaga anggaran token).
 5. Hasil QC yang dikerjakan di luar program (mis. oleh Claude Desktop) disimpan terpisah dengan field
-   `revisi` (`lama`, `baru`, `alasan`) per segmen dan `LAPORAN_REVISI.md`; file asli tidak diubah.
+   `revisi` (`lama`, `baru`, `alasan`) per segmen dan laporan revisi; file asli tidak diubah. Hasil QC bab Niat tidak disimpan di repo.
 
 ## Batasan yang diketahui
 

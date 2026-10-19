@@ -179,7 +179,14 @@ Pengaturan lain (ambang QC, VAD, nama penceramah) ada di `.env`; daftar lengkapn
 
 ## Membaca hasil
 
-Hasil per video ada di `hasil\<Bab>\`:
+Hasil per video ada di `hasil\<Bab>\`.
+
+> **Isi `hasil\Niat\` adalah contoh hasil.** File `.json` / `.srt` / `.txt` di folder itu adalah keluaran
+> nyata untuk bab Niat (Riyadhush Shalihin), disertakan supaya bentuk hasilnya bisa dilihat tanpa menjalankan
+> apa pun. Isinya akan berubah bila video yang sama diproses ulang (`--force`); hapus atau abaikan bila tidak
+> diperlukan. Hasil QC manual (Claude Desktop) atas video yang sama tidak disimpan di repo.
+
+Tiga jenis berkas:
 
 - **`.txt`**: baca cepat; setiap baris diawali waktu `[mm:ss]`, baris bermasalah diberi tanda.
 - **`.srt`**: cek di pemutar video.
@@ -245,7 +252,7 @@ jumlahnya di `transkripsi.koreksi_otomatis`.
   ```
   .venv\Scripts\python.exe koreksi.py hasil\Niat          → hasil\Niat_koreksi\
   ```
-  Kamus bawaan (dari `LAPORAN_REVISI.md`) menghasilkan 47 dari 55 revisi manual bab Niat persis sama, tanpa
+  Kamus bawaan (diturunkan dari laporan QC manual bab Niat) menghasilkan 47 dari 55 revisi manual bab Niat persis sama, tanpa
   salah koreksi; 8 sisanya nama penceramah bocor yang ditandai `NAMA_BOCOR`.
 
 ### 3. Bacaan Arab hilang? Coba matikan VAD (backend lokal)
