@@ -1,0 +1,16 @@
+# id	pola	ganti	status	sumber	catatan
+# Keputusan pemilik korpus (2026-10-25). MENANG atas KBBI untuk kata-kata ini. Tinjau ulang hanya atas permintaan pemilik.
+hadith	\bhadi(?:s|t|ts|st|dz)\b	hadith	keputusan-pemilik	koreksi.txt: hadit => hadith; KBBI: hadis (kalah oleh keputusan pemilik)	
+istiqamah	\bist(?:iqomah|ikamah|ikomah)\b	istiqamah	keputusan-pemilik	koreksi.txt: istiqomah => istiqamah; KBBI: istikamah (kalah)	
+ghibah	\bgibah\b	ghibah	keputusan-pemilik	koreksi.txt: gibah => ghibah; KBBI: gibah (kalah)	
+shalawat	\b(?:sholawat|solawat|salawat|shalawaat|selawat)\b	shalawat	keputusan-pemilik	koreksi.txt: salawat => shalawat; KBBI: selawat (kalah)	
+tabiin	\btabiin\b	tabi'in	keputusan-pemilik	tidak ada di KBBI; pilihan pemilik	
+ulama	\bulema\b	ulama	keputusan-pemilik	pilihan pemilik	
+nasuha	(?<!tawbatan )(?<!taubatan )\bnasuhah\b	nasuha	keputusan-pemilik	pilihan pemilik; kutipan Arab-Latin 'tawbatan nasuhah' dikecualikan	
+tauhid	\b(ke)?tauhit(an)?(nya)?\b	\1tauhid\2\3	keputusan-pemilik	pilihan pemilik: tauhit/ketauhitan => tauhid/ketauhidan (bentuk baku KBBI: tauhid)	
+jemaah_sekalian	\bjaman(?= sekalian\b)	jemaah	keputusan-pemilik	koreksi.txt: jaman sekalian => jemaah sekalian (salah dengar; hanya sebelum 'sekalian')	
+kesalehan	\bke(?:sholeh|shaleh|soleh|saleh|sholih|shalih|solih|salih)an(nya)?\b	kesalehan\1	keputusan-pemilik	pilihan pemilik 2026-10-25: kesolehan => kesalehan	
+tawabatan	\btawabatan\b	taubatan	keputusan-pemilik	pilihan pemilik 2026-10-25: tawabatan => taubatan (lafaz Arab-Latin; dilindungi dari aturan tobat bila diikuti nasuha)	
+beristigfar	\bberi\s+sikfar\b	beristigfar	keputusan-pemilik	pilihan pemilik 2026-10-25: beri sikfar => beristigfar (KBBI: istigfar)	
+kaab	\b(?:Kaab|Qaab)\b	Ka'ab	keputusan-pemilik	pilihan pemilik 2026-11-06: Kaab (dan salah dengar Qaab) => Ka'ab (nama sahabat Ka'ab bin Malik)	
+nyuekin	\bnyua(?:i)?kin\b	nyuekin	keputusan-pemilik	pilihan pemilik 2026-11-06: nyuaikin/nyuakin => nyuekin (dari kata cuek)	

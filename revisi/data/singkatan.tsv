@@ -1,0 +1,21 @@
+# id	pola	ganti	syarat konteks (regex dalam +-60 karakter; kosong = tanpa syarat)	catatan
+swt	\b(?:SWT|S\.W\.T|s\.w\.t|swt)\b(\.?)	subhanahu wa ta'ala		Dibiarkan 'Allah subhanahu wa ta'ala' sesuai gaya penulisan ustaz di korpus.
+saw	\b(?:SAW|S\.A\.W|s\.a\.w)\b(\.?)	shallallahu 'alaihi wa sallam		
+sma	\bSMA\b(\.?)	sekolah menengah atas		
+smp	\bSMP\b(\.?)	sekolah menengah pertama		
+sd	\bSD\b(\.?)	sekolah dasar	SMP|SMA|teman|sekolah|masuk	Hanya bila konteks sekolah jelas.
+pr_tugas	\bPR\b(?!-nya)	pekerjaan rumah	nyerahin|memberikan|murid|waktunya|tugas|dikerjakan	'PR' tanpa konteks tugas (mis. 'PR yang sudah hijrah') TIDAK diubah -> titik dengar.
+pr_tugas_nya	\bPR-nya\b	pekerjaan rumahnya	nyerahin|memberikan|murid|waktunya|tugas|dikerjakan	'PR' tanpa konteks tugas (mis. 'PR yang sudah hijrah') TIDAK diubah -> titik dengar.
+usd	\bUS Dollar\b	dolar Amerika Serikat		
+ac_nya	\bAC-nya\b	pendingin ruangannya		
+ac	\bAC\b	pendingin ruangan		
+dna_nya	\bDNA-nya\b	asam deoksiribonukleatnya		
+dna	\bDNA\b	asam deoksiribonukleat		
+sop_nya	\bSOP-nya\b	prosedur operasi standarnya		
+ptn	\bPTN\b	perguruan tinggi negeri		
+bk	\bBK\b	bimbingan dan konseling	guru	
+bp	\bBP\b(\.?)	bimbingan dan penyuluhan	guru	
+rt	\bRT\b	rukun tetangga	satu|per|ketua	
+mou	\bMOU\b	nota kesepahaman		Keputusan pemilik 2026-11-06.
+bff	\bBFF\b	best friend forever		Keputusan pemilik 2026-11-06.
+wa	\bWA\b	WhatsApp	kirim|surat|pesan|chat|grup|telepon	Keputusan pemilik 2026-11-06 (WA = WhatsApp); hanya bila konteks pesan jelas.

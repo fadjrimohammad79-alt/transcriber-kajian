@@ -81,7 +81,7 @@ saudaraku ya Allah muliakan => saudaraku yang Allah muliakan  # Salah dengar 'ya
 saudara ku ya Allah muliakan => saudaraku yang Allah muliakan  # Gabungan dua salah dengar
 saudara-ku ya Allah muliakan => saudaraku yang Allah muliakan  # Gabungan dua salah dengar
 hadirin ya Allah muliakan => hadirin yang Allah muliakan  # Salah dengar 'yang' (kapital awal kalimat dipertahankan)
-jaman sekalian => jamaah sekalian  # Salah dengar 'jamaah'
+jaman sekalian => jemaah sekalian  # Salah dengar 'jemaah'
 
 # ── Tambahan dari QC video 22-29 bab Niat (keluaran Groq, revisi 2026-10-19) ──
 # ── Nama ulama, sahabat & tempat ──
@@ -134,3 +134,34 @@ shalallahu alaihi wa sallam => shallallahu 'alaihi wa sallam  # Ejaan shalawat
 shallallahu alaihi wa sallam => shallallahu 'alaihi wa sallam  # Ejaan shalawat
 sallallahu alaihi wasallam => shallallahu 'alaihi wa sallam  # Ejaan shalawat
 shallallahu alaihi wasallam => shallallahu 'alaihi wa sallam  # Ejaan shalawat
+
+# --- keputusan pemilik korpus 2026-10-25 (ejaan yang tidak ada di KBBI)
+tabiin => tabi'in  # Tidak ada di KBBI; bentuk pilihan pemilik
+ulema => ulama  # Ejaan lazim
+tauhit => tauhid  # Keputusan pemilik; bentuk baku KBBI
+ketauhitan => ketauhidan  # Keputusan pemilik
+kesolehan => kesalehan  # Keputusan pemilik 2026-10-25
+tawabatan => taubatan  # Keputusan pemilik 2026-10-25 (lafaz 'taubatan nasuha')
+beri sikfar => beristigfar  # Keputusan pemilik 2026-10-25 (salah dengar; KBBI: istigfar)
+
+# ── Nama surah ──
+al-Kafiat => Al-Kahfi  # Whisper salah dengar; ayat 23-24 dan 28 memang surah Al-Kahfi (18)
+
+# ── Sapaan ceramah ──
+yang lo muliakan => yang Allah muliakan  # Keputusan pemilik 2026-10-26 (salah dengar sapaan 'hadirin yang Allah muliakan')
+ya Allah muliakan => yang Allah muliakan  # Keputusan pemilik 2026-10-26 (salah dengar 'jamaah/hadirin yang Allah muliakan')
+Hadirin, Allah muliakan => hadirin yang Allah muliakan  # Keputusan pemilik 2026-11-06 (salah dengar sapaan)
+Hadirin ya Allah, muliakan => hadirin yang Allah muliakan  # Keputusan pemilik 2026-11-06 (salah dengar sapaan)
+Mu'ad bin Salih Uthaymin => Muhammad bin Shalih al-Utsaimin  # Keputusan pemilik 2026-11-06 (ejaan nama al-Utsaimin)
+ihri s'ala ma'in fa'uk => Ihrish 'ala maa yanfa'uk  # Keputusan pemilik 2026-11-06 (salah dengar hadith 'ihrish 'ala maa yanfa'uk')
+Qadis Qaab => hadith Ka'ab  # Keputusan pemilik 2026-11-06 (salah dengar 'hadith Ka'ab')
+Kaab => Ka'ab  # Keputusan pemilik 2026-11-06 (nama sahabat Ka'ab bin Malik)
+Qaab => Ka'ab  # Keputusan pemilik 2026-11-06 (salah dengar nama Ka'ab)
+
+# ── Sifat Allah (keputusan pemilik 2026-11-06) ──
+maha tau => Maha Tahu  # Keputusan pemilik 2026-11-06 (sifat Allah berkapital; ejaan baku 'tahu')
+
+# ── Keputusan pemilik 2026-11-06 (batch Taubat_3) ──
+nyuaikin => nyuekin  # Keputusan pemilik 2026-11-06 (dari kata cuek)
+nyuakin => nyuekin  # Keputusan pemilik 2026-11-06 (dari kata cuek)
+At-Tolak => At-Talaq  # Keputusan pemilik 2026-11-06 (surah At-Talaq ayat 3)

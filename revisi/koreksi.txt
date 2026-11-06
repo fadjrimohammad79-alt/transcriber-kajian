@@ -1,0 +1,167 @@
+# Kamus koreksi otomatis — diterapkan ke setiap transkrip setelah Whisper selesai.
+# Format:  salah => benar  # alasan
+# Cocok per kata/frasa utuh, huruf besar-kecil diabaikan. Frasa terpanjang diterapkan lebih dulu.
+# Isi HANYA kesalahan yang selalu salah di mana pun muncul (tidak butuh konteks).
+# JANGAN masukkan nama penceramah yang bocor: penggantinya tergantung siapa yang dikutip
+# (ditandai NAMA_BOCOR untuk dicek manual).
+# Sumber awal: laporan QC manual bab Niat (revisi 2026-10-17; tidak disimpan di repo).
+
+# ── Nama ulama ──
+al-Dhahabi => adz-Dzahabi  # Ejaan nama adz-Dzahabi
+al-Zahabi => adz-Dzahabi  # Ejaan nama adz-Dzahabi
+al-Zahawi => adz-Dzahabi  # Ejaan nama adz-Dzahabi
+al-Dhabi => adz-Dzahabi  # Ejaan nama adz-Dzahabi
+Dhahabi => adz-Dzahabi  # Ejaan nama adz-Dzahabi
+Zahabi => adz-Dzahabi  # Ejaan nama adz-Dzahabi
+Halim Ad-Dhabi => al-imam adz-Dzahabi  # Salah dengar nama ulama
+Halim Ad-Dzahabi => al-imam adz-Dzahabi  # Salah dengar nama ulama (keluaran Groq)
+Ad-Dhahabi => adz-Dzahabi  # Ejaan nama adz-Dzahabi (keluaran Groq)
+Ad-Dzahabi => adz-Dzahabi  # Ejaan nama adz-Dzahabi (keluaran Groq)
+al-imam Muhammad bin Soley Uthaymeen => Syaikh Muhammad bin Shalih al-Utsaimin  # Ejaan nama al-Utsaimin
+al-imam Muhammad bin Soley Uthaymin => Syaikh Muhammad bin Shalih al-Utsaimin  # Ejaan nama al-Utsaimin
+al-imam Muhammad bin Salih Uthaymin => Syaikh Muhammad bin Shalih al-Utsaimin  # Ejaan nama al-Utsaimin
+al-imam Muhammad bin Shalih al-Uthaymin => Syaikh Muhammad bin Shalih al-Utsaimin  # Ejaan nama al-Utsaimin
+al-imam Mu'adh bin Sul Uthaymeen => Syaikh Muhammad bin Shalih al-Utsaimin  # Salah dengar nama al-Utsaimin
+Muhammad bin Soley Uthaymeen => Muhammad bin Shalih al-Utsaimin  # Ejaan nama al-Utsaimin
+Muhammad bin Soley Uthaymin => Muhammad bin Shalih al-Utsaimin  # Ejaan nama al-Utsaimin
+Muhammad bin Salih Uthaymin => Muhammad bin Shalih al-Utsaimin  # Ejaan nama al-Utsaimin
+Muhammad bin Shalih al-Uthaymin => Muhammad bin Shalih al-Utsaimin  # Ejaan nama al-Utsaimin
+Sheikh Soley Usseimi => Syaikh Shalih al-'Ushaimi  # Ejaan nama Syaikh al-Ushaimi
+Nur Rajab => Ibnu Rajab  # Salah dengar nama Ibnu Rajab
+syukur Islam => Syaikhul Islam  # Salah dengar gelar Syaikhul Islam
+Muhammadur Syafi'i => madzhab Syafi'i  # Salah dengar madzhab Syafi'i
+
+# ── Kitab ──
+Soi Bukhari => Shahih Bukhari  # Ejaan judul kitab Shahih
+Soi Muslim => Shahih Muslim  # Ejaan judul kitab Shahih
+suai muslim => Shahih Muslim  # Salah dengar judul kitab
+suhaim muslim => Shahih Muslim  # Salah dengar judul kitab (keluaran Groq)
+Soe Bukhari => Shahih Bukhari  # Ejaan judul kitab Shahih (keluaran Groq)
+Soe Muslim => Shahih Muslim  # Ejaan judul kitab Shahih (keluaran Groq)
+Radhus Shalihin => Riyadhush Shalihin  # Salah dengar judul kitab
+redo solehin => Riyadhush Shalihin  # Salah dengar judul kitab
+
+# ── Surat ──
+At-Tagawbun => At-Taghabun  # Ejaan nama surat
+At-Torik => Ath-Thariq  # Ejaan nama surat
+
+# ── Istilah & lafaz ──
+ketakuan => ketakwaan  # Salah dengar kata ketakwaan
+syaratul mustaqim => shiratal mustaqim  # Salah dengar shiratal mustaqim
+Allah dan Nuzulnya => Allah dan Rasulnya  # Lafaz hadits niat: Rasul, bukan Nuzul
+
+# ── Tambahan dari QC video 21 "Yang Dilihat Allah Darimu" (keluaran Groq, revisi 2026-10-19) ──
+# ── Nama ulama & sahabat ──
+al-Nawawi => an-Nawawi  # Ejaan nama an-Nawawi
+Qurtubi => Qurthubi  # Ejaan nama al-Qurthubi
+Sa'ad bin Abi Waqas => Sa'ad bin Abi Waqqash  # Ejaan nama sahabat
+Sufyan al-Thawri => Sufyan ats-Tsauri  # Ejaan nama ulama
+Sufyan Athawri => Sufyan ats-Tsauri  # Ejaan nama ulama
+Abu Musa al-Ash'ari => Abu Musa al-Asy'ari  # Ejaan nama sahabat
+Abu Ubaidah minil jarrah => Abu Ubaidah bin al-Jarrah  # Salah dengar nama sahabat
+Yusuf bin As'bat => Yusuf bin Asbath  # Ejaan nama ulama
+Muhammad bin Munqadir => Muhammad bin al-Munkadir  # Ejaan nama ulama
+Abu Hurra => Abu Hurairah  # Nama sahabat terpotong
+Khoybar => Khaibar  # Ejaan nama tempat
+kitab Helya => kitab Hilyatul Auliya'  # Salah dengar judul kitab
+
+# ── Ejaan & salah dengar ──
+merewatkan => meriwayatkan  # Salah dengar kata meriwayatkan
+kolbu => qalbu  # Ejaan qalbu
+fastabilul khairat => fastabiqul khairat  # Ejaan lafaz ayat
+istiqomah => istiqamah  # Ejaan baku
+gibah => ghibah  # Ejaan baku
+saudara ku => saudaraku  # Ejaan baku
+rekord => rekor  # Ejaan baku
+simstalabim => sim salabim  # Ejaan baku
+masa lemak => massa lemak  # Ejaan baku
+takarub => taqarrub  # Ejaan baku
+Ketauhilah => Ketahuilah  # Ejaan baku
+saudaraku ya Allah muliakan => saudaraku yang Allah muliakan  # Salah dengar 'yang' (kapital awal kalimat dipertahankan)
+saudara ku ya Allah muliakan => saudaraku yang Allah muliakan  # Gabungan dua salah dengar
+saudara-ku ya Allah muliakan => saudaraku yang Allah muliakan  # Gabungan dua salah dengar
+hadirin ya Allah muliakan => hadirin yang Allah muliakan  # Salah dengar 'yang' (kapital awal kalimat dipertahankan)
+jaman sekalian => jemaah sekalian  # Salah dengar 'jemaah'
+
+# ── Tambahan dari QC video 22-29 bab Niat (keluaran Groq, revisi 2026-10-19) ──
+# ── Nama ulama, sahabat & tempat ──
+Uthman => Utsman  # Ejaan nama khalifah Utsman
+Khaybar => Khaibar  # Ejaan nama tempat
+Sharaf bin Murri => Syaraf bin Murri  # Ejaan nasab an-Nawawi
+bin Hussein => bin Husain  # Ejaan nasab
+Abu Zakariyah => Abu Zakariya  # Ejaan kunyah an-Nawawi
+Harith => Harits  # Ejaan nama al-Harits
+Abdul Bin Abbas => Abdullah bin Abbas  # Ejaan nama sahabat
+Muttalib => Muthalib  # Ejaan nama Abdul Muthalib
+Mutalib => Muthalib  # Ejaan nama Abdul Muthalib
+Ibnul Rajab => Ibnu Rajab  # Ejaan nama ulama
+Ash'ari => Asy'ari  # Ejaan nama al-Asy'ari
+al-Ash'ari => al-Asy'ari  # Ejaan nama al-Asy'ari
+Daru Qutni => ad-Daruquthni  # Ejaan nama ulama
+Daru Qudni => ad-Daruquthni  # Ejaan nama ulama
+Abu Bakar al-Siddiq => Abu Bakar ash-Shiddiq  # Ejaan nama sahabat
+Abi Talib => Abi Thalib  # Ejaan nama sahabat
+Hasan al-Basri => Hasan al-Bashri  # Ejaan nama ulama
+al-Adqolani => al-Asqalani  # Ejaan nama Ibnu Hajar
+al-Athqolani => al-Asqalani  # Ejaan nama Ibnu Hajar
+Yarmouk => Yarmuk  # Ejaan nama perang
+Hudaybiyah => Hudaibiyah  # Ejaan nama perjanjian
+
+# ── Ejaan & salah dengar ──
+kadunia => karunia  # Salah dengar kata karunia
+khusul khatimah => husnul khatimah  # Ejaan husnul khatimah
+niyat => niat  # Ejaan baku
+niyatnya => niatnya  # Ejaan baku
+niyatkan => niatkan  # Ejaan baku
+masalahat => maslahat  # Ejaan maslahat
+kemahkuasaan => kemahakuasaan  # Ejaan baku
+salawat => shalawat  # Ejaan seragam
+hadit => hadith  # Ejaan seragam
+murakabatullah => muraqabatullah  # Ejaan muraqabatullah
+saudara-ku => saudaraku  # Ejaan baku
+hadirin, ya Allah muliakan => hadirin yang Allah muliakan  # Salah dengar 'yang'
+masha'Allah => masya Allah  # Ejaan seragam
+mashaAllah => masya Allah  # Ejaan seragam
+
+# ── Lafaz shalawat & radhiyallahu (apostrof 'ain; kapital awal dipertahankan) ──
+radhiyallahu ta'ala anhu => radhiyallahu ta'ala 'anhu  # Lafaz doa untuk sahabat
+radhiyallahu ta'ala anhuma => radhiyallahu ta'ala 'anhuma  # Lafaz doa untuk dua sahabat
+radhiyallahu ta'ala anhumah => radhiyallahu ta'ala 'anhuma  # Salah dengar lafaz
+radhiyallahu ta'ala anhum => radhiyallahu ta'ala 'anhum  # Lafaz doa untuk para sahabat
+radhiyallahu ta'ala anha => radhiyallahu ta'ala 'anha  # Lafaz doa untuk sahabiyah
+sallallahu alaihi wa sallam => shallallahu 'alaihi wa sallam  # Ejaan shalawat
+shalallahu alaihi wa sallam => shallallahu 'alaihi wa sallam  # Ejaan shalawat
+shallallahu alaihi wa sallam => shallallahu 'alaihi wa sallam  # Ejaan shalawat
+sallallahu alaihi wasallam => shallallahu 'alaihi wa sallam  # Ejaan shalawat
+shallallahu alaihi wasallam => shallallahu 'alaihi wa sallam  # Ejaan shalawat
+
+# --- keputusan pemilik korpus 2026-10-25 (ejaan yang tidak ada di KBBI)
+tabiin => tabi'in  # Tidak ada di KBBI; bentuk pilihan pemilik
+ulema => ulama  # Ejaan lazim
+tauhit => tauhid  # Keputusan pemilik; bentuk baku KBBI
+ketauhitan => ketauhidan  # Keputusan pemilik
+kesolehan => kesalehan  # Keputusan pemilik 2026-10-25
+tawabatan => taubatan  # Keputusan pemilik 2026-10-25 (lafaz 'taubatan nasuha')
+beri sikfar => beristigfar  # Keputusan pemilik 2026-10-25 (salah dengar; KBBI: istigfar)
+
+# ── Nama surah ──
+al-Kafiat => Al-Kahfi  # Whisper salah dengar; ayat 23-24 dan 28 memang surah Al-Kahfi (18)
+
+# ── Sapaan ceramah ──
+yang lo muliakan => yang Allah muliakan  # Keputusan pemilik 2026-10-26 (salah dengar sapaan 'hadirin yang Allah muliakan')
+ya Allah muliakan => yang Allah muliakan  # Keputusan pemilik 2026-10-26 (salah dengar 'jamaah/hadirin yang Allah muliakan')
+Hadirin, Allah muliakan => hadirin yang Allah muliakan  # Keputusan pemilik 2026-11-06 (salah dengar sapaan)
+Hadirin ya Allah, muliakan => hadirin yang Allah muliakan  # Keputusan pemilik 2026-11-06 (salah dengar sapaan)
+Mu'ad bin Salih Uthaymin => Muhammad bin Shalih al-Utsaimin  # Keputusan pemilik 2026-11-06 (ejaan nama al-Utsaimin)
+ihri s'ala ma'in fa'uk => Ihrish 'ala maa yanfa'uk  # Keputusan pemilik 2026-11-06 (salah dengar hadith 'ihrish 'ala maa yanfa'uk')
+Qadis Qaab => hadith Ka'ab  # Keputusan pemilik 2026-11-06 (salah dengar 'hadith Ka'ab')
+Kaab => Ka'ab  # Keputusan pemilik 2026-11-06 (nama sahabat Ka'ab bin Malik)
+Qaab => Ka'ab  # Keputusan pemilik 2026-11-06 (salah dengar nama Ka'ab)
+
+# ── Sifat Allah (keputusan pemilik 2026-11-06) ──
+maha tau => Maha Tahu  # Keputusan pemilik 2026-11-06 (sifat Allah berkapital; ejaan baku 'tahu')
+
+# ── Keputusan pemilik 2026-11-06 (batch Taubat_3) ──
+nyuaikin => nyuekin  # Keputusan pemilik 2026-11-06 (dari kata cuek)
+nyuakin => nyuekin  # Keputusan pemilik 2026-11-06 (dari kata cuek)
+At-Tolak => At-Talaq  # Keputusan pemilik 2026-11-06 (surah At-Talaq ayat 3)

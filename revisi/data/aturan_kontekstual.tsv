@@ -1,0 +1,58 @@
+# id	pola	ganti	tingkat	alasan
+hadis_riwayat	\b(hadis|hadits|hadith)\s+surat\s+((?:Imam\s+)?(?:Ahmad|Bukhari|Muslim|Tirmidzi|Turmudzi|Abu Daud|Abu Dawud|Nasa'i|An-Nasa'i|Ibnu Majah|Malik|Darimi|Baihaqi|Thabrani))	\1 riwayat \2	B	Salah dengar: 'riwayat' -> 'surat' (surat bukan sumber hadis). Perlu dicek audio bila dipakai sebagai dalil.
+ibnul_qayyim	\bImam Nul Qayyim\b	Imam Ibnul Qayyim	B	Salah dengar nama ulama (Ibnul Qayyim).
+imam_nawawi	\bAlim Nawawi\b	Imam Nawawi	B	Salah dengar 'Imam' -> 'Alim'; penulis Riyadhush Shalihin adalah Imam Nawawi.
+yang_lo_muliakan	\byang lo muliakan\b	yang Allah muliakan	B	Salah dengar sapaan 'yang Allah muliakan' (keputusan pemilik 2026-10-26).
+ya_allah_muliakan	\bya Allah muliakan\b	yang Allah muliakan	B	Salah dengar sapaan 'yang Allah muliakan' (keputusan pemilik 2026-10-26); hanya 'ya' huruf kecil, seruan 'Ya Allah' tidak disentuh.
+hadirin_allah_muliakan	\b([Hh])adirin,?(?: ya)? Allah,? muliakan\b	\1adirin yang Allah muliakan	B	Salah dengar sapaan 'hadirin yang Allah muliakan' (keputusan pemilik 2026-11-06).
+muad_utsaimin	\bMu'ad bin Salih Uthaymin\b	Muhammad bin Shalih al-Utsaimin	B	Ejaan nama Syaikh Muhammad bin Shalih al-Utsaimin (keputusan pemilik 2026-11-06).
+ihrish_ala_maa_yanfauk	\bihri s'ala ma'in fa'uk\b	Ihrish 'ala maa yanfa'uk	B	Salah dengar hadith "ihrish 'ala maa yanfa'uk" (keputusan pemilik 2026-11-06).
+hadith_kaab_qadis	\bQadis Qaab\b	hadith Ka'ab	B	Salah dengar "hadith Ka'ab" (keputusan pemilik 2026-11-06).
+asma_arrahman	\b(?i:ar[- ]rahman)\b	Ar-Rahman	B	Nama Allah (asmaul husna): huruf awal tiap bagian kapital (keputusan pemilik 2026-11-06).
+asma_arrahim	\b(?i:ar[- ]rahim)\b	Ar-Rahim	B	Nama Allah (asmaul husna): huruf awal tiap bagian kapital (keputusan pemilik 2026-11-06).
+asma_alghaffar	\b(?i:al[- ]ghaffar)\b	Al-Ghaffar	B	Nama Allah (asmaul husna): huruf awal tiap bagian kapital (keputusan pemilik 2026-11-06).
+asma_alghafur	\b(?i:al[- ]ghafur)\b	Al-Ghafur	B	Nama Allah (asmaul husna): huruf awal tiap bagian kapital (keputusan pemilik 2026-11-06).
+asma_attawwab	\b(?i:at[- ]tawwab)\b	At-Tawwab	B	Nama Allah (asmaul husna): huruf awal tiap bagian kapital (keputusan pemilik 2026-11-06).
+asma_alaziz	\b(?i:al[- ]aziz)\b	Al-Aziz	B	Nama Allah (asmaul husna): huruf awal tiap bagian kapital (keputusan pemilik 2026-11-06).
+asma_albasir	\b(?i:al[- ]basir)\b	Al-Basir	B	Nama Allah (asmaul husna): huruf awal tiap bagian kapital (keputusan pemilik 2026-11-06).
+asma_assami	\b(?i:as[- ]sami')\b	As-Sami'	B	Nama Allah (asmaul husna): huruf awal tiap bagian kapital (keputusan pemilik 2026-11-06).
+asma_assamad	\b(?i:as[- ]samad)\b	As-Samad	B	Nama Allah (asmaul husna): huruf awal tiap bagian kapital (keputusan pemilik 2026-11-06).
+asma_alkhaliq	\b(?i:al[- ]khaliq)\b	Al-Khaliq	B	Nama Allah (asmaul husna): huruf awal tiap bagian kapital (keputusan pemilik 2026-11-06).
+asma_alkhabir	\b(?i:al[- ]khabir)\b	Al-Khabir	B	Nama Allah (asmaul husna): huruf awal tiap bagian kapital (keputusan pemilik 2026-11-06).
+asma_annur	\b(?i:an[- ]nur)\b	An-Nur	B	Nama Allah (asmaul husna): huruf awal tiap bagian kapital (keputusan pemilik 2026-11-06).
+asma_alalim	\b(?i:al[- ]alim)\b	Al-Alim	B	Nama Allah (asmaul husna): huruf awal tiap bagian kapital (keputusan pemilik 2026-11-06).
+asma_alkarim	\b(?i:al[- ]karim)\b	Al-Karim	B	Nama Allah (asmaul husna): huruf awal tiap bagian kapital (keputusan pemilik 2026-11-06).
+asma_alwahhab	\b(?i:al[- ]wahhab)\b	Al-Wahhab	B	Nama Allah (asmaul husna): huruf awal tiap bagian kapital (keputusan pemilik 2026-11-06).
+asma_arrazzaq	\b(?i:ar[- ]razzaq)\b	Ar-Razzaq	B	Nama Allah (asmaul husna): huruf awal tiap bagian kapital (keputusan pemilik 2026-11-06).
+asma_alfattah	\b(?i:al[- ]fattah)\b	Al-Fattah	B	Nama Allah (asmaul husna): huruf awal tiap bagian kapital (keputusan pemilik 2026-11-06).
+asma_allatif	\b(?i:al[- ]latif)\b	Al-Latif	B	Nama Allah (asmaul husna): huruf awal tiap bagian kapital (keputusan pemilik 2026-11-06).
+asma_alhalim	\b(?i:al[- ]halim)\b	Al-Halim	B	Nama Allah (asmaul husna): huruf awal tiap bagian kapital (keputusan pemilik 2026-11-06).
+asma_alwadud	\b(?i:al[- ]wadud)\b	Al-Wadud	B	Nama Allah (asmaul husna): huruf awal tiap bagian kapital (keputusan pemilik 2026-11-06).
+asma_alqayyum	\b(?i:al[- ]qayyum)\b	Al-Qayyum	B	Nama Allah (asmaul husna): huruf awal tiap bagian kapital (keputusan pemilik 2026-11-06).
+asma_alhayy	\b(?i:al[- ]hayy)\b	Al-Hayy	B	Nama Allah (asmaul husna): huruf awal tiap bagian kapital (keputusan pemilik 2026-11-06).
+asma_alqadir	\b(?i:al[- ]qadir)\b	Al-Qadir	B	Nama Allah (asmaul husna): huruf awal tiap bagian kapital (keputusan pemilik 2026-11-06).
+asma_alafuww	\b(?i:al[- ]afuww)\b	Al-Afuww	B	Nama Allah (asmaul husna): huruf awal tiap bagian kapital (keputusan pemilik 2026-11-06).
+asma_arrauf	\b(?i:ar[- ]ra'uf)\b	Ar-Ra'uf	B	Nama Allah (asmaul husna): huruf awal tiap bagian kapital (keputusan pemilik 2026-11-06).
+asma_alquddus	\b(?i:al[- ]quddus)\b	Al-Quddus	B	Nama Allah (asmaul husna): huruf awal tiap bagian kapital (keputusan pemilik 2026-11-06).
+maha_melihat	\b[Mm]aha\s+(?i:melihat)	Maha Melihat	B	Sifat Allah (Maha ...): huruf awal kapital (keputusan pemilik 2026-11-06).
+maha_mendengar	\b[Mm]aha\s+(?i:mendengar)	Maha Mendengar	B	Sifat Allah (Maha ...): huruf awal kapital (keputusan pemilik 2026-11-06).
+maha_mengetahui	\b[Mm]aha\s+(?i:mengetahui)	Maha Mengetahui	B	Sifat Allah (Maha ...): huruf awal kapital (keputusan pemilik 2026-11-06).
+maha_penyayang	\b[Mm]aha\s+(?i:penyayang)	Maha Penyayang	B	Sifat Allah (Maha ...): huruf awal kapital (keputusan pemilik 2026-11-06).
+maha_kuat	\b[Mm]aha\s+(?i:kuat)(?![A-Za-z])	Maha Kuat	B	Sifat Allah (Maha ...): huruf awal kapital (keputusan pemilik 2026-11-06).
+maha_baik	\b[Mm]aha\s+(?i:baik)(?![A-Za-z])	Maha Baik	B	Sifat Allah (Maha ...): huruf awal kapital (keputusan pemilik 2026-11-06).
+maha_tau	\b[Mm]aha\s+(?i:tau)(?![A-Za-z])	Maha Tahu	B	Sifat Allah (Maha ...): huruf awal kapital (keputusan pemilik 2026-11-06).
+maha_tahu	\b[Mm]aha\s+(?i:tahu)(?![A-Za-z])	Maha Tahu	B	Sifat Allah (Maha ...): huruf awal kapital (keputusan pemilik 2026-11-06).
+maha_pengampun	\b[Mm]aha\s+(?i:pengampun)	Maha Pengampun	B	Sifat Allah (Maha ...): huruf awal kapital (keputusan pemilik 2026-11-06).
+maha_indah	\b[Mm]aha\s+(?i:indah)(?![A-Za-z])	Maha Indah	B	Sifat Allah (Maha ...): huruf awal kapital (keputusan pemilik 2026-11-06).
+maha_perkasa	\b[Mm]aha\s+(?i:perkasa)(?![A-Za-z])	Maha Perkasa	B	Sifat Allah (Maha ...): huruf awal kapital (keputusan pemilik 2026-11-06).
+maha_pengasih	\b[Mm]aha\s+(?i:pengasih)	Maha Pengasih	B	Sifat Allah (Maha ...): huruf awal kapital (keputusan pemilik 2026-11-06).
+maha_penerima	\b[Mm]aha\s+(?i:penerima)	Maha Penerima	B	Sifat Allah (Maha ...): huruf awal kapital (keputusan pemilik 2026-11-06).
+maha_penghasil	\b[Mm]aha\s+(?i:penghasil)	Maha Penghasil	B	Sifat Allah (Maha ...): huruf awal kapital (keputusan pemilik 2026-11-06).
+maha_sayang	\b[Mm]aha\s+(?i:sayang)(?![A-Za-z])	Maha Sayang	B	Sifat Allah (Maha ...): huruf awal kapital (keputusan pemilik 2026-11-06).
+maha_menerima	\b[Mm]aha\s+(?i:menerima)	Maha Menerima	B	Sifat Allah (Maha ...): huruf awal kapital (keputusan pemilik 2026-11-06).
+maha_penghapus	\b[Mm]aha\s+(?i:penghapus)	Maha Penghapus	B	Sifat Allah (Maha ...): huruf awal kapital (keputusan pemilik 2026-11-06).
+maha_pedih	\b[Mm]aha\s+(?i:pedih)(?![A-Za-z])	Maha Pedih	B	Sifat Allah (Maha ...): huruf awal kapital (keputusan pemilik 2026-11-06).
+maha_kaya	\b[Mm]aha\s+(?i:kaya)(?![A-Za-z])	Maha Kaya	B	Sifat Allah (Maha ...): huruf awal kapital (keputusan pemilik 2026-11-06).
+maha_sanggup	\b[Mm]aha\s+(?i:sanggup)(?![A-Za-z])	Maha Sanggup	B	Sifat Allah (Maha ...): huruf awal kapital (keputusan pemilik 2026-11-06).
+maha_ghaffar	\b[Mm]aha\s+(?i:ghaffar)	Maha Ghaffar	B	Sifat Allah (Maha ...): huruf awal kapital (keputusan pemilik 2026-11-06).
+nama_surah_attalaq_tolak	\bAt-Tolak\b	At-Talaq	B	Salah dengar nama surah At-Talaq (surah ke-65; keputusan pemilik 2026-11-06).

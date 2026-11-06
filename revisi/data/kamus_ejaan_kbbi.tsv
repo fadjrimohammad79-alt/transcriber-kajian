@@ -1,0 +1,25 @@
+# id	pola (regex, abaikan besar/kecil)	ganti	status	sumber (dicek 2026-10-25)	catatan
+tobat	\b((?:ber|per|di|ter|se)?)taubat((?:(?!an\s+nasu)an|lah|nya|i|kan|ku|mu)?)\b	\1tobat\2	terverifikasi	kbbi.web.id/tobat	'taubat' tidak baku.
+jemaah	\bjama'?ah\b	jemaah	terverifikasi	kbbi.web.id/jemaah	Dilewati bila didahului wal/al-.
+saleh	\b(?:sholeh|shaleh|soleh|salih|solih|shalih)\b	saleh	terverifikasi	kbbi.web.id/salih_saleh	Bagian nama orang dilindungi.
+salat	\b(?:sholat|shalat|solat)(?=(?:nya|ku|mu|lah|kah)?\b)	salat	terverifikasi	kbbi.web.id/solat_salat	so·lat ? salat; 'shalat/sholat' tidak ada di KBBI.
+zikir	\bdz?ikir\b	zikir	terverifikasi	kbbi.web.id/dikir_zikir	dikir ? zikir
+istigfar	\b(ber)?istighfar\b	\1istigfar	terverifikasi	kbbi.web.id/istigfar	
+wudu	\bwudh?u'?\b	wudu	terverifikasi	kbbi.web.id/wudu	
+mazhab	\bm[ad]zhab\b	mazhab	terverifikasi	kbbi.web.id/mazhab	
+ustaz	\bustadz\b	ustaz	terverifikasi	kbbi.web.id/ustaz	
+setan	\bsy?[ae]itan\b|\bsyetan\b	setan	terverifikasi	kbbi.web.id/syaitan_setan	syaitan ? setan
+akidah	\baqidah\b	akidah	terverifikasi	kbbi.web.id/aqidah_akidah	aqidah ? akidah
+fikih	\bfiq(?:ih|h)\b	fikih	terverifikasi	kbbi.web.id/fikih	
+nasihat	\b((?:me|di|ber)?)nasehat(i|kan|nya)?\b	\1nasihat\2	terverifikasi	kbbi.web.id/nasehat	nasehat ? nasihat
+takwa	\b(ke|ber)?taqwa(an)?\b	\1takwa\2	terverifikasi	kbbi.web.id/takwa	'taqwa' tidak ada.
+zalim	\b(?:dza|zha|zo)lim(?=(?:i|nya)?\b)	zalim	terverifikasi	kbbi.web.id/dolim_zalim	dolim ? zalim
+firaun	\bfir'?aun\b	Firaun	terverifikasi	kbbi.web.id/firaun	
+khotbah	\b(?:khutbah|kutbah|khuthbah)\b	khotbah	terverifikasi	kbbi.web.id/kutbah_khotbah	kutbah ? khotbah
+alquran	(?<!nuzulul )\b(?:al-?\s?)?qur'?an\b	Alquran	terverifikasi	kbbi.web.id/alquran	Kuran ? Alquran; 'Nuzulul Quran' dikecualikan.
+rida	\b(?:ridho|ridha|rido)\b	rida	terverifikasi	kbbi.web.id/rida	'ridha' tidak ada.
+jahanam	\bjahannam\b	jahanam	terverifikasi	kbbi.web.id/jahanam	
+sunah	(?<!as-)(?<!al-)(?<!ahlus )(?<!ahlu )\bsunnah\b	sunah	terverifikasi	kbbi.web.id/sunnah_sunah	sunnah ? sunah; istilah Arab 'as-sunnah/ahlus sunnah' dikecualikan.
+taufik	\btaufiq\b	taufik	terverifikasi	kbbi.web.id/taufik	
+ramadan	\bramadhan\b	Ramadan	terverifikasi	kbbi.web.id/ramadan	
+umrah	\bumroh\b	umrah	terverifikasi	kbbi.web.id/umrat_umrah	umrat ? umrah
