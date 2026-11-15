@@ -35,7 +35,8 @@ def terjemah(t):
     for m in re.finditer(r'(?<!\()(\s?)\d+\)', t):
         hasil += t[pos:m.start()]
         pos = m.end()
-        hasil += ')' if hasil.count('(') > hasil.count(')') else ''
+        if hasil.count('(') > hasil.count(')') and t[pos:pos + 1] != ')':   # kurung belum tertutup & tidak ada ')' sesudah penanda: tutup di sini
+            hasil += ')'
     return (hasil + t[pos:]).strip()
 
 def ayat_penuh(sn, a1, a2):
