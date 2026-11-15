@@ -130,3 +130,4 @@ ejaan_menimpa_kalian	\bmenipa kalian\b	menimpa kalian	B	Salah dengar/ejaan 'meni
 gaya_subhanahu_wa_taala	\b([Ss]ubhanahu) [Ww]a [Tt]a'ala\b	\1 wa ta'ala	B	Seragam: 'subhanahu wa ta'ala' (wa dan ta'ala huruf kecil), sesuai gaya mayoritas korpus dan aturan singkatan swt (keputusan pemilik 2026-11-15).
 gaya_subhanahu_tengah	(?<=\w )Subhanahu wa ta'ala\b	subhanahu wa ta'ala	B	Huruf awal 'subhanahu' kecil di tengah kalimat (awal kalimat tetap kapital); keputusan pemilik 2026-11-15.
 arab_jamian	\bjami'ah\b	jami'an	B	Salah dengar 'jami'ah' -> 'jami'an' (جَمِيعًا, Az-Zumar:53); agar terbaca sebagai Arab di folder uji.
+arab_sabar_awwal	\bas-sober al-awwal\b	as-sabr al-awwal	B	Salah dengar 'as-sober' -> 'as-sabr' (الصبر الأول, sabar yang pertama); keputusan pemilik 2026-11-15, video 64 44:21.
