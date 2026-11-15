@@ -56,3 +56,65 @@ maha_kaya	\b[Mm]aha\s+(?i:kaya)(?![A-Za-z])	Maha Kaya	B	Sifat Allah (Maha ...): 
 maha_sanggup	\b[Mm]aha\s+(?i:sanggup)(?![A-Za-z])	Maha Sanggup	B	Sifat Allah (Maha ...): huruf awal kapital (keputusan pemilik 2026-11-06).
 maha_ghaffar	\b[Mm]aha\s+(?i:ghaffar)	Maha Ghaffar	B	Sifat Allah (Maha ...): huruf awal kapital (keputusan pemilik 2026-11-06).
 nama_surah_attalaq_tolak	\bAt-Tolak\b	At-Talaq	B	Salah dengar nama surah At-Talaq (surah ke-65; keputusan pemilik 2026-11-06).
+surah_as_sajdah_sajjad	\bAs-Sajjad(?= ayat 24\b)	As-Sajadah	B	Salah dengar nama surah As-Sajadah (surah ke-32, ayat 24; keputusan pemilik 2026-11-15, video 64 dan 79).
+nama_surah_as_sajadah	\bAs-Sajdah\b	As-Sajadah	B	Ejaan nama surah ke-32 menurut pemilik: As-Sajadah (bukan As-Sajdah; 2026-11-15).
+surah_ali_imran_200	(?<![Ss]urat )(?<![Ss]urah )\bAli Imran(?= ayat 200\b)	surah Ali Imran	B	Penyebutan "Ali Imran ayat 200" tanpa kata surah: ditambah kata surah supaya dalil terhubung (keputusan pemilik 2026-11-15, video 71).
+surah_al_ibran_200	\bAl-Ibran 200\b	surah Ali Imran ayat 200	B	Salah dengar "Al-Ibran 200" = surah Ali Imran ayat 200 (keputusan pemilik 2026-11-15, video 64 55:50).
+surah_muhammad_31	(?<![Ss]urat )(?<![Ss]urah )\bMuhammad(?= ayat 31\b)	surah Muhammad	B	Penyebutan "Muhammad ayat 31" tanpa kata surah: ditambah kata surah (keputusan pemilik 2026-11-15, video 71).
+surah_az_zumar_10	(?<![Ss]urat )(?<![Ss]urah )\bAz-Zumar(?= ayat 10\b)	surah Az-Zumar	B	Penyebutan "Az-Zumar ayat 10" tanpa kata surah: ditambah kata surah (keputusan pemilik 2026-11-15, video 67).
+surah_al_baqarah_45_ke	\bdi ayat ke-45(?=\. Di ayat ini)	di surah Al-Baqarah ayat ke-45	B	Ayat ke-45 dalam surah Al-Baqarah (keputusan pemilik 2026-11-15, video 70 29:39).
+surah_ali_imran_134_salat	\bdalam salat Ali Imran ayat 134\b	dalam surah Ali Imran ayat 134	B	Salah dengar "salat" untuk "surat" di depan Ali Imran ayat 134 (keputusan pemilik 2026-11-15, video 77).
+surah_ibrahim_7_suhuat	\bsuhuat Ibrahim(?= tersebut\. Ayat 7\b)	surah Ibrahim	B	Salah dengar "suhuat" untuk "surat" di depan Ibrahim ayat 7 (keputusan pemilik 2026-11-15, video 79 33:28).
+phk_di_strip	\bdi PHK\b	di-PHK	B	Bentuk pasif "di PHK" ditulis "di-PHK" (singkatan dipertahankan; keputusan pemilik 2026-11-15).
+arab_nisa104_ibtigha	فِي بِتِقَاءِ الْقَوْمِ	فِي ابْتِغَاءِ الْقَوْمِ	B	Perbaikan ejaan Arab An-Nisa:104 (ابتغاء); keputusan pemilik 2026-11-15, video 64.
+arab_fajr20_hubban	الْمَالَ هُبًّا جَمًّا	الْمَالَ حُبًّا جَمًّا	B	Perbaikan ejaan Arab Al-Fajr:20 (حبا جما); keputusan pemilik 2026-11-15, video 74.
+arab_fajr20_hubban2	وَتُحِبُّونَ الْمَالَ هُبًّا	وَتُحِبُّونَ الْمَالَ حُبًّا	B	Perbaikan ejaan Arab Al-Fajr:20; keputusan pemilik 2026-11-15, video 74.
+arab_fajr20_hubban3	(?<=\s)هُبًّا جَمًّا	حُبًّا جَمًّا	B	Perbaikan ejaan Arab Al-Fajr:20 (potongan berdiri sendiri); keputusan pemilik 2026-11-15, video 74.
+arab_ibrahim7_lasyadid	إِنَّ عَذَابِي لَا شَدِيدٍ	إِنَّ عَذَابِي لَشَدِيدٌ	B	Perbaikan ejaan Arab Ibrahim:7 (لشديد); keputusan pemilik 2026-11-15, video 79.
+arab_naba39_alhaqq	ذَلِكَ الْيَوْمُ الْحَقُّةَ اللَّهُ	ذَلِكَ الْيَوْمُ الْحَقُّ	B	Perbaikan Arab An-Naba:39 (ذلك اليوم الحق); keputusan pemilik 2026-11-15, video 73.
+arab_nisa104_talamun	إِنْ تَكُونُوا تَعْلَمُونَ فَإِنَّهُمْ يَعْلَمُونَ كَمَا تَعْلَمُونَ	إِنْ تَكُونُوا تَأْلَمُونَ فَإِنَّهُمْ يَأْلَمُونَ كَمَا تَأْلَمُونَ	B	Perbaikan ejaan Arab An-Nisa:104 (تألمون, bukan تعلمون); video 64, 2026-11-15.
+ayat_sabar_64_12_0	\b([Ss]ur(?:at|ah)) (?i:al-Imran)\b	\1 Ali Imran	B	Penyebutan ayat dilengkapi dengan surahnya (keputusan pemilik 2026-11-15, batch Sabar video 64).
+ayat_sabar_64_25_1	(sur(?:at|ah) Ali Imran) misalnya (ayat 200)	\1 \2	B	Penyebutan ayat dilengkapi dengan surahnya (keputusan pemilik 2026-11-15, batch Sabar video 64).
+ayat_sabar_64_51_2	As-Sajadah, sur(?:at|ah) ke-32, ayat 24	As-Sajadah ayat 24 (surah ke-32)	B	Penyebutan ayat dilengkapi dengan surahnya (keputusan pemilik 2026-11-15, batch Sabar video 64).
+ayat_sabar_64_60_3	(sur(?:at|ah) Az-Zumar)( yang kita bahas terus)	\1 ayat 53\2	B	Penyebutan ayat dilengkapi dengan surahnya (keputusan pemilik 2026-11-15, batch Sabar video 64).
+ayat_sabar_64_62_4	(sur(?:at|ah) Ali Imran) tadi\.	\1 ayat 200 tadi.	B	Penyebutan ayat dilengkapi dengan surahnya (keputusan pemilik 2026-11-15, batch Sabar video 64).
+ayat_sabar_65_42_5	(sur(?:at|ah) Quraish)\? (Alladhi atta'amahum)	\1 ayat 4? \2	B	Penyebutan ayat dilengkapi dengan surahnya (keputusan pemilik 2026-11-15, batch Sabar video 65).
+ayat_sabar_65_42_6	(dalam sur(?:at|ah) Quraish), agar	\1 ayat 4, agar	B	Penyebutan ayat dilengkapi dengan surahnya (keputusan pemilik 2026-11-15, batch Sabar video 65).
+ayat_sabar_66_9_7	(sur(?:at|ah) Ali Imran) ayat terakhir	\1 ayat 200, ayat terakhir	B	Penyebutan ayat dilengkapi dengan surahnya (keputusan pemilik 2026-11-15, batch Sabar video 66).
+ayat_sabar_67_15_8	(raji'un\. Sur(?:at|ah) Al-Baqarah)\.$	\1 ayat 155 dan 156.	B	Penyebutan ayat dilengkapi dengan surahnya (keputusan pemilik 2026-11-15, batch Sabar video 67).
+ayat_sabar_67_16_9	^ayat 155 dan 156\. 		B	Penyebutan ayat dilengkapi dengan surahnya (keputusan pemilik 2026-11-15, batch Sabar video 67).
+ayat_sabar_69_14_10	(sur(?:at|ah) (?i:al-Baqarah)) yang dibawakan al-imam	\1 ayat 153 yang dibawakan al-imam	B	Penyebutan ayat dilengkapi dengan surahnya (keputusan pemilik 2026-11-15, batch Sabar video 69).
+ayat_sabar_70_6_11	(sur(?:at|ah) Al-Baqarah) yang 155	\1 ayat 155	B	Penyebutan ayat dilengkapi dengan surahnya (keputusan pemilik 2026-11-15, batch Sabar video 70).
+ayat_sabar_70_8_12	(sur(?:at|ah)) Ash-[Ss]hurah? ayat (?:empat puluh tiga|43)	\1 Asy-Syura ayat 43	B	Penyebutan ayat dilengkapi dengan surahnya (keputusan pemilik 2026-11-15, batch Sabar video 70).
+ayat_sabar_70_11_13	(sur(?:at|ah) Fussilat) ketika Allah mengatakan	\1 ayat 34 dan 35 ketika Allah mengatakan	B	Penyebutan ayat dilengkapi dengan surahnya (keputusan pemilik 2026-11-15, batch Sabar video 70).
+ayat_sabar_70_17_14	di ayat ke-45, di sur(?:at|ah) yang sama, Al-Baqarah	di surah Al-Baqarah ayat ke-45	B	Penyebutan ayat dilengkapi dengan surahnya (keputusan pemilik 2026-11-15, batch Sabar video 70).
+ayat_sabar_70_38_15	(Di akhir sur(?:at|ah) Al-Baqarah)\.	\1 ayat 286.	B	Penyebutan ayat dilengkapi dengan surahnya (keputusan pemilik 2026-11-15, batch Sabar video 70).
+ayat_sabar_71_30_16	(sur(?:at|ah) Al-Fajr)\.$	\1 ayat 15 dan 16.	B	Penyebutan ayat dilengkapi dengan surahnya (keputusan pemilik 2026-11-15, batch Sabar video 71).
+ayat_sabar_71_31_17	^Ayat 15 dan 16\. 		B	Penyebutan ayat dilengkapi dengan surahnya (keputusan pemilik 2026-11-15, batch Sabar video 71).
+ayat_sabar_71_46_18	(sur(?:at|ah) Al-Ankabut), Alif Lamim, ayat pertama	\1 ayat 1, Alif Lamim	B	Penyebutan ayat dilengkapi dengan surahnya (keputusan pemilik 2026-11-15, batch Sabar video 71).
+ayat_sabar_71_63_19	(sur(?:at|ah) (?i:az-Zumar)), (inna ma'i)	\1 ayat 10, \2	B	Penyebutan ayat dilengkapi dengan surahnya (keputusan pemilik 2026-11-15, batch Sabar video 71).
+ayat_sabar_71_64_20	(Sur(?:at|ah) Al-Ankabut) kan apa\?	\1 ayat 3 kan apa?	B	Penyebutan ayat dilengkapi dengan surahnya (keputusan pemilik 2026-11-15, batch Sabar video 71).
+ayat_sabar_72_15_21	(sur(?:at|ah)) Ash-[Ss]hurah? dulu ya, (jam[ae]+ah)	\1 Asy-Syura ayat 43 dulu ya, \2	B	Penyebutan ayat dilengkapi dengan surahnya (keputusan pemilik 2026-11-15, batch Sabar video 72).
+ayat_sabar_72_15_22	ke (sur(?:at|ah)) Ash-[Ss]hurah? dulu, ayat 43	ke \1 Asy-Syura ayat 43	B	Penyebutan ayat dilengkapi dengan surahnya (keputusan pemilik 2026-11-15, batch Sabar video 72).
+ayat_sabar_72_25_23	(Ini seperti sur(?:at|ah) Al-Ankabut),$	\1 ayat 2,	B	Penyebutan ayat dilengkapi dengan surahnya (keputusan pemilik 2026-11-15, batch Sabar video 72).
+ayat_sabar_73_28_24	(di sur(?:at|ah) Al-Anbiy[a-z]*'?)\.	\1 ayat 47.	B	Penyebutan ayat dilengkapi dengan surahnya (keputusan pemilik 2026-11-15, batch Sabar video 73).
+ayat_sabar_73_30_25	(sur(?:at|ah) Al-Qari'ah)\. (Allah mengatakan,)	\1 ayat 6. \2	B	Penyebutan ayat dilengkapi dengan surahnya (keputusan pemilik 2026-11-15, batch Sabar video 73).
+ayat_sabar_73_44_26	(sur(?:at|ah) Al-Fatihah), khususnya ayat (Alhamdulillah)	\1 ayat 2, khususnya \2	B	Penyebutan ayat dilengkapi dengan surahnya (keputusan pemilik 2026-11-15, batch Sabar video 73).
+ayat_sabar_74_1_27	(sur(?:at|ah) Ibrahim), (Dan apabila kalian ingin menghitung)	\1 ayat 34, \2	B	Penyebutan ayat dilengkapi dengan surahnya (keputusan pemilik 2026-11-15, batch Sabar video 74).
+ayat_sabar_74_55_28	(Sur(?:at|ah) Al-Ma'un)\. (Celaka)	\1 ayat 4 dan 5. \2	B	Penyebutan ayat dilengkapi dengan surahnya (keputusan pemilik 2026-11-15, batch Sabar video 74).
+ayat_sabar_74_64_29	(dalam sur(?:at|ah) Yunus)\.	\1 ayat 5.	B	Penyebutan ayat dilengkapi dengan surahnya (keputusan pemilik 2026-11-15, batch Sabar video 74).
+ayat_sabar_75_60_30	(sur(?:at|ah)) Ash-[Ss]hurah? (ini jam[ae]+ah)	\1 Asy-Syura ayat 52 \2	B	Penyebutan ayat dilengkapi dengan surahnya (keputusan pemilik 2026-11-15, batch Sabar video 75).
+ayat_sabar_77_35_31	(sur(?:at|ah) Ali Imran) tadi, ayat 134	\1 ayat 134	B	Penyebutan ayat dilengkapi dengan surahnya (keputusan pemilik 2026-11-15, batch Sabar video 77).
+ayat_sabar_77_74_32	(sur(?:at|ah) Al-Munafiqun)\.$	\1 ayat 8.	B	Penyebutan ayat dilengkapi dengan surahnya (keputusan pemilik 2026-11-15, batch Sabar video 77).
+ayat_sabar_77_75_33	^Al-Munafiqun\. Ayat 8\. 		B	Penyebutan ayat dilengkapi dengan surahnya (keputusan pemilik 2026-11-15, batch Sabar video 77).
+ayat_sabar_79_14_34	(sur(?:at|ah)) Al-Muluk\?	\1 Al-Mulk ayat 2?	B	Penyebutan ayat dilengkapi dengan surahnya (keputusan pemilik 2026-11-15, batch Sabar video 79).
+ayat_sabar_79_53_35	(?:sur(?:at|ah)|suhuat) Ibrahim tersebut\. Ayat 7\.	surah Ibrahim ayat 7.	B	Penyebutan ayat dilengkapi dengan surahnya (keputusan pemilik 2026-11-15, batch Sabar video 79).
+ayat_sabar_79_95_36	(?:sur(?:at|ah) )+Ibrahim ya, ayat 5 ya\.	surah Ibrahim ayat 5.	B	Penyebutan ayat dilengkapi dengan surahnya (keputusan pemilik 2026-11-15, batch Sabar video 79).
+ayat_sabar_80_26_37	(akhir-akhir sur(?:at|ah) (?i:at-taubah))\.	\1 ayat 128.	B	Penyebutan ayat dilengkapi dengan surahnya (keputusan pemilik 2026-11-15, batch Sabar video 80).
+ayat_sabar2_64_12_0	(ayat terakhir dari sur(?:at|ah) (?:Ali Imran|Al-Imran))\.	\1 ayat 200.	B	Penyebutan ayat dilengkapi (keputusan pemilik 2026-11-15, batch Sabar video 64).
+ayat_sabar2_68_13_1	(sur(?:at|ah) Az-Zumar) ayat sepuluh	\1 ayat 10	B	Penyebutan ayat dilengkapi (keputusan pemilik 2026-11-15, batch Sabar video 68).
+ayat_sabar2_75_61_2	^Ayat kelima dua ini\. 		B	Penyebutan ayat dilengkapi (keputusan pemilik 2026-11-15, batch Sabar video 75).
+arab_sabar_wasabiru	\b([Ww])a ?s?salbiru\b	\1a sabiru	B	Salah dengar lafaz Ali Imran:200 (wa shabiru), keputusan pemilik 2026-11-15; agar terbaca sebagai Arab di folder uji.
+arab_sabar_warabitu	\b([Ww])a(?:ralbitu|raw biltu)\b	\1arabitu	B	Salah dengar lafaz Ali Imran:200 (wa rabithu), keputusan pemilik 2026-11-15; agar terbaca sebagai Arab di folder uji.
+surah_al_ibrun_200	\bAl-Ibrun 200\b	surah Ali Imran ayat 200	B	Salah dengar "Al-Ibrun 200" (varian dari "Al-Ibran 200") = surah Ali Imran ayat 200 (video 66 41:35).
+utsaimin_soley	\bMuhammad bin Soley al-Utsaimin\b	Muhammad bin Shalih al-Utsaimin	B	Ejaan nama Syaikh Muhammad bin Shalih al-Utsaimin (salah dengar Soley; keputusan pemilik 2026-11-06, video 64).

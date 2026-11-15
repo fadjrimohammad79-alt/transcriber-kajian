@@ -7,6 +7,7 @@ Berkas di folder ini dibangun ulang oleh `build_rujukan.py` dari dataset terbuka
 | `surat.json` | 114 surah: nomor, nama Arab, transliterasi, arti, jumlah ayat | quran-json 3.1.2 (npm `quran-json`) | CC-BY-SA 4.0 (teks Arab: Tanzil; terjemah Indonesia: Kemenag RI; transliterasi: Tanzil) |
 | `quran_ringkas.json` | 6.236 ayat: Arab, transliterasi, terjemah Indonesia | quran-json 3.1.2 | CC-BY-SA 4.0 - wajib atribusi + berbagi serupa bila didistribusikan ulang |
 | `riyadhush_shalihin_ringkas.json` | 1.896 hadis Riyadhush Shalihin: Arab + terjemah Inggris | hadith-json (data Sunnah.com), `db/by_book/other_books/riyad_assalihin.json` | ISC (kode/format); teks bersumber Sunnah.com - cek ketentuan situs bila dipublikasikan |
+| `kemenag_latin.json` | 6.236 ayat: transliterasi Latin per ayat (dipakai bersama transliterasi Tanzil untuk kemiripan kutipan Latin) | Qur'an Kemenag, quran.kemenag.go.id (API web-api.qurankemenag.net/quran-ayah?surah=N), diambil 2026-11-15 | Hak Kemenag RI; sebutkan sumber bila dipublikasikan |
 
 ## Keputusan edisi/penomoran Riyadhush Shalihin
 

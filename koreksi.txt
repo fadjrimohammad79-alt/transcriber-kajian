@@ -165,3 +165,7 @@ maha tau => Maha Tahu  # Keputusan pemilik 2026-11-06 (sifat Allah berkapital; e
 nyuaikin => nyuekin  # Keputusan pemilik 2026-11-06 (dari kata cuek)
 nyuakin => nyuekin  # Keputusan pemilik 2026-11-06 (dari kata cuek)
 At-Tolak => At-Talaq  # Keputusan pemilik 2026-11-06 (surah At-Talaq ayat 3)
+# ── Keputusan pemilik 2026-11-15 (batch Sabar) ──
+suhuat Ibrahim => surah Ibrahim  # Keputusan pemilik 2026-11-15 (salah dengar surat)
+Al-Ibran 200 => surah Ali Imran ayat 200  # Keputusan pemilik 2026-11-15 (salah dengar)
+Muhammad bin Soley al-Utsaimin => Muhammad bin Shalih al-Utsaimin  # Ejaan nama al-Utsaimin (2026-11-15)

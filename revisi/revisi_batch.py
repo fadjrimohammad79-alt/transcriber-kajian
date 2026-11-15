@@ -51,6 +51,8 @@ def kunci_latin(s):
 
 
 ARTIKEL = ('adh', 'ath', 'ash', 'asy', 'al', 'an', 'ar', 'as', 'at', 'ad', 'az')
+# ejaan nama surah pilihan pemilik yang dikenali sebagai alias (nomor surah -> ejaan); Asy-Syura = surah ke-42 (2026-11-15)
+ALIAS_SURAT = {42: ('Asy-Syura',)}
 
 
 def varian_kunci(nama):
@@ -170,8 +172,14 @@ class Rujukan:
         L = lambda f: json.load(open(os.path.join(d, f), encoding='utf-8'))
         self.surat = L('surat.json')
         self.ayat = L('quran_ringkas.json')
+        # transliterasi Latin tambahan: Qur'an Kemenag (quran.kemenag.go.id); dipakai bersama transliterasi Tanzil (ambil kemiripan tertinggi)
+        try:
+            self.lat_kemenag = {k: [x['latin'] for x in v] for k, v in L('kemenag_latin.json').items()}
+        except Exception:
+            self.lat_kemenag = {}
         self.hadis = L('riyadhush_shalihin_ringkas.json')
-        self.kunci_surat = [(s, varian_kunci(s['nama'])) for s in self.surat]
+        self.kunci_surat = [(s, set().union(varian_kunci(s['nama']), {kunci_latin(a) for a in ALIAS_SURAT.get(s['no'], ())}))
+                            for s in self.surat]
         self.pilihan_nama = {}   # ejaan ucapan -> nomor surah (diputuskan lewat isi), dipakai ulang antar-video
         # indeks trigram kata -> {(surah, ayat)}
         self.idx_q = collections.defaultdict(set)
@@ -189,6 +197,16 @@ class Rujukan:
             self.norm_h[h['id_in_book']] = ' '.join(w)
             for i in range(len(w) - 2):
                 self.idx_h[tuple(w[i:i + 3])].add(h['id_in_book'])
+
+    def lat_varian(self, no, a1, a2):
+        """Daftar transliterasi Latin ayat a1..a2 surah `no`: Tanzil, ditambah Kemenag bila tersedia (diakritik dibuang)."""
+        import unicodedata
+        v = [' '.join(self.ayat[str(no)][x - 1]['lat'] for x in range(a1, a2 + 1))]
+        kem = self.lat_kemenag.get(str(no))
+        if kem and a2 <= len(kem):
+            t = ' '.join(kem[x - 1] for x in range(a1, a2 + 1))
+            v.append(''.join(c for c in unicodedata.normalize('NFD', t) if not unicodedata.combining(c)))
+        return v
 
     def cari_surat(self, token):
         kt = varian_kunci(token)
@@ -384,6 +402,8 @@ def proses_video(path, R, rj, keluar, opsi):
             tok = m.group(0)
             if tok.strip('.') in ('II', 'III', 'IV', 'OK'):
                 continue
+            if seg['text'][max(0, m.start() - 3):m.start()] == 'di-':
+                continue          # bentuk pasif 'di-PHK' sengaja dipertahankan (keputusan pemilik)
             tambah_titik(seg, 'singkatan-belum-terselesaikan',
                          f"Singkatan/akronim '{tok}' belum ditulis lengkap (konteks tidak cukup pasti).",
                          'Dengarkan audio / putuskan kepanjangan, lalu tambahkan ke data/singkatan.tsv')
@@ -428,10 +448,12 @@ def proses_video(path, R, rj, keluar, opsi):
                     sc = 0.0
                     if mt['ayat_awal'] and mt['ayat_awal'] <= sr['jumlah_ayat']:
                         a1 = mt['ayat_awal']; a2 = mt['ayat_akhir'] or a1
-                        skv = rangka_latin(' '.join(rj.ayat[str(no)][x - 1]['lat'] for x in range(a1, min(a2, a1 + 2) + 1)))
-                        if skv:
-                            sm = SequenceMatcher(None, rangka_latin(lat), skv, autojunk=False)
-                            sc += sum(b.size for b in sm.get_matching_blocks()) / len(skv)
+                        sk_best = 0.0
+                        for skv in (rangka_latin(t) for t in rj.lat_varian(no, a1, min(a2, a1 + 2))[:1]):   # hanya Tanzil: varian Kemenag yang lebih pendek menggelembungkan skor surah salah (Ash-Shu'ara vs Asy-Syura)
+                            if skv:
+                                sm = SequenceMatcher(None, rangka_latin(lat), skv, autojunk=False)
+                                sk_best = max(sk_best, sum(b.size for b in sm.get_matching_blocks()) / len(skv))
+                        sc += sk_best
                     else:
                         sc -= 1
                     for sj in jendela(i, 1, 4):
@@ -501,11 +523,15 @@ def proses_video(path, R, rj, keluar, opsi):
                 # kemiripan kutipan Latin (bukti pendukung saja)
                 lat = ' '.join(x['text'] for x in jendela(i, 0, 3))
                 lat = RUN_ARAB.sub(' ', lat)
-                tr = ' '.join(rj.ayat[str(mt['surah'])][x - 1]['lat'] for x in range(a1, min(a2, a1 + 2) + 1))
-                sk_v, sk_t = rangka_latin(tr), rangka_latin(lat)
-                if sk_v:
-                    sm = SequenceMatcher(None, sk_t, sk_v, autojunk=False)
-                    sim = sum(b.size for b in sm.get_matching_blocks()) / len(sk_v)
+                sk_t = rangka_latin(lat)
+                sims = []
+                for tr in rj.lat_varian(mt['surah'], a1, min(a2, a1 + 2)):
+                    sk_v = rangka_latin(tr)
+                    if sk_v:
+                        sm = SequenceMatcher(None, sk_t, sk_v, autojunk=False)
+                        sims.append(sum(b.size for b in sm.get_matching_blocks()) / len(sk_v))
+                if sims:
+                    sim = max(sims)
                     butir['bukti']['kemiripan_kutipan_latin'] = round(sim, 3)
                     if sim < 0.35 and butir['status'] == 'terselesaikan-dari-penyebutan':
                         butir['catatan'].append('Kutipan Latin ustaz tidak mirip transliterasi ayat (atau ayat tidak dibacakan).')

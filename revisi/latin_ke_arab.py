@@ -149,6 +149,17 @@ def cari(tokens, units, ix, n, min_share, min_ar, thr, min_ns):
             ok = trait_ok and nt >= (2 if hint else (4 if r < 0.95 else 3)) and nonstock >= (2 if hint else min_ns) and n_ind <= max(1 if min_ar >= 5 else 0, int(0.2 * nt)) and (nl >= min_ar or (nl >= 2 and r >= 0.9 and len(''.join(sk[i:j + 1])) >= 7 and n_ind == 0))
             if not hint and r < 0.9 and nl <= 3: continue   # kutipan pendek tanpa petunjuk ayat harus sangat mirip
             if r >= (0.8 if hint else thr) and ok and nt <= nl + 3 and nl <= nt + 3:
+                # perluas ke kiri: kata Latin sebelum awal kecocokan yang masih bagian dari kata/kata sebelumnya dalam ayat
+                # (mis. 'La' + 'in' = لَئِن; 'Ya ayyuha' = يَٰٓأَيُّهَا), supaya tidak tersisa Latin di depan teks Arab
+                if a >= 1 and not ind(tokens[a - 1][0]) and SequenceMatcher(None, tsk[a - 1] + tsk[a], sk[i]).ratio() > SequenceMatcher(None, tsk[a], sk[i]).ratio() + 0.2 and tokens[a - 1][2] + 2 >= tokens[a][1]:
+                    a -= 1
+                elif i >= 1 and a >= 1 and tsk[a - 1] == 'y' and sk[i - 1] == 'yh' and tsk[a].startswith('yh'):
+                    a -= 1; i -= 1          # 'ya' + 'ayyuhalladhina' (يَا أَيُّهَا ٱلَّذِينَ)
+                elif i >= 1:
+                    for kk in (2, 1):
+                        if a - kk >= 0 and len(sk[i - 1]) >= 2 and all(not ind(tokens[x][0]) for x in range(a - kk, a)) \
+                           and SequenceMatcher(None, ''.join(tsk[a - kk:a]), sk[i - 1]).ratio() >= 0.75 and tokens[a - 1][2] + 2 >= tokens[a][1]:
+                            a -= kk; i -= 1; break
                 out.append((r, a, b, uid, i, j))
     return out
 FREQ = collections.Counter()

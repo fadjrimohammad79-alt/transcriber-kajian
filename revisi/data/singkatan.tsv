@@ -19,3 +19,14 @@ rt	\bRT\b	rukun tetangga	satu|per|ketua
 mou	\bMOU\b	nota kesepahaman		Keputusan pemilik 2026-11-06.
 bff	\bBFF\b	best friend forever		Keputusan pemilik 2026-11-06.
 wa	\bWA\b	WhatsApp	kirim|surat|pesan|chat|grup|telepon	Keputusan pemilik 2026-11-06 (WA = WhatsApp); hanya bila konteks pesan jelas.
+phk	(?<!-)\bPHK\b(\.?)	pemutusan hubungan kerja		Keputusan pemilik 2026-11-15.
+cctv	\bCCTV\b(\.?)	closed circuit television		Keputusan pemilik 2026-11-15.
+ipk	\bIPK\b(\.?)	indeks prestasi kumulatif		Keputusan pemilik 2026-11-15.
+iq	\bIQ\b(\.?)	intelligence quotient		Keputusan pemilik 2026-11-15.
+ceo	\bCEO\b(\.?)	chief executive officer		Keputusan pemilik 2026-11-15.
+covid	\bCOVID\b(?!-)(\.?)	coronavirus disease 2019		Keputusan pemilik 2026-11-15.
+mri	\bMRI\b(\.?)	magnetic resonance imaging		Keputusan pemilik 2026-11-15.
+scbd	\bSCBD\b(\.?)	Sudirman Central Business District		Keputusan pemilik 2026-11-15.
+pr_besar	\bPR(?= besar\b)	pekerjaan rumah		Keputusan pemilik 2026-11-15. Idiom 'PR besar' = pekerjaan rumah besar.
+pr_kita_adalah	\bPR(?= kita adalah\b)	pekerjaan rumah		Keputusan pemilik 2026-11-15. Idiom 'PR kita adalah ...' = pekerjaan rumah kita.
+bu_butuh_uang	\bBU\b(?=,)	butuh uang	butuh	Keputusan pemilik 2026-11-15. Slang BU = butuh uang; hanya bila 'butuh' ada di sekitarnya.
