@@ -127,3 +127,6 @@ salah_dengar_salahin_pasangan	\b(paling pintas,) salin pasangan\b	\1 salahin pas
 nama_surah_asy_syura_angka	\b(?i:ash-?shura)(?:'i|') (\d+)\b	Asy-Syura ayat \1	B	Surah ke-42 ditulis Asy-Syura (keputusan pemilik 2026-11-15); 'Ash-Shura'i 30' / 'Ash-Shura' 43' dilengkapi kata 'ayat'.
 nama_surah_asy_syura	\b(?i:ash-?shura(?:h|')?)(?!\w)	Asy-Syura	B	Surah ke-42 ditulis Asy-Syura (keputusan pemilik 2026-11-15); varian Ash-Shura/Ash-Shurah diseragamkan. 'Ash-Shura ayat 143' (video 68) tetap Asy-Syura: ustaz salah ucap lalu mengoreksi 'ayat 43 ya' (Asy-Syura:43); teks mengikuti ucapan, keputusan pemilik 2026-11-15.
 ejaan_menimpa_kalian	\bmenipa kalian\b	menimpa kalian	B	Salah dengar/ejaan 'menipa' -> 'menimpa' (Asy-Syura:30; keputusan pemilik 2026-11-15).
+gaya_subhanahu_wa_taala	\b([Ss]ubhanahu) [Ww]a [Tt]a'ala\b	\1 wa ta'ala	B	Seragam: 'subhanahu wa ta'ala' (wa dan ta'ala huruf kecil), sesuai gaya mayoritas korpus dan aturan singkatan swt (keputusan pemilik 2026-11-15).
+gaya_subhanahu_tengah	(?<=\w )Subhanahu wa ta'ala\b	subhanahu wa ta'ala	B	Huruf awal 'subhanahu' kecil di tengah kalimat (awal kalimat tetap kapital); keputusan pemilik 2026-11-15.
+arab_jamian	\bjami'ah\b	jami'an	B	Salah dengar 'jami'ah' -> 'jami'an' (جَمِيعًا, Az-Zumar:53); agar terbaca sebagai Arab di folder uji.

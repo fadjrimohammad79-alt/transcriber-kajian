@@ -140,6 +140,8 @@ def cari(tokens, units, ix, n, min_share, min_ar, thr, min_ns):
             ys, ye = inb[0].b, inb[-1].b + inb[-1].size
             i = next((k for k, (s0, e0) in enumerate(yb) if e0 > ys), None); j = max((k for k, (s0, e0) in enumerate(yb) if s0 < ye), default=None)
             if None in (i, j) or j < i: continue
+            # pangkas kata Arab di ujung yang tidak punya padanan Latin (mis. 'jami'an' + 'innahu': 'n' Latin kebetulan cocok dengan huruf 'إنه')
+            while uid[0] == 'Q' and j > i and (j - i + 1) > (b - a + 1) + 1 and SequenceMatcher(None, tsk[b], sk[j]).ratio() < 0.5 <= SequenceMatcher(None, tsk[b], sk[j - 1]).ratio(): j -= 1
             nl = j - i + 1; nt = b - a + 1
             r = SequenceMatcher(None, ''.join(tsk[a:b + 1]), ''.join(sk[i:j + 1]), autojunk=False).ratio()
             nonstock = sum(1 for x in range(a, b + 1) if tsk[x] not in STOCK)
