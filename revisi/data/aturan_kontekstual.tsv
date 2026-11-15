@@ -118,3 +118,5 @@ arab_sabar_wasabiru	\b([Ww])a ?s?salbiru\b	\1a sabiru	B	Salah dengar lafaz Ali I
 arab_sabar_warabitu	\b([Ww])a(?:ralbitu|raw biltu)\b	\1arabitu	B	Salah dengar lafaz Ali Imran:200 (wa rabithu), keputusan pemilik 2026-11-15; agar terbaca sebagai Arab di folder uji.
 surah_al_ibrun_200	\bAl-Ibrun 200\b	surah Ali Imran ayat 200	B	Salah dengar "Al-Ibrun 200" (varian dari "Al-Ibran 200") = surah Ali Imran ayat 200 (video 66 41:35).
 utsaimin_soley	\bMuhammad bin Soley al-Utsaimin\b	Muhammad bin Shalih al-Utsaimin	B	Ejaan nama Syaikh Muhammad bin Shalih al-Utsaimin (salah dengar Soley; keputusan pemilik 2026-11-06, video 64).
+arab_yusuf53_ulang	\b([Ll])a'amma ?r[oa]tun bisu\.\s+[Ll]a'amma ?r[oa]tun bisu\b	\1a'ammaratun bilsu'	B	Pengulangan lafaz Yusuf:53 digabung menjadi satu (keputusan pemilik 2026-11-15, video 64 seg 38); agar terbaca sebagai Arab di folder uji.
+arab_yusuf53_bissu	\b([Ll])a'amma ?r[oa]tun bisu\b	\1a'ammaratun bilsu'	B	Salah dengar lafaz Yusuf:53 (la ammaratun bis-su'); agar terbaca sebagai Arab di folder uji.
