@@ -127,3 +127,4 @@ salah_dengar_salahin_pasangan	\b(paling pintas,) salin pasangan\b	\1 salahin pas
 nama_surah_asy_syura_angka	\b(?i:ash-?shura)(?:'i|') (\d+)\b	Asy-Syura ayat \1	B	Surah ke-42 ditulis Asy-Syura (keputusan pemilik 2026-11-15); 'Ash-Shura'i 30' / 'Ash-Shura' 43' dilengkapi kata 'ayat'.
 nama_surah_asy_syura	\b(?i:ash-?shura(?:h|')?)(?! ayat 143\b)(?!\w)	Asy-Syura	B	Surah ke-42 ditulis Asy-Syura (keputusan pemilik 2026-11-15); varian Ash-Shura/Ash-Shurah diseragamkan. 'Ash-Shura ayat 143' (tak mungkin surah ke-42, hanya 53 ayat) tidak disentuh.
 ejaan_menimpa_kalian	\bmenipa kalian\b	menimpa kalian	B	Salah dengar/ejaan 'menipa' -> 'menimpa' (Asy-Syura:30; keputusan pemilik 2026-11-15).
+nama_surah_asy_syuara	\b(?i:ash-?shura) ayat 143\b	Asy-Syu'ara ayat 143	B	Surah ke-26 ditulis Asy-Syu'ara (keputusan pemilik 2026-11-15); 'Ash-Shura ayat 143' tak mungkin surah ke-42 (53 ayat), video 68.
