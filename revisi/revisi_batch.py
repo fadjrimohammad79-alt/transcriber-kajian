@@ -390,6 +390,8 @@ def proses_video(path, R, rj, keluar, opsi):
             seg['text'] = t
             seg['revisi'] = (seg.get('revisi') or []) + edits
             for e in edits:
+                if '[konteks]' in e.get('alasan', ''):   # koreksi yang kata penggantinya disimpulkan dari kalimat sebelum/sesudah: tandai untuk dicek audio
+                    tambah_titik(seg, 'koreksi-konteks', f"'{e['lama']}' -> '{e['baru']}' (disimpulkan dari konteks kalimat sekitar, bukan dari audio)", 'Dengar audio; pastikan kata pengganti benar.', 'B')
                 n_baru += 1
                 ringkas[(e['tingkat'], e['oleh'])] += 1
                 if len(contoh[e['oleh']]) < 4:
