@@ -29,7 +29,14 @@ for b in DAL['butir']:
         POR[(b['video_id'], b['seg'])].append(b)
 
 def terjemah(t):
-    return re.sub(r',?(?<=[A-Za-z,])\d+\)', ')', t).strip()   # buang penanda catatan kaki Kemenag (mis. 'orang382)' / 'kaumnya,424)')
+    """Buang penanda catatan kaki Kemenag 'N)' (mis. 'menginfakkan6)', 'sabar.661)', 'kaumnya,424)', '?" 34)').
+    Bila di depannya masih ada '(' yang belum tertutup, ')' dipertahankan sebagai penutup kurung; selain itu penanda dibuang seluruhnya."""
+    hasil, pos = '', 0
+    for m in re.finditer(r'(?<!\()(\s?)\d+\)', t):
+        hasil += t[pos:m.start()]
+        pos = m.end()
+        hasil += ')' if hasil.count('(') > hasil.count(')') else ''
+    return (hasil + t[pos:]).strip()
 
 def ayat_penuh(sn, a1, a2):
     ar, tj = [], []
